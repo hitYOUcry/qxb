@@ -14,6 +14,7 @@
     <string name="system_error">系统错误，请重试</string>
     <string name="not_login_yet">未登录，请先登录</string>
     <string name="share_text">骑行邦，骑行的乌托邦</string>
+    <string name="click_again_to_exit">再按一次退出骑行邦</string>
     <!-- common part end -->
     <!-- login part start -->
     <string name="accouter">账号</string>
