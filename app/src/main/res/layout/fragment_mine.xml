@@ -219,7 +219,7 @@
             style="@style/mineFragment_bottom_rl_style">
             <TextView
                 style="@style/mineFragment_bottom_textView_style"
-                android:text="@string/clear_cache"/>
+                android:text="@string/clean_cache"/>
 
             <ImageView
                 style="@style/mineFragment_bottom_ImageView_style"/>

@@ -1,5 +1,7 @@
 package com.qixingbang.qxb.common.application;
 
+import android.os.Environment;
+
 /**
  * Created by zqj on 2015/9/23 12:05.
  */
@@ -10,4 +12,8 @@ public class GlobalConstant {
     public static final int DISK_CACHE_SIZE = 1024 * 1024 * 10;//10MB 磁盘缓存
     public static final String QXB_WEBSITE = "www.njhwt.com";
     public static final String SHARE_IMG = "http://www.njhwt.com/upload/share/share.png";
+    public static final String CACHE_PATH =
+            Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
+                    !Environment.isExternalStorageRemovable() ? QApplication.getInstance().getExternalCacheDir().getPath() :
+                    QApplication.getInstance().getCacheDir().getPath();
 }

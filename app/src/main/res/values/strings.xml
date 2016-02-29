@@ -105,7 +105,8 @@
     <string name="setting">设置</string>
     <string name="about_qxb">关于骑行邦</string>
     <string name="feedback">意见反馈</string>
-    <string name="clear_cache">清除缓存</string>
+    <string name="clean_cache">清除缓存</string>
+    <string name="clean">清除</string>
     <string name="nick_name">昵 称</string>
     <string name="sex_age">男      24岁</string>
     <string name="update_version">版本更新</string>

@@ -2,8 +2,8 @@ package com.qixingbang.qxb.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.lidroid.xutils.BitmapUtils;
@@ -38,12 +37,19 @@ import com.qixingbang.qxb.beans.mine.UserInfoBean;
 import com.qixingbang.qxb.common.application.GlobalConstant;
 import com.qixingbang.qxb.common.cache.CacheSP;
 import com.qixingbang.qxb.common.utils.BitmapUtil;
+import com.qixingbang.qxb.common.utils.FileUtil;
+import com.qixingbang.qxb.common.utils.ToastUtil;
+import com.qixingbang.qxb.dialog.TextDialog;
 import com.qixingbang.qxb.server.UrlUtil;
+
+import java.io.File;
 
 /**
  * Created by Z.H. on 2015/8/19 9:45.
  */
 public class MineFragment extends BaseFragment {
+
+    private final String TAG = MineFragment.class.getSimpleName();
 
     /**
      * 我的头像
@@ -95,6 +101,8 @@ public class MineFragment extends BaseFragment {
     private UserInfoBean mUserInfoBean;
     private BitmapUtils mBitmapUtils;
 
+    private CacheSizeTask mCacheSizeTask;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +126,13 @@ public class MineFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initView();
         initData();
+        mCacheSizeTask = new CacheSizeTask();
+        mCacheSizeTask.execute(GlobalConstant.CACHE_PATH);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -196,7 +211,8 @@ public class MineFragment extends BaseFragment {
                 switchActivity(FeedbackActivity.class);
                 break;
             case R.id.rl_clear_cache:
-                Toast.makeText(getActivity(), "清除缓存", Toast.LENGTH_SHORT).show();
+                mCacheSizeTask = new CacheSizeTask();
+                mCacheSizeTask.execute(GlobalConstant.CACHE_PATH);
                 clearCache();
                 break;
             case R.id.iv_head_portrait:
@@ -212,26 +228,53 @@ public class MineFragment extends BaseFragment {
      * add by zqj ,for test.
      */
     private void clearCache() {
-        Context context = getActivity();
-        //内存缓存大小 程序可用存储空间的1/8
-        final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-        final int cacheSize = maxMemory / 8;
+        TextDialog dialog = new TextDialog(getActivity());
+        dialog.show();
+        dialog.setTitle(R.string.clean_cache);
+        dialog.setConfirmText(R.string.clean);
+        dialog.setContent("缓存文件约为" + mCacheSize);
+        dialog.setConfirmListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getActivity();
+                //内存缓存大小 程序可用存储空间的1/8
+                final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
+                final int cacheSize = maxMemory / 8;
 
-        //磁盘高速缓存路径 (磁盘高速缓存大小10MB)
-        String mCachePath =
-                Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
-                        !Environment.isExternalStorageRemovable() ? context.getExternalCacheDir().getPath() :
-                        context.getCacheDir().getPath();
-        BitmapUtils mBitmapUtils = new BitmapUtils(context, mCachePath, cacheSize, GlobalConstant.DISK_CACHE_SIZE);
-        //清图片
-        mBitmapUtils.clearDiskCache();
-        mBitmapUtils.clearMemoryCache();
-        //清文字
-        CacheSP.clear();
+                //磁盘高速缓存路径 (磁盘高速缓存大小10MB)
+                BitmapUtils mBitmapUtils = new BitmapUtils(context, GlobalConstant.CACHE_PATH, cacheSize, GlobalConstant.DISK_CACHE_SIZE);
+                //清图片
+                mBitmapUtils.clearDiskCache();
+                mBitmapUtils.clearMemoryCache();
+                //清文字
+                CacheSP.clear();
+
+                ToastUtil.toast("缓存已清除");
+            }
+        });
+    }
+
+    private String mCacheSize;
+
+    class CacheSizeTask extends AsyncTask<String, Integer, Long> {
+
+        @Override
+        protected Long doInBackground(String... params) {
+            return FileUtil.getDirSize(new File(params[0]));
+        }
+
+        @Override
+        protected void onPostExecute(Long aLong) {
+            Log.i(TAG, String.valueOf(aLong) + "bytes");
+            mCacheSize = FileUtil.getDirSize(aLong);
+            super.onPostExecute(aLong);
+        }
+
     }
 
     /**
      * 跳转aty
+     *
      * @param cls
      */
     private void switchActivity(Class<?> cls) {

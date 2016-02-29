@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@color/black_242424_fade95">
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:text="i am title"
+        android:textColor="@color/white_fade90"
+        android:textSize="@dimen/text_size_48px"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.33dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/white"/>
+
+    <TextView
+        android:id="@+id/textView_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_title"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="20dp"
+        android:text="jdksjeuhfas"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_42px"/>
+
+
+    <Button
+        android:id="@+id/button_confirm"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:text="确认"
+        android:textColor="@color/white"/>
+
+    <Button
+        android:id="@+id/button_cancel"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@+id/button_confirm"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/white_fade75"/>
+</RelativeLayout>
