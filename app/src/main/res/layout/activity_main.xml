@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:ignore="contentDescription">
+
+    <RelativeLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="47"
+        android:background="@color/theme_black">
+
+        <ImageView
+            android:id="@+id/imageView_share"
+            style="@style/titleBar_imageView_right_style"
+            android:src="@drawable/ic_common_share"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/textView_tabTip"
+            style="@style/titleBar_textView_style"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="546"/>
+
+    <LinearLayout
+        android:id="@+id/btm_button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:layout_weight="47"
+        android:background="@color/theme_black"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_equipment"
+            style="@style/homePage_relativeLayout_style">
+
+            <ImageView
+                android:id="@+id/imageView_equipment"
+                style="@style/homePage_imageView_style"
+                android:src="@drawable/ic_eqp_not_selected"/>
+
+            <TextView
+                android:id="@+id/textView_equipment"
+                style="@style/homePage_btmTextView_style"
+                android:text="@string/equipment"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_riding_circle"
+            style="@style/homePage_relativeLayout_style">
+
+            <ImageView
+                android:id="@+id/imageView_ridingCircle"
+                style="@style/homePage_imageView_style"
+                android:src="@drawable/ic_ride_circle_not_selected"/>
+
+            <TextView
+                android:id="@+id/textView_ridingCircle"
+                style="@style/homePage_btmTextView_style"
+                android:text="@string/riding_circle"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_communicate"
+            style="@style/homePage_relativeLayout_style">
+
+            <ImageView
+                android:id="@+id/imageView_communicate"
+                style="@style/homePage_imageView_style"
+                android:src="@drawable/ic_communicate_not_selected"/>
+
+            <TextView
+                android:id="@+id/textView_communicate"
+                style="@style/homePage_btmTextView_style"
+                android:text="@string/communicate"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_mine"
+            style="@style/homePage_relativeLayout_style">
+
+            <ImageView
+                android:id="@+id/imageView_mine"
+                style="@style/homePage_imageView_style"
+                android:src="@drawable/ic_mine_not_selected"/>
+
+            <TextView
+                android:id="@+id/textView_mine"
+                style="@style/homePage_btmTextView_style"
+                android:text="@string/mine"/>
+
+            <ImageView
+                android:id="@+id/imageView_mine_infoHint"
+                android:layout_width="@dimen/info_hint_size"
+                android:layout_height="@dimen/info_hint_size"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="28dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_common_info_hint"
+                android:visibility="invisible"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

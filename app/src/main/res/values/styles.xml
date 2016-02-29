@@ -1,0 +1,254 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Base.Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:windowAnimationStyle">@style/fade</item>
+    </style>
+    <!-- anim style start-->
+    <style name="fade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+    </style>
+    <!-- anim style end-->
+
+    <!-- Common Start -->
+    <style name="titleBar_imageView_left_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">9dp</item>
+    </style>
+
+    <style name="titleBar_imageView_right_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">9dp</item>
+    </style>
+
+    <style name="titleBar_textView_style">
+        <item name="android:layout_width">220dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_size_xx_large</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!-- Common End -->
+
+    <!-- login Part Start -->
+    <style name="login_widget_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">40dp</item>
+        <item name="android:layout_marginRight">40dp</item>
+        <item name="android:layout_height">33dp</item>
+        <item name="android:textSize">@dimen/text_size_56px</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <!-- login Part End -->
+
+
+    <!-- HomePage Activity Start-->
+    <style name="homePage_imageView_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">4dp</item>
+    </style>
+
+    <style name="homePage_btmTextView_style">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:textSize">@dimen/text_size_24px</item>
+    </style>
+
+    <style name="homePage_relativeLayout_style">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <!-- HomePage Activity End-->
+
+    <!-- EquipmentFragment start-->
+    <style name="equipmentFragment_imageView_indicator_style">
+        <item name="android:layout_width">@dimen/news_indicator_size</item>
+        <item name="android:layout_height">@dimen/news_indicator_size</item>
+        <item name="android:src">@drawable/xml_shape_circle_dot_white</item>
+    </style>
+
+    <style name="equipmentFragment_textView_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginBottom">25dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+    </style>
+
+    <style name="equipmentFragment_imageView_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_margin">5dp</item>
+    </style>
+
+    <style name="filter_btmBar_view_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/filter_btmBar_height</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:background">@color/theme_black</item>
+    </style>
+
+    <style name="filter_textView_style">
+        <item name="android:textColor">@drawable/xml_selector_search_button_bg</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
+    </style>
+    <!-- EquipmentFragment end-->
+    <!-- RidecycleFragment start-->
+
+    <style name="Rcbar_relativeLayout_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="ridecycle_imageView_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+        <item name="android:layout_marginRight">2dp</item>
+    </style>
+
+    <style name="ridecycle_TextView_style">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textSize">@dimen/text_size_30px</item>
+    </style>
+
+    <style name="filter_rcBar_view_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">4dp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:background">@color/yellow_light</item>
+    </style>
+
+    <style name="filter_rcdvBar_view_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/filter_rcdvBar_height</item>
+        <item name="android:background">@color/white</item>
+    </style>
+    <!-- RidecycleFragment end-->
+    <!-- Communicate Start-->
+    <style name="replay_listview_item_imageview_style">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+    <!-- Communicate End-->
+    <!-- MineFragment start-->
+    <style name="mineFragment_middle_button_style">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="mineFragment_middle_textView_style">
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">14dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_size_36px</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_marginTop">14dp</item>
+    </style>
+
+    <style name="mineFragment_middle_hint_style">
+        <item name="android:layout_width">7dp</item>
+        <item name="android:layout_height">7dp</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">40dp</item>
+    </style>
+
+    <style name="mineFragment_bottom_rl_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/xml_selector_mine_bottom_btn</item>
+    </style>
+
+    <style name="mineFragment_bottom_textView_style">
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">18dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:textSize">@dimen/text_size_42px</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/black_313131</item>
+    </style>
+
+    <style name="mineFragment_bottom_ImageView_style">
+        <item name="android:layout_width">10dp</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:src">@drawable/ic_mine_open</item>
+    </style>
+
+    <style name="mineFragment_setting_tv_style">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">22dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:textSize">@dimen/text_size_large</item>
+        <item name="android:textColor">@color/black_242424</item>
+    </style>
+
+    <style name="mineFragment_setting_iv_style">
+        <item name="android:layout_width">10dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginRight">14dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:src">@drawable/ic_mine_version_update_img</item>
+    </style>
+
+    <style name="popup_style">
+        <item name="android:windowEnterAnimation">@anim/popup_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_out</item>
+    </style>
+    <!-- MineFragment end-->
+    <!-- Dialog style start-->
+    <style name="waiting_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    <!-- Dialog style end-->
+</resources>

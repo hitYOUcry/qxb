@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="33dp"
+    android:background="@android:color/transparent">
+
+    <EditText
+        android:id="@+id/editText_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/editText_height"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="62dp"
+        android:background="@drawable/xml_shape_search_edit_bg"
+        android:hint="@string/searcher_editText_hint"
+        android:paddingLeft="30dp"
+        android:textColor="@color/white_cb"
+        android:textColorHint="@color/white_cb"
+        android:textSize="@dimen/text_size_large"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/editText_search"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="4dp"
+        android:src="@drawable/ic_common_search"/>
+
+    <TextView
+        android:id="@+id/textView_search_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dp"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:text="@string/sure"
+        android:textColor="@drawable/xml_selector_search_button_bg"
+        android:textSize="@dimen/text_size_50px"/>
+</RelativeLayout>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/common_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"/>
+
+    <GridView
+        android:id="@+id/gv_images"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_bar"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:cacheColorHint="@android:color/transparent"
+        android:clipChildren="true"
+        android:gravity="center"
+        android:horizontalSpacing="3dp"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="3dp"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="#cc191919"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:id="@+id/tv_dir_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="5dp"
+            android:text="@string/all_img"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/tv_change_folder"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:text="@string/chang_folder"
+            android:textColor="@android:color/white"/>
+
+        <TextView
+            android:id="@+id/tv_img_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="5dp"
+            android:textColor="@android:color/white"/>
+    </RelativeLayout>
+</RelativeLayout>

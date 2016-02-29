@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:round="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="68dp">
+
+    <com.qixingbang.qxb.activity.mine.clipHeadPortrait.RoundImageView
+        android:id="@+id/imageView_portrait"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/xml_shape_ring_gray_inner16dp"
+        round:civ_border_color="#868686"
+        round:civ_border_width="1dp"/>
+
+    <TextView
+        android:id="@+id/textView_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@id/imageView_portrait"
+        android:text="asd"
+        android:textColor="#868686"
+        android:textSize="@dimen/text_size_33px"/>
+
+    <TextView
+        android:id="@+id/textView_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="6dp"
+        android:textColor="#868686"
+        android:textSize="@dimen/text_size_33px"/>
+
+    <TextView
+        android:id="@+id/textView_content"
+        android:layout_width="270dp"
+        android:layout_height="34dp"
+        android:layout_alignLeft="@id/textView_name"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="25dp"
+        android:text="asdqwdsadqw"
+        android:textColor="#000"
+        android:textSize="@dimen/text_size_33px"/>
+
+</RelativeLayout>

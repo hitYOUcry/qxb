@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/about_qxb_bg"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/common_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"/>
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_mine_logo"
+        />
+
+    <TextView
+        android:id="@+id/tv_current_version"
+        android:layout_width="match_parent"
+        android:layout_height="13dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/color868686"
+        android:textSize="@dimen/text_size_x_small"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_version_update"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/xml_selector_about_qxb_btn"
+        >
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="23dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:text="@string/update_version"
+            android:textColor="@color/searchPart__black"
+            android:textSize="@dimen/text_size_large"/>
+
+        <ImageView
+            android:id="@+id/tv_version_update"
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="14dp"
+            android:src="@drawable/ic_mine_version_update_img"/>
+
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="6dp"
+            android:layout_toLeftOf="@id/tv_version_update"
+            android:text="1.11"
+            android:textColor="@color/color868686"
+            android:textSize="@dimen/text_size_x_small"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_service_terms"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/xml_selector_about_qxb_btn"
+        >
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="23dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:text="@string/service_terms"
+            android:textColor="@color/searchPart__black"
+            android:textSize="@dimen/text_size_large"/>
+
+        <ImageView
+            android:id="@+id/tv_service_terms"
+            android:layout_width="10dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="14dp"
+            android:src="@drawable/ic_mine_version_update_img"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginTop="100dp"
+        android:gravity="center_horizontal"
+        android:text="@string/tel_content"
+        android:textColor="@color/color868686"
+        android:textSize="@dimen/text_size_x_small"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/address_content"
+        android:textColor="@color/color868686"
+        android:textSize="@dimen/text_size_x_small"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/email_content"
+        android:textColor="@color/color868686"
+        android:textSize="@dimen/text_size_x_small"/>
+</LinearLayout>

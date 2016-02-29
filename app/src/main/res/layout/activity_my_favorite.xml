@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:background="@color/black"
+    android:fitsSystemWindows="true">
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/common_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/xml_shape_shadow_black"/>
+    <include layout="@layout/activity_my_favorite_tab"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="4dp"/>
+</LinearLayout>

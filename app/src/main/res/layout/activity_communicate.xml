@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/rootView"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <include
+            android:id="@+id/title_bar"
+            layout="@layout/common_titlebar"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"/>
+
+        <include
+            android:id="@+id/layout_comment"
+            layout="@layout/layout_common_comment_pic"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_alignParentBottom="true"/>
+
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
+            android:id="@+id/pull_to_refresh_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="47dp"
+            android:layout_below="@id/title_bar"
+            android:divider="@color/gray_dc"
+            android:dividerHeight="4dp"
+            android:scrollbars="none"
+            ptr:ptrHeaderBackground="@color/gray_dc"
+            ptr:ptrHeaderTextColor="@color/white">
+        </com.handmark.pulltorefresh.library.PullToRefreshListView>
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@color/black_fade80"
+        android:clickable="true"
+        android:visibility="gone"/>
+
+    <uk.co.senab.photoview.PhotoView
+        android:id="@+id/photoView_expanded"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:layout_gravity="center_vertical"
+        android:scaleType="fitCenter"
+        android:visibility="invisible"/>
+</FrameLayout>

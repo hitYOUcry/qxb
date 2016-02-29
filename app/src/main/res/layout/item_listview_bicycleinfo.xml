@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/linearLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_black"
+    android:minHeight="@dimen/bicycleInfo_listItem_height"
+    android:orientation="vertical"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="31"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="214"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"/>
+
+        <ImageView
+            android:id="@+id/imageView_bicyclePicture"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bicycleInfo_mainInfo_height"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="153"
+            android:scaleType="centerInside"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="14"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bicycleInfo_mainInfo_height"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="153"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_model"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="top"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_small"/>
+
+            <TextView
+                android:id="@+id/textView_modelDetails"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_xx_small"/>
+
+            <TextView
+                android:id="@+id/textView_suitable"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="@color/bicycleInfoYellow"
+                android:textSize="@dimen/text_size_x_small"/>
+
+            <TextView
+                android:id="@+id/textView_price"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="bottom"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_xx_small"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="31"/>
+</LinearLayout>

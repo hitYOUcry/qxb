@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RoundImageView">
+        <attr name="civ_border_width" format="dimension"/>
+        <attr name="civ_border_color" format="color"/>
+        <attr name="civ_border_overlay" format="boolean"/>
+        <attr name="civ_fill_color" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="SlideSwitch">
+        <attr name="text_on" format="string"/>
+        <attr name="text_off" format="string"/>
+        <attr name="background_on" format="reference"/>
+        <attr name="background_off" format="reference"/>
+        <attr name="switch_button" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="ProgressWheel">
+        <attr name="matProg_progressIndeterminate" format="boolean"/>
+        <attr name="matProg_barColor" format="color"/>
+        <attr name="matProg_rimColor" format="color"/>
+        <attr name="matProg_rimWidth" format="dimension"/>
+        <attr name="matProg_spinSpeed" format="float"/>
+        <attr name="matProg_barSpinCycleTime" format="integer"/>
+        <attr name="matProg_circleRadius" format="dimension"/>
+        <attr name="matProg_fillRadius" format="boolean"/>
+        <attr name="matProg_barWidth" format="dimension"/>
+        <attr name="matProg_linearProgress" format="boolean"/>
+    </declare-styleable>
+</resources>

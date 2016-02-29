@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/theme_black"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_brand"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="120">
+
+            <View
+                android:id="@+id/view_filterHint_brand"
+                style="@style/filter_btmBar_view_style"/>
+
+            <TextView
+                android:id="@+id/textView_filter_brand"
+                style="@style/filter_textView_style"
+                android:layout_above="@id/view_filterHint_brand"
+                android:text="@string/brand"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@color/white_fade20"/>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_type"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="118">
+
+            <View
+                android:id="@+id/view_filterHint_type"
+                style="@style/filter_btmBar_view_style"/>
+
+            <TextView
+                android:id="@+id/textView_filter_type"
+                style="@style/filter_textView_style"
+                android:layout_above="@id/view_filterHint_type"
+                android:text="@string/type"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@color/white_fade20"/>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout_price"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="120">
+
+            <View
+                android:id="@+id/view_filterHint_price"
+                style="@style/filter_btmBar_view_style"/>
+
+            <TextView
+                android:id="@+id/textView_filter_price"
+                style="@style/filter_textView_style"
+                android:layout_above="@id/view_filterHint_price"
+                android:text="@string/price"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

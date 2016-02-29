@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:minHeight="80dp"
+                android:orientation="vertical"
+                android:scrollbars="none">
+
+    <FrameLayout
+        android:id="@+id/fl_head_portrait"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/ic_communicate_head_bg">
+
+        <ImageView
+            android:id="@+id/iv_head_portrait"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_communicate_head_protrait"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_reply_hint"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ic_mine_my_question_hint_bg">
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_reply_title"
+        android:layout_width="267dp"
+        android:layout_height="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="16dp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="@dimen/text_size_45px"/>
+
+    <TextView
+        android:id="@+id/tv_best_reply"
+        android:layout_width="267dp"
+        android:layout_height="27dp"
+        android:lineSpacingExtra="5dp"
+        android:layout_below="@id/tv_reply_title"
+        android:layout_marginTop="10dp"
+        android:layout_alignLeft="@id/tv_reply_title"
+        android:textSize="@dimen/text_size_30px"
+        android:textColor="@color/color868686"/>
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="50dp"
+        android:layout_height="9dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="7dp"
+        android:layout_marginRight="3dp"
+        android:gravity="right"
+        android:textColor="@color/color868686"
+        android:text="2015.09.18"
+        android:textSize="@dimen/text_size_24px"/>
+</RelativeLayout>

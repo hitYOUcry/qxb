@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/rl_cmct"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:round="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/theme_black"
+    android:descendantFocusability="blocksDescendants"
+    android:minHeight="133dp">
+
+    <com.qixingbang.qxb.activity.mine.clipHeadPortrait.RoundImageView
+        android:id="@+id/imageView_communicate_head"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/theme_black"
+        round:civ_border_color="#868686"
+        round:civ_border_width="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_cmct_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/imageView_communicate_head"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_36px"/>
+
+    <TextView
+        android:id="@+id/textView_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_cmct_title"
+        android:layout_below="@id/tv_cmct_title"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_24px"/>
+
+    <TextView
+        android:id="@+id/tv_cmct_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/textView_date"
+        android:layout_below="@id/textView_date"
+        android:layout_marginTop="4dp"
+        android:maxLines="2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_36px"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_cmct_notenum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_24px"/>
+
+        <ImageView
+            android:id="@+id/imageView_comment_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_cmct_notenum"
+            android:src="@drawable/ic_communicate_note"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView_one"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignLeft="@id/tv_cmct_content"
+        android:layout_below="@id/tv_cmct_content"
+        android:layout_marginTop="8dp"/>
+
+    <ImageView
+        android:id="@+id/imageView_two"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignBottom="@id/imageView_one"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/imageView_one"
+        android:scaleType="centerInside"/>
+
+    <ImageView
+        android:id="@+id/imageView_three"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignBottom="@id/imageView_two"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/imageView_two"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_communicate_add_pic"/>
+</RelativeLayout>

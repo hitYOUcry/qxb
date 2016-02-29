@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="220">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <include
+            layout="@layout/viewpager_indicator_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/viewPager"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="14dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="310"
+        android:background="@drawable/ic_eqp_mainbody_background"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"/>
+
+
+        <RelativeLayout
+            android:id="@+id/layout_mainBody"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="300">
+
+            <View
+                android:id="@+id/view_divider_vertical"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/mainBody_vertical_margin"
+                android:layout_marginTop="@dimen/mainBody_vertical_margin"
+                android:background="@color/divider_white"/>
+
+            <View
+                android:id="@+id/view_divider_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="@dimen/mainBody_horizontal_margin"
+                android:layout_marginRight="@dimen/mainBody_horizontal_margin"
+                android:background="@color/divider_white"/>
+
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_bicycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/view_divider_horizontal"
+                android:layout_toLeftOf="@id/view_divider_vertical">
+
+                <ImageView
+                    style="@style/equipmentFragment_imageView_style"
+                    android:src="@drawable/xml_selector_eqp_bicycle"/>
+
+                <TextView
+                    style="@style/equipmentFragment_textView_style"
+                    android:layout_marginLeft="@dimen/mainBody_horizontal_margin"
+                    android:text="@string/whole_bicycle"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_userEquipment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/view_divider_horizontal"
+                android:layout_toRightOf="@id/view_divider_vertical">
+
+                <ImageView
+                    style="@style/equipmentFragment_imageView_style"
+                    android:src="@drawable/xml_selector_eqp_user_eqp"/>
+
+                <TextView
+                    style="@style/equipmentFragment_textView_style"
+                    android:layout_marginRight="@dimen/mainBody_horizontal_margin"
+                    android:text="@string/user_equipment"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_bicycleEquipment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/view_divider_horizontal"
+                android:layout_toLeftOf="@id/view_divider_vertical">
+
+                <ImageView
+                    style="@style/equipmentFragment_imageView_style"
+                    android:src="@drawable/xml_selector_eqp_bicycle_eqp"/>
+
+                <TextView
+                    style="@style/equipmentFragment_textView_style"
+                    android:layout_marginLeft="@dimen/mainBody_horizontal_margin"
+                    android:text="@string/bicycle_equipment"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_bicycleParts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/view_divider_horizontal"
+                android:layout_toRightOf="@id/view_divider_vertical">
+
+                <ImageView
+                    style="@style/equipmentFragment_imageView_style"
+                    android:src="@drawable/xml_selector_eqp_bicycle_parts"/>
+
+                <TextView
+                    style="@style/equipmentFragment_textView_style"
+                    android:layout_marginRight="@dimen/mainBody_horizontal_margin"
+                    android:text="@string/bicycle_parts"/>
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/common_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="47"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="577"
+        android:background="@drawable/ic_common_background_login_register">
+
+        <TextView
+            android:id="@+id/textView_sendSuccessHint"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="@color/black_50fade"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_33px"
+            android:visibility="invisible"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/editText_phonenumber"
+            style="@style/login_widget_style"
+            android:layout_marginTop="160dp"
+            android:background="@color/white_fade75"
+            android:gravity="center"
+            android:hint="@string/input_phonenumber"
+            android:inputType="numberDecimal"
+            android:maxLength="11"/>
+
+        <Button
+            android:id="@+id/button_next"
+            style="@style/login_widget_style"
+            android:layout_below="@id/editText_phonenumber"
+            android:layout_marginTop="25dp"
+            android:background="@color/yellow"
+            android:gravity="center"
+            android:text="@string/nextStep"/>
+
+        <RelativeLayout
+            android:id="@+id/layout_inputCheckPart"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="160dp"
+            android:visibility="invisible">
+
+            <EditText
+                android:id="@+id/editText_checknum"
+                style="@style/login_widget_style"
+                android:layout_width="200dp"
+                android:layout_marginLeft="0dp"
+                android:background="@color/white_fade75"
+                android:gravity="center"
+                android:hint="@string/input_checknumber"
+                android:inputType="numberDecimal"
+                android:maxLength="6"/>
+
+            <TextView
+                android:id="@+id/textView_resend"
+                android:layout_width="75dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@color/black_242424"
+                android:gravity="center"
+                android:text="重新发送(60s)"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_33px"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

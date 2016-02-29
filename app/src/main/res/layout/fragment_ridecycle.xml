@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/searchPart__black"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/ridecycle_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/theme_black">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="28dp"
+            android:layout_marginRight="28dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_ridecycle_news"
+                style="@style/Rcbar_relativeLayout_style">
+
+                <ImageView
+                    android:id="@+id/imageView_news"
+                    style="@style/ridecycle_imageView_style"
+                    android:src="@drawable/xml_selector_ride_cycle_news"/>
+
+                <TextView
+                    android:id="@+id/textView_ridecycle_news"
+                    style="@style/ridecycle_TextView_style"
+                    android:layout_below="@id/imageView_news"
+                    android:text="@string/ridecycle_newstxt"/>
+
+                <View
+                    android:id="@+id/view_filterHint_news"
+                    style="@style/filter_rcBar_view_style"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_ridecycle_care"
+                style="@style/Rcbar_relativeLayout_style">
+
+                <ImageView
+                    android:id="@+id/imageView_care"
+                    style="@style/ridecycle_imageView_style"
+                    android:src="@drawable/xml_selector_ride_cycle_care"/>
+
+                <TextView
+                    android:id="@+id/textView_ridecycle_care"
+                    style="@style/ridecycle_TextView_style"
+                    android:layout_below="@id/imageView_care"
+                    android:text="@string/ridecycle_caretxt"/>
+
+                <View
+                    android:id="@+id/view_filterHint_care"
+                    style="@style/filter_rcBar_view_style"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_ridecycle_str"
+                style="@style/Rcbar_relativeLayout_style">
+
+                <ImageView
+                    android:id="@+id/imageView_str"
+                    style="@style/ridecycle_imageView_style"
+                    android:src="@drawable/xml_selector_ride_cycle_str"/>
+
+                <TextView
+                    android:id="@+id/textView_ridecycle_str"
+                    style="@style/ridecycle_TextView_style"
+                    android:layout_below="@id/imageView_str"
+                    android:text="@string/ridecycle_strtxt"/>
+
+                <View
+                    android:id="@+id/view_filterHint_str"
+                    style="@style/filter_rcBar_view_style"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout_ridecycle_dry"
+                style="@style/Rcbar_relativeLayout_style">
+
+                <ImageView
+                    android:id="@+id/imageView_dry"
+                    style="@style/ridecycle_imageView_style"
+                    android:src="@drawable/xml_selector_ride_cycle_dry"/>
+
+                <TextView
+                    android:id="@+id/textView_ridecycle_dry"
+                    style="@style/ridecycle_TextView_style"
+                    android:layout_below="@id/imageView_dry"
+                    android:text="@string/ridecycle_drytxt"/>
+
+                <View
+                    android:id="@+id/view_filterHint_dry"
+                    style="@style/filter_rcBar_view_style"/>
+
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_marginTop="4dp"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

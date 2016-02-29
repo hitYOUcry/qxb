@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView_pic"
+        android:layout_width="match_parent"
+        android:layout_height="134dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_below="@id/imageView_pic"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textColor="@color/white"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.333dp"
+        android:layout_below="@id/textView_title"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/white"/>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="183dp"
+        android:layout_below="@id/textView_title"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:scrollbars="none">
+
+        <TextView
+            android:id="@+id/textView_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"/>
+    </ScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.333dp"
+        android:layout_below="@id/scrollView"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/white"/>
+
+</RelativeLayout>

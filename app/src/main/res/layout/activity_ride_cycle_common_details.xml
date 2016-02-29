@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/common_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/layout_titlePart"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/ridecycle_title_height"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp">
+
+                <TextView
+                    android:id="@+id/textView_content_title"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12.0dip"
+                    android:layout_marginRight="12.0dip"
+                    android:layout_marginTop="12.0dip"
+                    android:textColor="#FF272727"
+                    android:textSize="18.0dip"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/textView_create_time"
+                    android:layout_width="155dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginLeft="12.0dip"
+                    android:textColor="#FF888888"
+                    android:textSize="12.0sp"/>
+
+                <ImageView
+                    android:id="@+id/imageView_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/textView_create_time"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="25dp"
+                    android:src="@drawable/ic_common_like_gray"/>
+
+                <ImageView
+                    android:id="@+id/imageView_favorites"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/textView_create_time"
+                    android:layout_marginRight="25dp"
+                    android:layout_toLeftOf="@id/imageView_like"
+                    android:src="@drawable/ic_common_favorites_gray"/>
+
+                <TextView
+                    android:id="@+id/textView_likeNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/imageView_like"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="12dp"
+                    android:text="32"
+                    android:textColor="#959595"/>
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/news_body_separator_line"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8.0dip"
+                android:src="@drawable/ic_ride_cycle_list_separator_line"
+                android:visibility="visible"/>
+
+            <WebView
+                android:id="@+id/news_webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp">
+            </WebView>
+
+            <include
+                layout="@layout/common_divider_2dp_gray"/>
+
+            <LinearLayout
+                android:id="@+id/layout_browseCommentPart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="25dp"
+                    android:text="@string/comment"
+                    android:textColor="@color/red_light"
+                    android:textSize="@dimen/text_size_42px"/>
+
+                <include layout="@layout/common_divider_03dp_gray"/>
+
+                <ListView
+                    android:id="@+id/listView_comments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="#dcdcdc"
+                    android:dividerHeight="0.34dp"
+                    android:scrollbars="none">
+                </ListView>
+
+                <include layout="@layout/common_divider_03dp_gray"/>
+
+                <TextView
+                    android:id="@+id/textView_showMoreComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:gravity="center"
+                    android:text="@string/show_more_comment"
+                    android:textColor="#868686"
+                    android:textSize="@dimen/text_size_30px"/>
+            </LinearLayout>
+
+            <include
+                layout="@layout/common_divider_2dp_gray"/>
+
+            <include
+                layout="@layout/layout_common_comment_text"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

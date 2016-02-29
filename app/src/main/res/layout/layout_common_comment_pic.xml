@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="47dp"
+    android:gravity="center_vertical"
+    android:layout_gravity="bottom">
+
+    <ImageView
+        android:id="@+id/imageView_addPic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:src="@drawable/ic_communicate_add_pic"/>
+
+    <EditText
+        android:id="@+id/editText_comment"
+        android:layout_width="match_parent"
+        android:layout_height="33dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="62dp"
+        android:layout_toRightOf="@id/imageView_addPic"
+        android:background="@drawable/xml_shape_comment_edittext_bg"
+        android:hint="@string/add_comment"
+        android:paddingLeft="27dp"
+        android:textColorHint="@color/black_242424_fade50"
+        android:textSize="@dimen/text_size_48px"
+        android:inputType="text"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/editText_comment"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="6dp"
+        android:src="@drawable/ic_common_pencil"/>
+
+    <TextView
+        android:id="@+id/textView_submitComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dp"
+        android:background="@android:color/transparent"
+        android:text="@string/submit_comment"
+        android:textColor="@color/black_242424"
+        android:textSize="@dimen/text_size_48px"/>
+</RelativeLayout>

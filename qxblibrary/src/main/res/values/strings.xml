@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">QxbLibrary</string>
+<string name="no_contacts_permission">应用无权限读取通讯录</string>
+</resources>

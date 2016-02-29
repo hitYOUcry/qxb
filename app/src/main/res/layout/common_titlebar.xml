@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_black">
+
+    <ImageView
+        android:id="@+id/imageView_back"
+        style="@style/titleBar_imageView_left_style"
+        android:src="@drawable/xml_selector_back"/>
+
+    <ImageView
+        android:id="@+id/imageView_share"
+        style="@style/titleBar_imageView_right_style"
+        android:src="@drawable/xml_selector_share"
+        android:visibility="invisible"/>
+
+    <!--only used at communicate ask activity-->
+    <TextView
+        android:id="@+id/textView_commit"
+        style="@style/titleBar_imageView_right_style"
+        android:text="@string/commit"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_xx_large"
+        android:visibility="invisible"/>
+
+    <com.qixingbang.qxb.common.views.MarqueeTextView
+        android:id="@+id/textView_tabTip"
+        style="@style/titleBar_textView_style"/>
+</RelativeLayout>

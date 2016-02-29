@@ -1,0 +1,77 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <!-- Common Start -->
+    <dimen name="text_size_xx_small">10dp</dimen>
+    <dimen name="text_size_x_small">12dp</dimen>
+    <dimen name="text_size_60px">20dp</dimen>
+    <dimen name="text_size_48px">16dp</dimen>
+    <dimen name="text_size_45px">15dp</dimen>
+    <dimen name="text_size_42px">14dp</dimen>
+    <dimen name="text_size_30px">10dp</dimen>
+    <dimen name="text_size_33px">11dp</dimen>
+    <dimen name="text_size_36px">12dp</dimen>
+    <dimen name="text_size_27px">9dp</dimen>
+    <dimen name="text_size_24px">8dp</dimen>
+    <dimen name="text_size_18px">6dp</dimen>
+    <dimen name="text_size_15px">5dp</dimen>
+    <dimen name="text_size_small">14dp</dimen>
+    <dimen name="text_size_medium">16dp</dimen>
+    <dimen name="text_size_50px">17dp</dimen>
+    <dimen name="text_size_large">18dp</dimen>
+    <dimen name="text_size_x_large">20dp</dimen>
+    <dimen name="text_size_xx_large">22dp</dimen>
+    <dimen name="text_size_56px">19dp</dimen>
+    <dimen name="text_size_66px">22dp</dimen>
+    <dimen name="text_size_69px">23dp</dimen>
+    <!-- Common End -->
+
+    <!--HomePageActivity Start -->
+    <dimen name="title_bar_height">47dp</dimen>
+    <dimen name="btm_button_bar_height">62dp</dimen>
+    <dimen name="info_hint_size">8dp</dimen>
+    <!--HomePageActivity End -->
+
+    <!-- EquipmentFragment start-->
+    <dimen name="news_hotspot_height">187dp</dimen>
+    <dimen name="news_hotspot_text_height">56dp</dimen>
+    <dimen name="news_indicator_size">7dp</dimen>
+    <dimen name="news_indicatorArea_length">40dp</dimen>
+    <dimen name="divider_width">1dp</dimen>
+    <dimen name="editText_width">345dp</dimen>
+    <dimen name="editText_height">33dp</dimen>
+    <dimen name="mainBody_horizontal_margin">16dp</dimen>
+    <dimen name="mainBody_vertical_margin">7dp</dimen>
+    <!-- EquipmentFragment end-->
+
+    <!-- RideCycleFragment Start-->
+    <dimen name="filter_rcBar_height">5dp</dimen>
+    <dimen name="filter_rcdvBar_height">2dp</dimen>
+    <dimen name="ridecycle_listItem_height">100dp</dimen>
+    <dimen name="ridecycle_mainInfo_height">80dp</dimen>
+    <dimen name="ridecycle_title_height">80dp</dimen>
+    <!-- RideCycleFragment End-->
+
+    <!-- BicycleActivity Start-->
+    <dimen name="filter_btmBar_height">6dp</dimen>
+    <dimen name="bicycleInfo_listItem_height">138dp</dimen>
+    <dimen name="bicycleInfo_mainInfo_height">107dp</dimen>
+    <dimen name="filter_listItem_minHeight">36dp</dimen>
+    <dimen name="filter_listItem_width">108dp</dimen>
+    <!-- BicycleActivity End-->
+
+    <!-- BicycleDetailsActivity Start -->
+    <dimen name="partI_height">187dp</dimen>
+    <dimen name="partII_height">109dp</dimen>
+    <dimen name="partIII_height">98dp</dimen>
+    <dimen name="partIV_height">270dp</dimen>
+    <dimen name="partV_height">206dp</dimen>
+    <dimen name="partVI_height">47dp</dimen>
+    <!-- BicycleDetailsActivity End -->
+
+    <!-- Login Part Start -->
+    <dimen name="corner_radius">4dp</dimen>
+    <!-- Login Part End -->
+</resources>

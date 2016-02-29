@@ -1,0 +1,88 @@
+<com.zhy.android.percent.support.PercentLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/common_titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="7.344%"/>
+
+    <EditText
+        android:id="@+id/editText_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/xml_shape_communicate_ask_edit_bg"
+        android:gravity="top"
+        android:hint="@string/ask_edit_hint_text"
+        android:maxLength="120"
+        android:maxLines="6"
+        android:padding="10dp"
+        android:textColor="@color/black_242424_fade80"
+        android:textColorHint="@color/black_242424_fade80"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/text_size_36px"
+        app:layout_heightPercent="17.8%"
+        app:layout_marginBottomPercent="3.8%"
+        app:layout_marginLeftPercent="6.67%"
+        app:layout_marginRightPercent="6.67%"
+        app:layout_marginTopPercent="6.25%"
+        app:layout_widthPercent="86.66%"/>
+
+    <TextView
+        android:id="@+id/tv_hint_ask"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/add_pictures"
+        android:textColor="@color/black_242424_fade80"
+        android:textSize="@dimen/text_size_36px"
+        app:layout_heightPercent="2.5%"
+        app:layout_marginBottomPercent="2.7%"
+        app:layout_marginLeftPercent="9.44%"
+        app:layout_marginRightPercent="6.6%"
+        app:layout_marginTopPercent="3.125%"
+        app:layout_widthPercent="22.2%"/>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_heightPercent="7.5%"
+        app:layout_marginTopPercent="1.5625%">
+
+        <ImageView
+            android:id="@+id/imageView_one"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_mine_addphoto"
+            android:scaleType="fitXY"
+            app:layout_marginLeftPercent="9.44%"
+            app:layout_widthPercent="13.33%"/>
+
+        <ImageView
+            android:id="@+id/imageView_two"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_mine_addphoto"
+            android:scaleType="fitXY"
+            app:layout_marginLeftPercent="2.78%"
+            app:layout_widthPercent="13.33%"/>
+
+        <ImageView
+            android:id="@+id/imageView_three"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_mine_addphoto"
+            android:scaleType="fitXY"
+            app:layout_marginLeftPercent="2.78%"
+            app:layout_widthPercent="13.33%"/>
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+</com.zhy.android.percent.support.PercentLinearLayout>
+

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_black"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/rl_ask_cmct"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="47"
+        android:background="@color/black_242424">
+
+        <TextView
+            android:id="@+id/tv_cmct_ask"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/theme_black"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:text="@string/ask"
+            android:textColor="#cbcbcb"
+            android:textSize="@dimen/text_size_48px"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:background="@drawable/ic_communicate_pencil"/>
+    </RelativeLayout>
+
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/listView_communicate"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="483"
+        android:divider="@color/white"
+        android:dividerHeight="0.33dp"
+        android:scrollbars="none"
+        ptr:ptrHeaderBackground="@color/theme_black"
+        ptr:ptrHeaderTextColor="@color/white"/>
+
+
+</LinearLayout>

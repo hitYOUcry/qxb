@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white_fade90">
+
+    <ListView
+        android:id="@+id/listView_filter"
+        android:layout_width="@dimen/filter_listItem_width"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:divider="@color/divider_popwindow"
+        android:dividerHeight="1px"
+        android:scrollbars="none">
+
+    </ListView>
+</RelativeLayout>
