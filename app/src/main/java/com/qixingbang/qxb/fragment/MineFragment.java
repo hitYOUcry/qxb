@@ -228,7 +228,7 @@ public class MineFragment extends BaseFragment {
      * add by zqj ,for test.
      */
     private void clearCache() {
-        TextDialog dialog = new TextDialog(getActivity());
+        final TextDialog dialog = new TextDialog(getActivity());
         dialog.show();
         dialog.setTitle(R.string.clean_cache);
         dialog.setConfirmText(R.string.clean);
@@ -250,6 +250,9 @@ public class MineFragment extends BaseFragment {
                 CacheSP.clear();
 
                 ToastUtil.toast("缓存已清除");
+                mCacheSizeTask = new CacheSizeTask();
+                mCacheSizeTask.execute(GlobalConstant.CACHE_PATH);
+                dialog.dismiss();
             }
         });
     }
