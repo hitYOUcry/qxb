@@ -14,6 +14,7 @@
     <string name="system_error">系统错误，请重试</string>
     <string name="not_login_yet">未登录，请先登录</string>
     <string name="share_text">骑行邦，骑行的乌托邦</string>
+    <string name="click_again_to_exit">再按一次退出骑行邦</string>
     <!-- common part end -->
     <!-- login part start -->
     <string name="accouter">账号</string>
@@ -104,7 +105,8 @@
     <string name="setting">设置</string>
     <string name="about_qxb">关于骑行邦</string>
     <string name="feedback">意见反馈</string>
-    <string name="clear_cache">清除缓存</string>
+    <string name="clean_cache">清除缓存</string>
+    <string name="clean">清除</string>
     <string name="nick_name">昵 称</string>
     <string name="sex_age">男      24岁</string>
     <string name="update_version">版本更新</string>
@@ -121,6 +123,8 @@
     <string name="all_img">全部图片</string>
     <string name="img_count">%1$d张</string>
     <string name="chang_folder">更改文件夹</string>
+    <string name="change_user_hint">换个账号试试</string>
+    <string name="switch_account">切换</string>
     <!-- SettingActivity End -->
     <!-- FeedbackActivity Start -->
     <string name="tel_content">电话：18810538830</string>

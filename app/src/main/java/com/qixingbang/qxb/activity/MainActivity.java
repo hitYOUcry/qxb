@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.activity.communicate.ReplyActivity;
@@ -126,7 +127,7 @@ public class MainActivity extends BaseFragmentActivity {
             case R.id.relativeLayout_mine:
                 //TODO
                 if (!QAccount.hasAccount()) {
-                    LoginActivity.start(this,REQUEST_LOGIN);
+                    LoginActivity.start(this, REQUEST_LOGIN);
                     //                    finish();
                 } else {
                     mCurrentIndex = INDEX_MINE;
@@ -299,20 +300,32 @@ public class MainActivity extends BaseFragmentActivity {
                 }
             }
         }
-        if (null != mineFragment) {
-            if (requestCode == REQUEST_MINE_SETTING) {
-                if (resultCode == RESULT_OK) {
-                    mineFragment.refreshUserInfo();
-                }
+        if (requestCode == REQUEST_LOGIN) {
+            if (resultCode == RESULT_OK) {
+                onClick(mine);
             }
         }
-        if(requestCode == REQUEST_LOGIN){
-            if(resultCode == RESULT_OK){
-                onClick(mine);
+        if(mCurrentIndex == INDEX_MINE){
+            if(null != mineFragment){
+                if(!mineFragment.refreshUserInfo()){
+                    onClick(equipment);
+                }
             }
         }
     }
 
+    private long mLastClickTime;
+
+    @Override
+    public void onBackPressed() {
+        long systemTime = System.currentTimeMillis();
+        if (systemTime - mLastClickTime < 1000) {
+            super.onBackPressed();
+        } else {
+            mLastClickTime = systemTime;
+            Toast.makeText(this, R.string.click_again_to_exit, Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void onDestroy() {
