@@ -48,16 +48,24 @@ public class ImageViewPagerAdapter extends PagerAdapter {
     }
 
     private void initViews() {
-        mViews[0] = View.inflate(mContext, R.layout.item_viewpager_pictures, null);
-        ImageView imageView = (ImageView) mViews[0].findViewById(R.id.imageView_picture);
-        mBitmapUtils.display(imageView, mList.get(0));
-
-        mViews[1] = View.inflate(mContext, R.layout.item_viewpager_pictures, null);
-        imageView = (ImageView) mViews[1].findViewById(R.id.imageView_picture);
-        mBitmapUtils.display(imageView, mList.get(1));
-
-        mViews[2] = View.inflate(mContext, R.layout.item_viewpager_pictures, null);
-        imageView = (ImageView) mViews[2].findViewById(R.id.imageView_picture);
-        mBitmapUtils.display(imageView, mList.get(2));
+        int picUrlNum = mList.size();
+        for(int i = 0; i < PAGER_NUM;i++){
+            mViews[i] = View.inflate(mContext, R.layout.item_viewpager_pictures, null);
+            if(i <= picUrlNum - 1){
+                ImageView imageView = (ImageView) mViews[i].findViewById(R.id.imageView_picture);
+                mBitmapUtils.display(imageView, mList.get(i));
+            }
+        }
+//        mViews[0] = View.inflate(mContext, R.layout.item_viewpager_pictures, null);
+//        ImageView imageView = (ImageView) mViews[0].findViewById(R.id.imageView_picture);
+//        mBitmapUtils.display(imageView, mList.get(0));
+//
+//        mViews[1] = View.inflate(mContext, R.layout.item_viewpager_pictures, null);
+//        imageView = (ImageView) mViews[1].findViewById(R.id.imageView_picture);
+//        mBitmapUtils.display(imageView, mList.get(1));
+//
+//        mViews[2] = View.inflate(mContext, R.layout.item_viewpager_pictures, null);
+//        imageView = (ImageView) mViews[2].findViewById(R.id.imageView_picture);
+//        mBitmapUtils.display(imageView, mList.get(2));
     }
 }
