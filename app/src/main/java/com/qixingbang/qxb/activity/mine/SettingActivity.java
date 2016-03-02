@@ -29,6 +29,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.lidroid.xutils.BitmapUtils;
 import com.qixingbang.qxb.R;
+import com.qixingbang.qxb.activity.login.LoginActivity;
 import com.qixingbang.qxb.activity.mine.clipHeadPortrait.RoundImageView;
 import com.qixingbang.qxb.base.activity.BaseActivity;
 import com.qixingbang.qxb.beans.QAccount;
@@ -37,6 +38,7 @@ import com.qixingbang.qxb.common.application.QApplication;
 import com.qixingbang.qxb.common.utils.FileUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.common.views.SlideSwitch;
+import com.qixingbang.qxb.dialog.TextDialog;
 import com.qixingbang.qxb.server.RequestUtil;
 import com.qixingbang.qxb.server.ResponseUtil;
 import com.qixingbang.qxb.server.UrlUtil;
@@ -120,7 +122,7 @@ public class SettingActivity extends BaseActivity {
         mTextViewSave = (TextView) findViewById(R.id.textView_commit);
         mTextViewSave.setVisibility(View.VISIBLE);
         mTextViewSave.setText("保存");
-        mTextViewSave.setTextSize(TypedValue.COMPLEX_UNIT_DIP,16);
+        mTextViewSave.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
     }
 
     @Override
@@ -148,7 +150,7 @@ public class SettingActivity extends BaseActivity {
      * @param v
      */
     @OnClick({R.id.iv_head_portrait, R.id.iv_delete_nickname, R.id.edt_nickname, R.id.imageView_back,
-            R.id.textView_commit, R.id.rl_change_sex})
+            R.id.textView_commit, R.id.rl_change_sex, R.id.rl_change_user})
     public void onViewClick(View v) {
         switch (v.getId()) {
             case R.id.iv_head_portrait:
@@ -215,9 +217,28 @@ public class SettingActivity extends BaseActivity {
             case R.id.rl_change_sex:
                 Log.d("SettingActivity", "onClick");
                 break;
+            case R.id.rl_change_user:
+                changeUser();
+                break;
             default:
                 break;
         }
+    }
+
+    private void changeUser() {
+        TextDialog dialog = new TextDialog(this);
+        dialog.show();
+        dialog.setTitle(R.string.change_user);
+        dialog.setContent(R.string.change_user_hint);
+        dialog.setConfirmText(R.string.switch_account);
+        dialog.setConfirmListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QAccount.clear();
+                LoginActivity.start(SettingActivity.this);
+                SettingActivity.this.finish();
+            }
+        });
     }
 
     /**

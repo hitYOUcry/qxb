@@ -123,6 +123,8 @@
     <string name="all_img">全部图片</string>
     <string name="img_count">%1$d张</string>
     <string name="chang_folder">更改文件夹</string>
+    <string name="change_user_hint">换个账号试试</string>
+    <string name="switch_account">切换</string>
     <!-- SettingActivity End -->
     <!-- FeedbackActivity Start -->
     <string name="tel_content">电话：18810538830</string>

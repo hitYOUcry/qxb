@@ -202,7 +202,11 @@ public class MineFragment extends BaseFragment {
                 switchActivity(SystemMessageActivity.class);
                 break;
             case R.id.rl_setting:
-                switchActivity(SettingActivity.class, MainActivity.REQUEST_MINE_SETTING);
+                if(QAccount.hasAccount()){
+                    switchActivity(SettingActivity.class, MainActivity.REQUEST_MINE_SETTING);
+                }else {
+                    ToastUtil.toast(R.string.not_login_yet);
+                }
                 break;
             case R.id.rl_about_qxb:
                 switchActivity(AboutQxbActivity.class);
@@ -291,8 +295,11 @@ public class MineFragment extends BaseFragment {
         getActivity().startActivityForResult(intent, requestCode);
     }
 
-    public void refreshUserInfo() {
+    public boolean refreshUserInfo() {
         String token = QAccount.getToken();
+        if(token.isEmpty()){
+            return false;
+        }
         String detailsUrl = UrlUtil.getUserDetails();
         RequestParams params = new RequestParams();
         params.addHeader("authorization", token);
@@ -318,6 +325,7 @@ public class MineFragment extends BaseFragment {
 
             }
         });
+        return true;
     }
 
 

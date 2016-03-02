@@ -300,16 +300,16 @@ public class MainActivity extends BaseFragmentActivity {
                 }
             }
         }
-        if (null != mineFragment) {
-            if (requestCode == REQUEST_MINE_SETTING) {
-                if (resultCode == RESULT_OK) {
-                    mineFragment.refreshUserInfo();
-                }
-            }
-        }
         if (requestCode == REQUEST_LOGIN) {
             if (resultCode == RESULT_OK) {
                 onClick(mine);
+            }
+        }
+        if(mCurrentIndex == INDEX_MINE){
+            if(null != mineFragment){
+                if(!mineFragment.refreshUserInfo()){
+                    onClick(equipment);
+                }
             }
         }
     }
