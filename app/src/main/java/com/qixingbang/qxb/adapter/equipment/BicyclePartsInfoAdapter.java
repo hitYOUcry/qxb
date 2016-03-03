@@ -62,7 +62,10 @@ public class BicyclePartsInfoAdapter extends BaseInfoAdapter {
         }
 
         Accessory bicycleParts = mList.get(position);
-        mBitmapUtils.display(viewHolder.imageView, bicycleParts.getPicList().get(0));
+        if(bicycleParts.getPicList().size() > 0){
+            mBitmapUtils.display(viewHolder.imageView, bicycleParts.getPicList().get(0));
+        }
+
         viewHolder.modelTextView.setText(bicycleParts.getName());
         viewHolder.priceTextView.setText("参考价位：" + bicycleParts.getPrice() + "￥");
         return convertView;
