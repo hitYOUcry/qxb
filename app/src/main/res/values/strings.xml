@@ -70,6 +70,7 @@
     <string name="favorites_cancel">取消收藏</string>
     <string name="comment">骑友评论</string>
     <string name="show_more_comment">查看更多评论</string>
+    <string name="brief_intro">简介</string>
     <string name="no_comment">暂无更多评论</string>
     <string name="add_comment">写评论</string>
     <string name="submit_comment">发表</string>

@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +24,9 @@ import com.qixingbang.qxb.adapter.equipment.CommentListAdapter;
 import com.qixingbang.qxb.adapter.equipment.ImageViewPagerAdapter;
 import com.qixingbang.qxb.beans.QAccount;
 import com.qixingbang.qxb.beans.equipment.Comment;
+import com.qixingbang.qxb.common.application.QApplication;
 import com.qixingbang.qxb.common.share.ShareUtil;
+import com.qixingbang.qxb.common.utils.DensityUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.common.utils.ViewUtil;
 import com.qixingbang.qxb.server.RequestUtil;
@@ -235,6 +238,15 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
     public void setDescription(String description) {
         mDescription = description;
         descriptionTextView.setText(mDescription);
+//        Rect rect = new Rect();
+//        descriptionTextView.getGlobalVisibleRect(rect);
+//        if (rect.height() < height_180dp) {
+//            layoutShowMore.setVisibility(GONE);
+//        }
+        int line = descriptionTextView.getLineCount();
+        if(line <= 10){
+            layoutShowMore.setVisibility(GONE);
+        }
     }
 
     public void setItemId(int id) {
@@ -296,8 +308,7 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
                 likeClicked();
                 break;
             case R.id.layout_more_configuration:
-                configToggle(mMoreConfigFlag);
-                mMoreConfigFlag = !mMoreConfigFlag;
+                configToggle();
                 break;
             case R.id.textView_showMoreComment:
                 moreComments();
@@ -347,7 +358,7 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
             RequestUtil.getInstance().addToRequestQueue(request, mContext.getClass().getName());
         } else {
             LoginActivity.start(mContext);
-//            ((Activity) mContext).finish();
+            //            ((Activity) mContext).finish();
         }
     }
 
@@ -394,7 +405,7 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
             RequestUtil.getInstance().addToRequestQueue(request, mContext.getClass().getName());
         } else {
             LoginActivity.start(mContext);
-//            ((Activity) mContext).finish();
+            //            ((Activity) mContext).finish();
         }
     }
 
@@ -424,13 +435,25 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
         }
     }
 
+
     /**
      * 配置列表的打开与收起
-     *
-     * @param moreConfig
      */
-    private void configToggle(boolean moreConfig) {
-        //TODO
+    private static int height_180dp = DensityUtil.dip2px(QApplication.getInstance(),180.0f);
+
+    private void configToggle() {
+        ViewGroup.LayoutParams lp = descriptionTextView.getLayoutParams();
+        if (mMoreConfigFlag) {
+            lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            showMoreTextView.setText(R.string.show_less);
+            showMoreImageView.setImageResource(R.drawable.ic_common_back_to_top);
+        } else {
+            lp.height = height_180dp;
+            showMoreTextView.setText(R.string.show_more);
+            showMoreImageView.setImageResource(R.drawable.ic_eqp_show_more);
+        }
+        descriptionTextView.setLayoutParams(lp);
+        mMoreConfigFlag = !mMoreConfigFlag;
     }
 
     /**
