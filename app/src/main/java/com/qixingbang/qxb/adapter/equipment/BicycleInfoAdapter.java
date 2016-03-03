@@ -65,14 +65,20 @@ public class BicycleInfoAdapter extends BaseInfoAdapter {
                     getResources().getColor(R.color.theme_black));
         }
         Bicycle bicycle = mList.get(position);
-        mBitmapUtils.display(viewHolder.imageView, bicycle.getPicUrl().get(0));
+        if (bicycle.getPicUrl().size() > 0) {
+            mBitmapUtils.display(viewHolder.imageView, bicycle.getPicUrl().get(0));
+        }
         viewHolder.modelTextView.setText(bicycle.getModel());
 
         //TODO details info not complete
-        viewHolder.modelDetailsTextView.setText("2013年GIANT ATX系门娱乐级山地车");
+        viewHolder.modelDetailsTextView.setText(bicycle.getRoadType());
 
         viewHolder.suitableTextView.setText(bicycle.getBikeType());
-        viewHolder.priceTextView.setText("参考价位：" + bicycle.getPrice() + "￥");
+        if (bicycle.getPrice() == 0) {
+            viewHolder.priceTextView.setText("参考价位：----￥");
+        } else {
+            viewHolder.priceTextView.setText("参考价位：" + bicycle.getPrice() + "￥");
+        }
         return convertView;
     }
 

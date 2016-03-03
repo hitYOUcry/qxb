@@ -33,15 +33,16 @@ public class Bicycle implements Serializable, Comparable {
     private String series;     //系列
     private String level;      //级别
     private String speed;
-    private Accessory frame;      //车架
+    private String frame;      //车架
     private Accessory frontFork;  //前叉
+    private Accessory kit;
     private Accessory frontDerailleur;//前变速器
     private Accessory backDerailleur;//后变速器
     private Accessory lever;     //变速
     private Accessory brake;     //刹车
     private Accessory cassettes;  //齿轮
     private String cassettesParam;//齿轮参数
-    private Accessory outerTire; //外胎
+    private String outerTire; //外胎
     private String outerTireParam;//外胎参数
     private Accessory wheelSystem;//轮组
     private String wheelSystemParam;//轮组参数
@@ -180,11 +181,11 @@ public class Bicycle implements Serializable, Comparable {
         this.speed = speed;
     }
 
-    public Accessory getFrame() {
+    public String getFrame() {
         return frame;
     }
 
-    public void setFrame(Accessory frame) {
+    public void setFrame(String frame) {
         this.frame = frame;
     }
 
@@ -244,11 +245,11 @@ public class Bicycle implements Serializable, Comparable {
         this.cassettesParam = cassettesParam;
     }
 
-    public Accessory getOuterTire() {
+    public String getOuterTire() {
         return outerTire;
     }
 
-    public void setOuterTire(Accessory outerTire) {
+    public void setOuterTire(String outerTire) {
         this.outerTire = outerTire;
     }
 

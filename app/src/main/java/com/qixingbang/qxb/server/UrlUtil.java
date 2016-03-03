@@ -116,6 +116,13 @@ public class UrlUtil {
         return BIKE_PARTS_BRAND;
     }
 
+    //零部件类型
+    private final static String BIKE_ACCESSORY_TYPE = ADDRESS + "/accessory/type";
+
+    public static String getBikeAccessoryType() {
+        return BIKE_ACCESSORY_TYPE;
+    }
+
     //零部件列表
     private final static String BIKE_PARTS_LIST = ADDRESS + "/accessory/list";
 
@@ -166,29 +173,35 @@ public class UrlUtil {
     public static String getfavlikeDetails(String type, int articleId) {
         return ADDRESS + "/article/likeFav/" + type + "/" + articleId;
     }
+
     /**
      * 交流板块
      */
     //获取问题列表
     public static String getObtainQuestionUrl(String action, int questionId) {
-        return ADDRESS+"/question/list/"+action + "/"+questionId;
+        return ADDRESS + "/question/list/" + action + "/" + questionId;
     }
+
     //发送问题
     public static String getSendQuestionUrl() {
         return ADDRESS + "/user/ask";
     }
-//    获取详细问题
-    public static String getDetailQuestionUrl(int questionId){
-        return  ADDRESS+"/question/detail/"+questionId;
+
+    //    获取详细问题
+    public static String getDetailQuestionUrl(int questionId) {
+        return ADDRESS + "/question/detail/" + questionId;
     }
+
     //获取回答列表
-    public static String getReplyUrl(int questionId,int count) {
-        return ADDRESS + "/answer/"+questionId+"/"+count;
+    public static String getReplyUrl(int questionId, int count) {
+        return ADDRESS + "/answer/" + questionId + "/" + count;
     }
+
     //发送回答
     public static String getSendAnswerUrl() {
         return ADDRESS + "/user/answer";
     }
+
     //收藏
     public static String getFavQuestionUrl(String itemType, int itemId) {
         return ADDRESS + "/user/favorite/" + itemType + "/" + itemId;
@@ -204,7 +217,7 @@ public class UrlUtil {
      */
     private final static String MY_DETAIL_INFO = ADDRESS + "/user/getDetail";
 
-    public static String getUserDetails(){
+    public static String getUserDetails() {
         return MY_DETAIL_INFO;
     }
 

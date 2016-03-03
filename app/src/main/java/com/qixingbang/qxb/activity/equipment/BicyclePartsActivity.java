@@ -43,8 +43,7 @@ public class BicyclePartsActivity extends BaseActivity implements ListItemView.I
 
     private final List<String> mBrandList = new ArrayList<>();
 
-    private final List<String> mTypeList = Arrays.asList(
-            "不限", "S级", "A级", "B级", "AC级", "D级", "E级", "F级");
+    private final List<String> mTypeList = new ArrayList<>();
 
     private ListItemView mItemListView;
     BicyclePartsInfoAdapter mBicyclePartsInfoAdapter;
@@ -73,8 +72,10 @@ public class BicyclePartsActivity extends BaseActivity implements ListItemView.I
         mBicyclePartsInfoAdapter = new BicyclePartsInfoAdapter(this, mList);
         mItemListView.setListViewAdapter(mBicyclePartsInfoAdapter);
         getBrandList();
+        getTypeList();
         mItemListView.setTabTip(getString(R.string.bicycle_parts));
         mItemListView.setItemListener(this);
+        mItemListView.setLists(mBrandList, mTypeList, mPriceList);
     }
 
     /**
@@ -92,12 +93,34 @@ public class BicyclePartsActivity extends BaseActivity implements ListItemView.I
                     mBrandList.add(jsonArray.optString(i));
                 }
                 //                mBrandList.add("更多");
-                mItemListView.setLists(mBrandList, mTypeList, mPriceList);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 ResponseUtil.toastError(error);
+            }
+        });
+        RequestUtil.getInstance().addToRequestQueue(request, TAG);
+    }
+
+    private void getTypeList() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getBikeAccessoryType(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        mTypeList.clear();
+                        mTypeList.add("不限");
+                        JSONArray jsonArray = response.optJSONArray("types");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            mTypeList.add(jsonArray.optString(i));
+                        }
+                        //                mBrandList.add("更多");
+//                        mItemListView.setLists(mBrandList, mTypeList, mPriceList);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
             }
         });
         RequestUtil.getInstance().addToRequestQueue(request, TAG);

@@ -455,27 +455,38 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
     private void refreshConfigList() {
         listShort.clear();
         listTotal.clear();
-        ConfigItem configItem = new ConfigItem("frame", mBicycle.getFrame().getName());
-        listShort.add(configItem);
-        configItem = new ConfigItem("frontFork", mBicycle.getFrontFork().getName());
-        listShort.add(configItem);
+        ConfigItem configItem = new ConfigItem("frame", mBicycle.getFrame());
+        listTotal.add(configItem);
+        if (null != mBicycle.getFrontFork()) {
+            configItem = new ConfigItem("frontFork", mBicycle.getFrontFork().getName());
+            listTotal.add(configItem);
+        }
+        if (null != mBicycle.getLever()) {
+            configItem = new ConfigItem("lever", mBicycle.getLever().getName());
+            listTotal.add(configItem);
+        }
+        if (null != mBicycle.getBrake()) {
+            configItem = new ConfigItem("brake", mBicycle.getBrake().getName());
+            listTotal.add(configItem);
+        }
+        if (null != mBicycle.getCassettes()) {
+            configItem = new ConfigItem("cassettes", mBicycle.getCassettes().getName());
+            listTotal.add(configItem);
+        }
 
-        configItem = new ConfigItem("lever", mBicycle.getLever().getName());
-        listShort.add(configItem);
-
-        configItem = new ConfigItem("brake", mBicycle.getBrake().getName());
-        listShort.add(configItem);
-
-        listTotal.addAll(listShort);
-        configItem = new ConfigItem("cassettes", mBicycle.getCassettes().getName());
+        configItem = new ConfigItem("outerTire", mBicycle.getOuterTire());
         listTotal.add(configItem);
 
-        configItem = new ConfigItem("outerTire", mBicycle.getOuterTire().getName());
-        listTotal.add(configItem);
-
-        configItem = new ConfigItem("wheelSystem", mBicycle.getWheelSystem().getName());
-        listTotal.add(configItem);
-
+        if (null != mBicycle.getWheelSystem()) {
+            configItem = new ConfigItem("wheelSystem", mBicycle.getWheelSystem().getName());
+            listTotal.add(configItem);
+        }
+        if (listTotal.size() <= 4) {
+            layoutMoreConfig.setVisibility(View.GONE);
+            listShort.addAll(listTotal);
+        } else {
+            listShort.addAll(listTotal.subList(0, 4));
+        }
         mConfigList.clear();
         mConfigList.addAll(listShort);
         mConfigAdapter.notifyDataSetChanged();
@@ -664,35 +675,35 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
     public void onPageScrollStateChanged(int state) {
     }
 
-//    private void share() {
-//        OnekeyShare oks = new OnekeyShare();
-//        //关闭sso授权
-//        oks.disableSSOWhenAuthorize();
-//        oks.setTheme(OnekeyShareTheme.CLASSIC);
-////        oks.setSilent(true);
-//        oks.setSilent(false);
-//        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
-//        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-//        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用(QQ系必填)
-//        oks.setTitle(getString(R.string.title_activity_main));
-//        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-//        oks.setTitleUrl(GlobalConstant.QXB_WEBSITE);
-//        // text是分享文本，所有平台都需要这个字段
-//        oks.setText(getString(R.string.share_text));
-//        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-//        oks.setImageUrl(GlobalConstant.SHARE_IMG);
-//        // url仅在微信（包括好友和朋友圈）中使用
-//        oks.setUrl(GlobalConstant.QXB_WEBSITE);
-//        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-//        //        oks.setComment("我是测试评论文本");
-//        // site是分享此内容的网站名称，仅在QQ空间使用
-//        oks.setSite(getString(R.string.app_name));
-//        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-//        oks.setSiteUrl(GlobalConstant.QXB_WEBSITE);
-////        oks.setViewToShare(rootView);
-//        // 启动分享GUI
-//        oks.show(this);
-//    }
+    //    private void share() {
+    //        OnekeyShare oks = new OnekeyShare();
+    //        //关闭sso授权
+    //        oks.disableSSOWhenAuthorize();
+    //        oks.setTheme(OnekeyShareTheme.CLASSIC);
+    ////        oks.setSilent(true);
+    //        oks.setSilent(false);
+    //        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
+    //        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+    //        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用(QQ系必填)
+    //        oks.setTitle(getString(R.string.title_activity_main));
+    //        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+    //        oks.setTitleUrl(GlobalConstant.QXB_WEBSITE);
+    //        // text是分享文本，所有平台都需要这个字段
+    //        oks.setText(getString(R.string.share_text));
+    //        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+    //        oks.setImageUrl(GlobalConstant.SHARE_IMG);
+    //        // url仅在微信（包括好友和朋友圈）中使用
+    //        oks.setUrl(GlobalConstant.QXB_WEBSITE);
+    //        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+    //        //        oks.setComment("我是测试评论文本");
+    //        // site是分享此内容的网站名称，仅在QQ空间使用
+    //        oks.setSite(getString(R.string.app_name));
+    //        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+    //        oks.setSiteUrl(GlobalConstant.QXB_WEBSITE);
+    ////        oks.setViewToShare(rootView);
+    //        // 启动分享GUI
+    //        oks.show(this);
+    //    }
 
     /**
      * start this activity
@@ -707,7 +718,7 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
         context.startActivity(intent);
     }
 
-    public static void start(Context context,int bikeId){
+    public static void start(Context context, int bikeId) {
         Intent intent = new Intent(context, BicycleDetailsActivity.class);
         mBikeId = bikeId;
         mBicycle = new Bicycle(bikeId);
