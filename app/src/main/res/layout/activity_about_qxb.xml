@@ -57,12 +57,12 @@
             android:src="@drawable/ic_mine_version_update_img"/>
 
         <TextView
+            android:id="@+id/tv_newest_version"
             android:layout_width="30dp"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="6dp"
             android:layout_toLeftOf="@id/tv_version_update"
-            android:text="1.11"
             android:textColor="@color/color868686"
             android:textSize="@dimen/text_size_x_small"/>
     </RelativeLayout>

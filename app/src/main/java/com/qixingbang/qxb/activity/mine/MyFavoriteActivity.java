@@ -129,6 +129,7 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
                                 helper.getConvertView().setBackgroundColor(getResources().getColor(R.color.black_242424));
                             }
                             helper.setText(R.id.tv_price, "参考价位: " + item.price + "元");
+
                         }
                     };
                     ptrlvEquipment.setAdapter(mEqpListAdapter);

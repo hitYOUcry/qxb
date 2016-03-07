@@ -245,4 +245,10 @@ public class UrlUtil {
     public static String getUpdateUserInfo() {
         return UPDATE_USER_INFO;
     }
+    //更新
+    private final static String VERSION_INFO = ADDRESS + "/json/version.json";
+
+    public static String getVersionInfo(){
+        return VERSION_INFO;
+    }
 }

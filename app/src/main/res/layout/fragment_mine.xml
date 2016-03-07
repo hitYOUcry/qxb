@@ -104,7 +104,7 @@
                 android:id="@+id/iv_hint_favorite"
                 style="@style/mineFragment_middle_hint_style"
                 android:layout_toRightOf="@id/btn_favorite"
-                android:src="@drawable/xml_shape_mine_hint"/>
+                android:src="@drawable/xml_shape_mine_hint" />
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="0dp"
@@ -137,7 +137,7 @@
                 android:id="@+id/btn_reply"
                 android:layout_below="@id/tv_my_reply"
                 style="@style/mineFragment_middle_button_style"
-                android:background="@drawable/ic_mine_my_question"/>
+                android:background="@drawable/ic_mine_my_reply"/>
             <ImageView
                 android:id="@+id/iv_hint_my_reply"
                 style="@style/mineFragment_middle_hint_style"

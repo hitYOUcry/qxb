@@ -8,6 +8,8 @@ import com.lidroid.xutils.BitmapUtils;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.common.utils.FileUtil;
 
+import org.xutils.x;
+
 import cn.jpush.android.api.BasicPushNotificationBuilder;
 import cn.jpush.android.api.JPushInterface;
 
@@ -43,6 +45,8 @@ public class QApplication extends Application {
         FileUtil.init();
         initBitmapUtils();
 
+        x.Ext.init(this);
+        x.Ext.setDebug(true);
 //        ShareSDK.initSDK(this);
     }
 
