@@ -39,4 +39,5 @@ dependencies {
     compile project(':qxblibrary')
     compile project(':pullToRefresh')
     compile 'com.zhy:percent-support-extends:1.0.1'
+    compile 'org.xutils:xutils:3.3.20'
 }
