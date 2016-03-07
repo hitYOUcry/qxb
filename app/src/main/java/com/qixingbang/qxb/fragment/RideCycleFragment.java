@@ -156,6 +156,7 @@ public class RideCycleFragment extends BaseFragment implements RideCycleViewPage
         // pullToRefreshListView position begin with 1;
         position = position - 1;
         RideCycleBean selected = mContentLists.get(type.getIndex()).get(position);
+        selected.setType(type);
         int articleId = selected.getArticleId();
         switch (type) {
             case NEWS:
