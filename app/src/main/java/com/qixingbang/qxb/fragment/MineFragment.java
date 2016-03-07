@@ -311,8 +311,9 @@ public class MineFragment extends BaseFragment {
                 Gson gson = new Gson();
                 UserInfoBean mUserInfoBean = gson.fromJson(responseInfo.result, UserInfoBean.class);
                 if (mUserInfoBean.result == 200) {
-                    mBitmapUtils.display(ivHeadPortrait, mUserInfoBean.user.icon);
+//                    mBitmapUtils.display(ivHeadPortrait, mUserInfoBean.user.icon);
                     QAccount.setUserInfo(result);
+                    initData();
                 } else if (mUserInfoBean.result == 250) {
                     //未登录
                 } else {
