@@ -1,35 +1,30 @@
 package com.qixingbang.qxb.activity.mine;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.lidroid.xutils.BitmapUtils;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.activity.login.LoginActivity;
+import com.qixingbang.qxb.activity.mine.changeInfo.ChangeNicknameAty;
 import com.qixingbang.qxb.activity.mine.clipHeadPortrait.RoundImageView;
 import com.qixingbang.qxb.base.activity.BaseActivity;
 import com.qixingbang.qxb.beans.QAccount;
@@ -37,18 +32,9 @@ import com.qixingbang.qxb.beans.mine.UserInfoBean;
 import com.qixingbang.qxb.common.application.QApplication;
 import com.qixingbang.qxb.common.utils.FileUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
-import com.qixingbang.qxb.common.views.SlideSwitch;
 import com.qixingbang.qxb.dialog.TextDialog;
-import com.qixingbang.qxb.server.RequestUtil;
-import com.qixingbang.qxb.server.ResponseUtil;
-import com.qixingbang.qxb.server.UrlUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,21 +59,19 @@ public class SettingActivity extends BaseActivity {
     ImageView mImageViewShare;
     @Bind(R.id.textView_tabTip)
     TextView mTextViewTabTip;
-    @Bind(R.id.tv_push_message)
-    TextView mTvPushMessage;
     @Bind(R.id.iv_head_portrait)
     RoundImageView mIvHeadPortrait;
-    @Bind(R.id.edt_nickname)
-    EditText mEdtNickname;
-    @Bind(R.id.iv_delete_nickname)
-    ImageView mIvDeleteNickname;
     @Bind(R.id.tv_age)
     TextView mTvAge;
+    @Bind(R.id.tv_sex)
+    TextView mTvSex;
+    @Bind(R.id.tv_nickname)
+    TextView mTvNickname;
 
-    @Bind(R.id.switch_sex)
-    SlideSwitch mSsSex;
-    //    @Bind(R.id.textView_commit)
-    TextView mTextViewSave;
+    @Bind(R.id.rl_change_head)
+    RelativeLayout mRlChangeHead;
+    @Bind(R.id.rl_change_nickname)
+    RelativeLayout mRlChangeNickname;
     @Bind(R.id.rl_change_age)
     RelativeLayout mRlChangeAge;
     @Bind(R.id.rl_change_password)
@@ -103,6 +87,12 @@ public class SettingActivity extends BaseActivity {
 
     private PopupWindow mPopupWindow;
 
+    private boolean sex;
+    private String nickname;
+
+    private static final int NICKNAME_CODE = 0x01;
+    //private static final int NICKNAME_RESULT_CODE = 0x02;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,13 +106,6 @@ public class SettingActivity extends BaseActivity {
     public void initView() {
         tvTitle = (TextView) findViewById(R.id.textView_tabTip);
         boolean isPush = QAccount.getIsPush();
-        if (isPush) {
-            mTvPushMessage.setText("开");
-        }
-        mTextViewSave = (TextView) findViewById(R.id.textView_commit);
-        mTextViewSave.setVisibility(View.VISIBLE);
-        mTextViewSave.setText("保存");
-        mTextViewSave.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
     }
 
     @Override
@@ -134,14 +117,19 @@ public class SettingActivity extends BaseActivity {
         UserInfoBean userInfoBean = gson.fromJson(userInfo, UserInfoBean.class);
         if (userInfoBean.result == 200) {
             QApplication.getImageLoader().display(mIvHeadPortrait, userInfoBean.user.icon);
-            mEdtNickname.setText(userInfoBean.user.nickname);
-            if (userInfoBean.user.sex == false) {
-                mSsSex.setStatusOn(true);
-            } else {
-                mSsSex.setStatusOn(false);
+
+            sex = userInfoBean.user.sex;
+            if (sex) {
+                mTvSex.setText("女");
+            }else {
+                mTvSex.setText("男");
             }
+            mTvAge.setText(userInfoBean.user.age + "岁");
+            nickname = userInfoBean.user.nickname;
+            mTvNickname.setText(nickname);
         }
-        mTvAge.setText(userInfoBean.user.age + "岁");
+
+
     }
 
     /**
@@ -149,11 +137,11 @@ public class SettingActivity extends BaseActivity {
      *
      * @param v
      */
-    @OnClick({R.id.iv_head_portrait, R.id.iv_delete_nickname, R.id.edt_nickname, R.id.imageView_back,
-            R.id.textView_commit, R.id.rl_change_sex, R.id.rl_change_user})
+    @OnClick({R.id.rl_change_head, R.id.imageView_back, R.id.rl_change_sex, R.id.rl_change_user,
+            R.id.rl_change_nickname, R.id.rl_change_password, R.id.rl_change_age})
     public void onViewClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_head_portrait:
+            case R.id.rl_change_head:
                 if (dismissPopupWindow())
                     return;
                 View view = initPopupWindow();
@@ -168,57 +156,40 @@ public class SettingActivity extends BaseActivity {
                     mPopupWindow.showAtLocation(view, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
                 }
                 break;
-            case R.id.iv_delete_nickname:
-                Toast.makeText(this, "delete nickname", Toast.LENGTH_SHORT).show();
-                mEdtNickname.setText("");
+            case R.id.rl_change_nickname:
+                Intent intent = new Intent(this, ChangeNicknameAty.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("nickname", nickname);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, NICKNAME_CODE);
                 break;
-
-            case R.id.edt_nickname:
-                setNicknameEdtFocus(true);
-                initInputMethod();
-                break;
-            case R.id.imageView_back:
-                finish();
-                break;
-            case R.id.textView_commit:
-                String nickname = mEdtNickname.getText().toString();
-                int sex = mSsSex.getSex();
-                Log.d("sex", sex + "");
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("nickname", nickname);
-                    jsonObject.put("sex", sex);
-                } catch (JSONException e) {
-
-                }
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getUpdateUserInfo(), jsonObject,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Toast.makeText(SettingActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                ResponseUtil.toastError(error);
-                            }
-                        }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        HashMap<String, String> headers = new HashMap<String, String>();
-                        headers.put("authorization", QAccount.getToken());
-                        return headers;
-                    }
-                };
-                RequestUtil.getInstance().addToRequestQueue(request, TAG);
-                break;
-
             case R.id.rl_change_sex:
-                Log.d("SettingActivity", "onClick");
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                int checkItem;
+                if (sex) {
+                    checkItem = 1;
+                }else {
+                    checkItem = 0;
+                }
+                builder.setSingleChoiceItems(new String[]{"男", "女"}, checkItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(SettingActivity.this, which + "", Toast.LENGTH_SHORT).show();
+                        //TODO:上传服务器
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+                break;
+            case R.id.rl_change_age:
+                break;
+            case R.id.rl_change_password:
                 break;
             case R.id.rl_change_user:
                 changeUser();
+                break;
+            case R.id.imageView_back:
+                finish();
                 break;
             default:
                 break;
@@ -302,17 +273,6 @@ public class SettingActivity extends BaseActivity {
         return true;
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.d("SettingActivity", "onTouchEvent");
-        dismissPopupWindow();
-        if (mEdtNickname.hasFocus()) {
-            setNicknameEdtFocus(false);
-            initInputMethod();
-        }
-        return super.onTouchEvent(event);
-    }
-
     private void takePhoto() {
         Intent openCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         File file = new File(FileUtil.getTakePhotoPath());
@@ -349,22 +309,5 @@ public class SettingActivity extends BaseActivity {
     private void initInputMethod() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    /**
-     * 设置昵称的焦点情况
-     *
-     * @param focus 是否获得焦点
-     */
-    private void setNicknameEdtFocus(boolean focus) {
-        mEdtNickname.setFocusableInTouchMode(focus);
-        mEdtNickname.setFocusable(focus);
-        if (focus) {
-            mEdtNickname.requestFocus();
-            mIvDeleteNickname.setVisibility(View.VISIBLE);
-        } else {
-            mEdtNickname.clearFocus();
-            mIvDeleteNickname.setVisibility(View.INVISIBLE);
-        }
     }
 }
