@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.common.utils.L;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.base.activity.BaseActivity;
 import com.qixingbang.qxb.beans.QAccount;
@@ -35,6 +36,7 @@ public class ChangeNicknameAty extends BaseActivity {
     private TextView mTitleTv;
     private EditText mNameEdt;
     private Button mSaveBtn;
+    private TextView mErrorTv;
     private static final int NICKNAME_RESULT_CODE = 0x01;
 
     @Override
@@ -51,6 +53,7 @@ public class ChangeNicknameAty extends BaseActivity {
         mTitleTv = (TextView) findViewById(R.id.textView_tabTip);
         mNameEdt = (EditText) findViewById(R.id.edt_nickname);
         mSaveBtn = (Button) findViewById(R.id.btn_save_nickname);
+        mErrorTv = (TextView) findViewById(R.id.tv_error);
     }
 
     @Override
@@ -78,7 +81,7 @@ public class ChangeNicknameAty extends BaseActivity {
         JSONObject object = new JSONObject();
         try {
             object.put("nickname", name);
-
+            L.d(name);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -86,10 +89,15 @@ public class ChangeNicknameAty extends BaseActivity {
                 object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                L.d(response.toString());
                 if (200 == response.optInt("result")) {
                     ToastUtil.toast("success");
-                } else if (300 == response.optInt("result")) {
-                    ToastUtil.toast(R.string.comment_send_failed);
+                } else {
+                    try {
+                        mErrorTv.setText(response.getString("message"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }, new Response.ErrorListener() {

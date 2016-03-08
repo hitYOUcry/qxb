@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -154,6 +155,7 @@ public class SettingActivity extends BaseActivity {
             R.id.rl_change_nickname, R.id.rl_change_password, R.id.rl_change_age})
     public void onViewClick(View v) {
         Intent intent;
+        AlertDialog.Builder builder;
         switch (v.getId()) {
             case R.id.rl_change_head:
                 if (dismissPopupWindow())
@@ -178,7 +180,7 @@ public class SettingActivity extends BaseActivity {
                 startActivityForResult(intent, NICKNAME_CODE);
                 break;
             case R.id.rl_change_sex:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder = new AlertDialog.Builder(this);
                 int checkItem;
                 if (sex) {
                     checkItem = 1;
@@ -196,6 +198,25 @@ public class SettingActivity extends BaseActivity {
                 builder.show();
                 break;
             case R.id.rl_change_age:
+                LayoutInflater inflater = LayoutInflater.from(this);
+                View dialogView = inflater.inflate(R.layout.dialog_change_age, null);
+                final EditText edt = (EditText) dialogView.findViewById(R.id.edt_new_age);
+                builder = new AlertDialog.Builder(this);
+                builder.setTitle("修改年龄")
+                        .setView(dialogView)
+                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                changeAgeOnServer(Integer.parseInt(edt.getText().toString()));
+                            }
+                        })
+                        .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                builder.show();
                 break;
             case R.id.rl_change_password:
                 intent = new Intent(this, ChangePasswordAty.class);
@@ -210,6 +231,41 @@ public class SettingActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void changeAgeOnServer(final int i) {
+        JSONObject object = new JSONObject();
+        try {
+            object.put("age", i);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getUpdateUserInfo(),
+                object, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (200 == response.optInt("result")) {
+                    ToastUtil.toast("success");
+                    mTvAge.setText(i + "岁");
+                } else if (300 == response.optInt("result")) {
+                    ToastUtil.toast(R.string.comment_send_failed);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ResponseUtil.toastError(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("authorization", QAccount.getToken());
+                return headers;
+            }
+        };
+        RequestUtil.getInstance().addToRequestQueue(request);
     }
 
     private void changeSexOnServer(int sex) {
