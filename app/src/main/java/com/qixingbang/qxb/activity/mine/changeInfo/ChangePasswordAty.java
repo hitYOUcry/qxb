@@ -1,6 +1,5 @@
 package com.qixingbang.qxb.activity.mine.changeInfo;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,18 +30,19 @@ import java.util.Map;
 /**
  * Created by Jeongho on 16/3/7.
  */
-public class ChangeNicknameAty extends BaseActivity {
+public class ChangePasswordAty extends BaseActivity {
 
     private TextView mTitleTv;
-    private EditText mNameEdt;
+    private EditText mOldPwdEdt;
+    private EditText mNewPwdEdt;
+    private EditText mRepeatNewPwdEdt;
     private Button mSaveBtn;
-    private TextView mErrorTv;
-    private static final int NICKNAME_RESULT_CODE = 0x01;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_nickname);
+        setContentView(R.layout.activity_change_password);
         initView();
         initData();
         initListener();
@@ -51,37 +51,42 @@ public class ChangeNicknameAty extends BaseActivity {
     @Override
     protected void initView() {
         mTitleTv = (TextView) findViewById(R.id.textView_tabTip);
-        mNameEdt = (EditText) findViewById(R.id.edt_nickname);
-        mSaveBtn = (Button) findViewById(R.id.btn_save_nickname);
-        mErrorTv = (TextView) findViewById(R.id.tv_error);
+        mOldPwdEdt = (EditText) findViewById(R.id.edt_old_pwd);
+        mNewPwdEdt = (EditText) findViewById(R.id.edt_new_pwd);
+        mRepeatNewPwdEdt = (EditText) findViewById(R.id.edt_repeat_new_pwd);
+        mSaveBtn = (Button) findViewById(R.id.btn_save_password);
     }
 
     @Override
     protected void initData() {
-        mTitleTv.setText("更改昵称");
-        mNameEdt.setText(getIntent().getStringExtra("nickname"));
+        mTitleTv.setText("更改密码");
     }
 
     private void initListener() {
         mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeNicknameOnServer(mNameEdt.getText().toString());
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putString("nickname", mNameEdt.getText().toString());
-                intent.putExtras(bundle);
-                setResult(NICKNAME_RESULT_CODE, intent);
-                ChangeNicknameAty.this.finish();
+                checkOldPwd();
+                saveNewPwd();
             }
         });
     }
 
-    private void changeNicknameOnServer(String name) {
+    private void saveNewPwd() {
+        String newPwd = mNewPwdEdt.getText().toString();
+        String repeatNewPwd = mRepeatNewPwdEdt.getText().toString();
+        if (newPwd.equals(repeatNewPwd)){
+            changePasswordOnServer(newPwd);
+            this.finish();
+        }else {
+            ToastUtil.toast("两次输入的新密码不同!");
+        }
+    }
+
+    private void changePasswordOnServer(String s) {
         JSONObject object = new JSONObject();
         try {
-            object.put("nickname", name);
-            L.d(name);
+            object.put("passwd", s);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -94,7 +99,7 @@ public class ChangeNicknameAty extends BaseActivity {
                     ToastUtil.toast("success");
                 } else {
                     try {
-                        mErrorTv.setText(response.getString("message"));
+                        ToastUtil.toast(response.getString("message"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -115,5 +120,9 @@ public class ChangeNicknameAty extends BaseActivity {
             }
         };
         RequestUtil.getInstance().addToRequestQueue(request);
+    }
+
+    private void checkOldPwd() {
+
     }
 }
