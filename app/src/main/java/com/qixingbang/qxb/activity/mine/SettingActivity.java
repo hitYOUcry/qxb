@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -207,7 +208,13 @@ public class SettingActivity extends BaseActivity {
                         .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                changeAgeOnServer(Integer.parseInt(edt.getText().toString()));
+                                String age = edt.getText().toString();
+                                if(!TextUtils.isEmpty(age)){
+                                    changeAgeOnServer(Integer.parseInt(age));
+                                }else {
+                                    ToastUtil.toast("年龄无效");
+                                }
+
                             }
                         })
                         .setPositiveButton("取消", new DialogInterface.OnClickListener() {
