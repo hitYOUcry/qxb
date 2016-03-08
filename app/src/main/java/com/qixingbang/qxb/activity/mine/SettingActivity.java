@@ -18,13 +18,18 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.lidroid.xutils.BitmapUtils;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.activity.login.LoginActivity;
 import com.qixingbang.qxb.activity.mine.changeInfo.ChangeNicknameAty;
+import com.qixingbang.qxb.activity.mine.changeInfo.ChangePasswordAty;
 import com.qixingbang.qxb.activity.mine.clipHeadPortrait.RoundImageView;
 import com.qixingbang.qxb.base.activity.BaseActivity;
 import com.qixingbang.qxb.beans.QAccount;
@@ -33,8 +38,16 @@ import com.qixingbang.qxb.common.application.QApplication;
 import com.qixingbang.qxb.common.utils.FileUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.dialog.TextDialog;
+import com.qixingbang.qxb.server.RequestUtil;
+import com.qixingbang.qxb.server.ResponseUtil;
+import com.qixingbang.qxb.server.UrlUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -91,8 +104,8 @@ public class SettingActivity extends BaseActivity {
     private String nickname;
 
     private static final int NICKNAME_CODE = 0x01;
-    //private static final int NICKNAME_RESULT_CODE = 0x02;
 
+    private String[] sexArr = new String[]{"男", "女"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +153,7 @@ public class SettingActivity extends BaseActivity {
     @OnClick({R.id.rl_change_head, R.id.imageView_back, R.id.rl_change_sex, R.id.rl_change_user,
             R.id.rl_change_nickname, R.id.rl_change_password, R.id.rl_change_age})
     public void onViewClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.rl_change_head:
                 if (dismissPopupWindow())
@@ -157,7 +171,7 @@ public class SettingActivity extends BaseActivity {
                 }
                 break;
             case R.id.rl_change_nickname:
-                Intent intent = new Intent(this, ChangeNicknameAty.class);
+                intent = new Intent(this, ChangeNicknameAty.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("nickname", nickname);
                 intent.putExtras(bundle);
@@ -171,11 +185,11 @@ public class SettingActivity extends BaseActivity {
                 }else {
                     checkItem = 0;
                 }
-                builder.setSingleChoiceItems(new String[]{"男", "女"}, checkItem, new DialogInterface.OnClickListener() {
+                builder.setSingleChoiceItems(sexArr, checkItem, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(SettingActivity.this, which + "", Toast.LENGTH_SHORT).show();
-                        //TODO:上传服务器
+                        changeSexOnServer(which);
+                        mTvSex.setText(sexArr[which]);
                         dialog.dismiss();
                     }
                 });
@@ -184,6 +198,8 @@ public class SettingActivity extends BaseActivity {
             case R.id.rl_change_age:
                 break;
             case R.id.rl_change_password:
+                intent = new Intent(this, ChangePasswordAty.class);
+                startActivity(intent);
                 break;
             case R.id.rl_change_user:
                 changeUser();
@@ -194,6 +210,41 @@ public class SettingActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void changeSexOnServer(int sex) {
+        JSONObject object = new JSONObject();
+        Log.d("sex", sex + "");
+        try {
+            object.put("sex", sex);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getUpdateUserInfo(),
+                object, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (200 == response.optInt("result")) {
+                    ToastUtil.toast("success");
+                } else if (300 == response.optInt("result")) {
+                    ToastUtil.toast(R.string.comment_send_failed);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ResponseUtil.toastError(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("authorization", QAccount.getToken());
+                return headers;
+            }
+        };
+        RequestUtil.getInstance().addToRequestQueue(request);
     }
 
     private void changeUser() {
@@ -300,6 +351,9 @@ public class SettingActivity extends BaseActivity {
                 //                new File(FileUtil.getTakePhotoPath()).delete();//临时牌照的图片就删了，相册选的则不删
                 ClipHeadPortraitActivity.start(this, FileUtil.getTakePhotoPath(), REQUEST_CLIP);
             }
+        } else if (requestCode == NICKNAME_CODE && resultCode == NICKNAME_CODE){
+            String nickname = data.getExtras().getString("nickname");
+            mTvNickname.setText(nickname);
         }
     }
 
