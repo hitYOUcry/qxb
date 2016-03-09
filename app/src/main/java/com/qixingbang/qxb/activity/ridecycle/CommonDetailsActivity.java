@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -151,6 +153,34 @@ public class CommonDetailsActivity extends BaseActivity {
 
         webView = (WebView) findViewById(R.id.news_webView);
         webView.getSettings().setDefaultTextEncodingName("utf-8");//设置默认为utf-8
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        //        videoWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        //        videoWebView.getSettings().setPluginsEnabled(true);//可以使用插件
+//        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+//        webSettings.setAllowFileAccess(true);
+//        webSettings.setDefaultTextEncodingName("utf-8");
+//        webSettings.setLoadWithOverviewMode(true);
+//        webSettings.setUseWideViewPort(true);
+
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onShowCustomView(View view, CustomViewCallback callback) {
+                super.onShowCustomView(view, callback);
+            }
+        });
+
+//        webSettings = videoWebView.getSettings();
+//        webSettings.setJavaScriptEnabled(true);
+////        videoWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+////        videoWebView.getSettings().setPluginsEnabled(true);//可以使用插件
+//        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+//        webSettings.setAllowFileAccess(true);
+//        webSettings.setDefaultTextEncodingName("utf-8");
+//        webSettings.setLoadWithOverviewMode(true);
+//        webSettings.setUseWideViewPort(true);
+//        videoWebView.setVisibility(View.VISIBLE);
+//        videoWebView.loadUrl("http://player.youku.com/embed/XNTM5MTUwNDA0");
 
     }
 
@@ -162,8 +192,26 @@ public class CommonDetailsActivity extends BaseActivity {
         getDetailfavlike();
         getCommentsFromServer();
         getNewsFromServer();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        webView.onResume();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        webView.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+//        videoWebView.pauseTimers();
+//        videoWebView.stopLoading();
+//        videoWebView.destroy();
+        super.onDestroy();
     }
 
     /**
@@ -455,10 +503,12 @@ public class CommonDetailsActivity extends BaseActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        webView.loadData(response, "text/html; charset=utf-8", null);
+//                        webView.loadData(response, "text/html; charset=utf-8", null);
+                        webView.loadDataWithBaseURL("null", response, "text/html", "utf-8", "");
                         webView.getSettings().setBuiltInZoomControls(true); //显示放大缩小 controler
                         webView.getSettings().setSupportZoom(true); //可以缩放
                         webView.setSaveEnabled(true);
+//                        webView.loadUrl("http://player.youku.com/embed/XNTM5MTUwNDA0");
                     }
                 },
                 new Response.ErrorListener() {
