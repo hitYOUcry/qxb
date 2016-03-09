@@ -129,6 +129,7 @@
         <!-- RideCycle Part Start -->
         <activity
             android:name=".activity.ridecycle.CommonDetailsActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.ridecycle.DryCargoDetailsActivity"
