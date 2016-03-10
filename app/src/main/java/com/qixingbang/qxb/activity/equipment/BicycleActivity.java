@@ -44,7 +44,7 @@ public class BicycleActivity extends BaseActivity implements ListItemView.ItemLi
     private final List<String> mBrandList = new ArrayList<>();
 
     private final List<String> mTypeList = Arrays.asList(
-            "不限", "S级", "A级", "B级", "AC级", "D级", "E级", "F级");
+            "不限", "休闲车", "公路车", "城市车", "山地车", "童车", "折叠车", "旅行车","酷飞车","其他");
 
     private ListItemView mItemListView;
     private BicycleInfoAdapter mBicycleInfoAdapter;

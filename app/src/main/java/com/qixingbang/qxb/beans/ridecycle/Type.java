@@ -49,7 +49,6 @@ public enum Type {
         }
     };
 
-
     public abstract String toString();
 
     public abstract int getIndex();
@@ -60,6 +59,23 @@ public enum Type {
         } else if (index == 1) {
             return CARE;
         } else if (index == 2) {
+            return STRATEGY;
+        } else {
+            return DRY_CARGO;
+        }
+    }
+
+    /**
+     *
+     * @param type
+     * @return default is DRY_CARGO
+     */
+    public static Type get(String type) {
+        if (type.equals("news")) {
+            return NEWS;
+        } else if (type.equals("care")) {
+            return CARE;
+        } else if (type.equals("strategy")) {
             return STRATEGY;
         } else {
             return DRY_CARGO;

@@ -30,6 +30,8 @@ import com.qixingbang.qxb.activity.equipment.BicycleDetailsActivity;
 import com.qixingbang.qxb.activity.equipment.BicycleEqpDetailsActivity;
 import com.qixingbang.qxb.activity.equipment.BicyclePartsDetailsActivity;
 import com.qixingbang.qxb.activity.equipment.PersonalEqpDetailsActivity;
+import com.qixingbang.qxb.activity.ridecycle.CommonDetailsActivity;
+import com.qixingbang.qxb.activity.ridecycle.DryCargoDetailsActivity;
 import com.qixingbang.qxb.adapter.mine.MyFavoritePagerAdapter;
 import com.qixingbang.qxb.base.activity.BaseActivity;
 import com.qixingbang.qxb.base.activity.CommonAdapter;
@@ -41,6 +43,8 @@ import com.qixingbang.qxb.beans.mine.myFav.MyFavoriteEqpBean;
 import com.qixingbang.qxb.beans.mine.myFav.MyFavoriteEqpList;
 import com.qixingbang.qxb.beans.mine.myFav.MyFavoriteRCycleBean;
 import com.qixingbang.qxb.beans.mine.myFav.MyFavoriteRCycleList;
+import com.qixingbang.qxb.beans.ridecycle.RideCycleBean;
+import com.qixingbang.qxb.beans.ridecycle.Type;
 import com.qixingbang.qxb.server.UrlUtil;
 
 import java.util.ArrayList;
@@ -229,13 +233,37 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 L.d(String.valueOf(position));
+                MyFavoriteRCycleBean bean = mMyFavoriteRCycleBeans.get(position - 1);
+                Type type = Type.get(bean.type);
+                RideCycleBean rideCycleBean = new RideCycleBean();
+                rideCycleBean.setType(type);
+                rideCycleBean.setTitle(bean.name);
+                rideCycleBean.setCreateTime(bean.createTime);
+                rideCycleBean.setLogo(bean.logo);
+                rideCycleBean.setArticleId(bean.favId);
+                switch (type) {
+                    case NEWS:
+                        CommonDetailsActivity.start(MyFavoriteActivity.this, rideCycleBean);
+                        break;
+                    case CARE:
+                        CommonDetailsActivity.start(MyFavoriteActivity.this, rideCycleBean);
+                        break;
+                    case STRATEGY:
+                        CommonDetailsActivity.start(MyFavoriteActivity.this, rideCycleBean);
+                        break;
+                    case DRY_CARGO:
+                        DryCargoDetailsActivity.start(MyFavoriteActivity.this, bean.favId);
+                        break;
+                    default:
+                        break;
+                }
+
             }
         });
 
         ptrlvRideCycle.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-
             }
         });
     }

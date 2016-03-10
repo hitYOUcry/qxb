@@ -278,8 +278,12 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        mBicycle = mGson.fromJson(response.optJSONObject("bike").toString(),
-                                Bicycle.class);
+                        String bikeInfo = response.optJSONObject("bike").toString();
+                        if(bikeInfo.isEmpty()){
+                            ToastUtil.toast(R.string.server_error);
+                            return;
+                        }
+                        mBicycle = mGson.fromJson(bikeInfo,Bicycle.class);
                         mBicycle.setBikeId(mBikeId);
                         mLikeFlag = response.optInt("isLike") == 1;
                         mFavoritesFlag = response.optInt("isFav") == 1;
