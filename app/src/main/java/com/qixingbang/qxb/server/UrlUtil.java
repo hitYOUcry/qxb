@@ -264,4 +264,10 @@ public class UrlUtil {
     public static String getVersionInfo(){
         return VERSION_INFO;
     }
+
+    private final static String CHECK_PASSWORD = ADDRESS + "/user/checkpasswd";
+
+    public static String getCheckPassword() {
+        return CHECK_PASSWORD;
+    }
 }

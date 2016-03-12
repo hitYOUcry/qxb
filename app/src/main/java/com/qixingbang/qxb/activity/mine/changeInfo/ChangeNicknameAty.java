@@ -99,6 +99,7 @@ public class ChangeNicknameAty extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
+                L.d(response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
