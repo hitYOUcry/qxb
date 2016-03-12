@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.common.utils.L;
 import com.google.gson.Gson;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -215,6 +216,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                             Log.d(TAG, "save login info failed!!");
                         }
                         getUserInfo();
+                        L.d(response.toString());
                     }
                 },
                 new Response.ErrorListener() {
@@ -226,6 +228,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                             ResponseUtil.toastError(error);
                         }
                         dismissWaitingDialog();
+                        L.d(error.toString());
                     }
                 });
         RequestUtil.getInstance().addToRequestQueue(request, TAG);

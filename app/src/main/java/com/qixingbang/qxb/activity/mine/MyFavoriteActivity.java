@@ -37,6 +37,7 @@ import com.qixingbang.qxb.base.activity.BaseActivity;
 import com.qixingbang.qxb.base.activity.CommonAdapter;
 import com.qixingbang.qxb.base.activity.ViewHolder;
 import com.qixingbang.qxb.beans.QAccount;
+import com.qixingbang.qxb.beans.equipment.accesory.Accessory;
 import com.qixingbang.qxb.beans.equipment.bicycleEqp.BicycleEqp;
 import com.qixingbang.qxb.beans.equipment.userEqp.PersonalEqp;
 import com.qixingbang.qxb.beans.mine.myFav.MyFavoriteEqpBean;
@@ -257,7 +258,6 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
                     default:
                         break;
                 }
-
             }
         });
 
@@ -268,8 +268,9 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
         });
     }
 
-    private void jumpToDetailsActivity(String type, int beanId, int position) {
-        switch (type) {
+    private void jumpToDetailsActivity(String typeStr, int beanId, int position) {
+        Type type;
+        switch (typeStr) {
             case "bike":
                 //整车
                 L.d(String.valueOf(position) + "整车");
@@ -293,10 +294,22 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
                 break;
             case "accessory":
                 //零部件
-//                L.d(String.valueOf(position) + "零部件");
-//                Accessory bicycleParts = new Accessory();
-//                bicycleParts.setId(beanId);
+                L.d(String.valueOf(position) + "零部件");
+                Accessory bicycleParts = new Accessory();
+                bicycleParts.setAccessoryId(beanId);
                 BicyclePartsDetailsActivity.start(MyFavoriteActivity.this, beanId);
+                break;
+            case "news":
+                type = Type.NEWS;
+                break;
+            case "care":
+                type = Type.CARE;
+                break;
+            case "strategy":
+                type = Type.STRATEGY;
+                break;
+            case "dryCargo":
+                type = Type.DRY_CARGO;
                 break;
             default:
                 break;

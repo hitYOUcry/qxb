@@ -1,7 +1,6 @@
 package com.qixingbang.qxb.activity.mine.changeInfo;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +36,7 @@ public class ChangePasswordAty extends BaseActivity {
     private EditText mNewPwdEdt;
     private EditText mRepeatNewPwdEdt;
     private Button mSaveBtn;
+    private boolean flag;
 
 
     @Override
@@ -66,8 +66,14 @@ public class ChangePasswordAty extends BaseActivity {
         mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkOldPwd();
-                saveNewPwd();
+                String oldPwd = mOldPwdEdt.getText().toString();
+                if (oldPwd.equals("")){
+                    ToastUtil.toast("密码输入不能为空!");
+                }else {
+                    if (checkOldPwd(oldPwd)){
+                        saveNewPwd();
+                    }
+                }
             }
         });
     }
@@ -75,9 +81,12 @@ public class ChangePasswordAty extends BaseActivity {
     private void saveNewPwd() {
         String newPwd = mNewPwdEdt.getText().toString();
         String repeatNewPwd = mRepeatNewPwdEdt.getText().toString();
+        if (newPwd.equals("") || repeatNewPwd.equals("")){
+            ToastUtil.toast("密码输入不能为空!");
+            return;
+        }
         if (newPwd.equals(repeatNewPwd)){
             changePasswordOnServer(newPwd);
-            this.finish();
         }else {
             ToastUtil.toast("两次输入的新密码不同!");
         }
@@ -94,9 +103,9 @@ public class ChangePasswordAty extends BaseActivity {
                 object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                L.d(response.toString());
                 if (200 == response.optInt("result")) {
-                    ToastUtil.toast("success");
+                    ToastUtil.toast("密码修改成功");
+                    ChangePasswordAty.this.finish();
                 } else {
                     try {
                         ToastUtil.toast(response.getString("message"));
@@ -108,7 +117,7 @@ public class ChangePasswordAty extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("error", error.toString());
+                ToastUtil.toast("服务器出现问题!");
                 ResponseUtil.toastError(error);
             }
         }){
@@ -122,7 +131,48 @@ public class ChangePasswordAty extends BaseActivity {
         RequestUtil.getInstance().addToRequestQueue(request);
     }
 
-    private void checkOldPwd() {
+    private boolean checkOldPwd(String s) {
 
+        JSONObject object = new JSONObject();
+        try {
+            object.put("passwd", s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getCheckPassword(),
+                object, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                L.d(response.toString());
+                String message = "";
+                try {
+                    message = response.getString("message");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (message.equals("correct")) {
+                    flag = true;
+                }else if (message.equals("error")){
+                    ToastUtil.toast("旧密码验证失败!");
+                    flag = false;
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                flag = false;
+                ToastUtil.toast("服务器出现问题!");
+                ResponseUtil.toastError(error);
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("authorization", QAccount.getToken());
+                return headers;
+            }
+        };
+        RequestUtil.getInstance().addToRequestQueue(request);
+        return flag;
     }
 }
