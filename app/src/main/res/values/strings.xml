@@ -33,7 +33,7 @@
     <string name="none_password">密码不能为空</string>
     <string name="password_not_same">两次输入密码不一致</string>
     <string name="input_error">用户名或密码为空！</string>
-    <string name="login_error">用户名或密码不存在！</string>
+    <string name="login_error">用户名或密码错误！</string>
     <string name="alreay_register">该号码已经注册过了，直接登录</string>
     <string name="connect_platform">连接指定平台中(请耐心等待)</string>
     <!-- login part end -->
@@ -130,6 +130,7 @@
     <string name="chang_folder">更改文件夹</string>
     <string name="change_user_hint">换个账号试试</string>
     <string name="switch_account">切换</string>
+    <string name="original_password">第三方用户的初始密码为:888888</string>
     <!-- SettingActivity End -->
     <!-- FeedbackActivity Start -->
     <string name="tel_content">电话：18810538830</string>

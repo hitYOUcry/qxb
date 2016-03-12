@@ -15,6 +15,7 @@ import com.common.utils.L;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.base.activity.BaseActivity;
 import com.qixingbang.qxb.beans.QAccount;
+import com.qixingbang.qxb.common.utils.SecurityUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.server.RequestUtil;
 import com.qixingbang.qxb.server.ResponseUtil;
@@ -92,11 +93,11 @@ public class ChangePasswordAty extends BaseActivity {
         }
     }
 
-    private void changePasswordOnServer(String s) {
+    private void changePasswordOnServer(final String s) {
         JSONObject object = new JSONObject();
         try {
-            object.put("passwd", s);
-        } catch (JSONException e) {
+            object.put("passwd", SecurityUtil.encrypt(s));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getUpdateUserInfo(),
@@ -104,7 +105,12 @@ public class ChangePasswordAty extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 if (200 == response.optInt("result")) {
-                    ToastUtil.toast("密码修改成功");
+                    try {
+                        QAccount.savePassword(SecurityUtil.encrypt(s));
+                        ToastUtil.toast("密码修改成功");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     ChangePasswordAty.this.finish();
                 } else {
                     try {
@@ -135,8 +141,8 @@ public class ChangePasswordAty extends BaseActivity {
 
         JSONObject object = new JSONObject();
         try {
-            object.put("passwd", s);
-        } catch (JSONException e) {
+            object.put("passwd", SecurityUtil.encrypt(s));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getCheckPassword(),

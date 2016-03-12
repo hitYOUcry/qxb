@@ -208,6 +208,10 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        if (response.optInt("result") == 300) {
+                            ToastUtil.toast(R.string.login_error);
+                            return;
+                        }
                         QAccount.saveToken(response.optString(TOKEN));
                         try {
                             QAccount.saveLoginInfo(userCode, SecurityUtil.encrypt(password));

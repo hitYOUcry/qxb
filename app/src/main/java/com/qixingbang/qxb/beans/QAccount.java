@@ -113,6 +113,14 @@ public class QAccount {
         editor.commit();
     }
 
+    public synchronized static void savePassword(String encryptPassword) {
+        SharedPreferences sPreference = QApplication.getInstance()
+                .getSharedPreferences(ACCOUNT_SDF_PATH, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sPreference.edit();
+        editor.putString(KEY_PASSWD, encryptPassword);
+        editor.commit();
+    }
+
     public synchronized static String getToken() {
         SharedPreferences sPreference = QApplication.getInstance()
                 .getSharedPreferences(ACCOUNT_SDF_PATH, Context.MODE_PRIVATE);
