@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +28,9 @@ import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.base.activity.BaseActivity;
 import com.qixingbang.qxb.beans.QAccount;
 import com.qixingbang.qxb.beans.mine.UserInfoBean;
+import com.qixingbang.qxb.common.application.GlobalConstant;
 import com.qixingbang.qxb.common.utils.CommonMsgHandler;
+import com.qixingbang.qxb.common.utils.SecurityUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.dialog.WaitingDialog;
 import com.qixingbang.qxb.server.RequestUtil;
@@ -197,15 +200,20 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(USER_CODE, userCode);
-            jsonObject.put(PASSWORD, password);
-        } catch (JSONException e) {
+            jsonObject.put(PASSWORD, SecurityUtil.encrypt(password));
+        } catch (Exception e) {
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getUserLoginUrl(), jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         QAccount.saveToken(response.optString(TOKEN));
-                        QAccount.saveLoginInfo(userCode, password);
+                        try {
+                            QAccount.saveLoginInfo(userCode, SecurityUtil.encrypt(password));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.d(TAG, "save login info failed!!");
+                        }
                         getUserInfo();
                     }
                 },
@@ -244,7 +252,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                     //失败
                 }
                 dismissWaitingDialog();
-//                MainActivity.start(LoginActivity.this);
+                //                MainActivity.start(LoginActivity.this);
                 LoginActivity.this.finish();
             }
 
@@ -297,7 +305,11 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                     public void onResponse(JSONObject response) {
                         int result = response.optInt("result");
                         if (200 == result || 350 == result) {
-                            login(registerInfoJsonObject.optString("userCode"), registerInfoJsonObject.optString("passwd"));
+                            try {
+                                login(registerInfoJsonObject.optString("userCode"), SecurityUtil.decrypt(registerInfoJsonObject.optString("passwd")));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         } else if (300 == result) {
                             ToastUtil.toast(response.optString("message"));
                             dismissWaitingDialog();
@@ -346,7 +358,7 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
         try {
             jsonObject.put("icon", db.getUserIcon());
             jsonObject.put("userCode", db.getUserId());
-            jsonObject.put("passwd", db.getUserId());
+            jsonObject.put("passwd", SecurityUtil.encrypt(GlobalConstant.COMMON_PASSWORD));
             jsonObject.put("nickname", db.getUserName());
             jsonObject.put("age", 20);
             jsonObject.put("birthday", "2000-1-1");
@@ -361,6 +373,8 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
             }
 
         } catch (JSONException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return jsonObject;
     }

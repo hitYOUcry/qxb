@@ -278,12 +278,14 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        String bikeInfo = response.optJSONObject("bike").toString();
-                        if(bikeInfo.isEmpty()){
+                        JSONObject object = response.optJSONObject("bike");
+
+                        if (object == null) {
                             ToastUtil.toast(R.string.server_error);
                             return;
                         }
-                        mBicycle = mGson.fromJson(bikeInfo,Bicycle.class);
+                        String bikeInfo = response.optJSONObject("bike").toString();
+                        mBicycle = mGson.fromJson(bikeInfo, Bicycle.class);
                         mBicycle.setBikeId(mBikeId);
                         mLikeFlag = response.optInt("isLike") == 1;
                         mFavoritesFlag = response.optInt("isFav") == 1;
@@ -459,30 +461,30 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
     private void refreshConfigList() {
         listShort.clear();
         listTotal.clear();
-        ConfigItem configItem = new ConfigItem("frame", mBicycle.getFrame());
+        ConfigItem configItem = new ConfigItem("车架", mBicycle.getFrame());
         listTotal.add(configItem);
         if (null != mBicycle.getFrontFork()) {
-            configItem = new ConfigItem("frontFork", mBicycle.getFrontFork().getName());
+            configItem = new ConfigItem("前叉", mBicycle.getFrontFork().getName());
             listTotal.add(configItem);
         }
         if (null != mBicycle.getLever()) {
-            configItem = new ConfigItem("lever", mBicycle.getLever().getName());
+            configItem = new ConfigItem("变速", mBicycle.getLever().getName());
             listTotal.add(configItem);
         }
         if (null != mBicycle.getBrake()) {
-            configItem = new ConfigItem("brake", mBicycle.getBrake().getName());
+            configItem = new ConfigItem("刹车", mBicycle.getBrake().getName());
             listTotal.add(configItem);
         }
         if (null != mBicycle.getCassettes()) {
-            configItem = new ConfigItem("cassettes", mBicycle.getCassettes().getName());
+            configItem = new ConfigItem("齿轮", mBicycle.getCassettes().getName());
             listTotal.add(configItem);
         }
 
-        configItem = new ConfigItem("outerTire", mBicycle.getOuterTire());
+        configItem = new ConfigItem("外胎", mBicycle.getOuterTire());
         listTotal.add(configItem);
 
         if (null != mBicycle.getWheelSystem()) {
-            configItem = new ConfigItem("wheelSystem", mBicycle.getWheelSystem().getName());
+            configItem = new ConfigItem("轮组", mBicycle.getWheelSystem().getName());
             listTotal.add(configItem);
         }
         if (listTotal.size() <= 4) {

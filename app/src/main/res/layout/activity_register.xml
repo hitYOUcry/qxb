@@ -23,10 +23,10 @@
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:background="@color/black_50fade"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_33px"
-            android:visibility="invisible"
-            android:gravity="center"/>
+            android:visibility="invisible"/>
 
         <EditText
             android:id="@+id/editText_phonenumber"
@@ -50,9 +50,7 @@
         <RelativeLayout
             android:id="@+id/layout_inputCheckPart"
             android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="160dp"
             android:visibility="invisible">
 
@@ -60,7 +58,7 @@
                 android:id="@+id/editText_checknum"
                 style="@style/login_widget_style"
                 android:layout_width="200dp"
-                android:layout_marginLeft="0dp"
+                android:layout_marginLeft="40dp"
                 android:background="@color/white_fade75"
                 android:gravity="center"
                 android:hint="@string/input_checknumber"
@@ -70,13 +68,34 @@
             <TextView
                 android:id="@+id/textView_resend"
                 android:layout_width="75dp"
-                android:layout_height="match_parent"
+                android:layout_height="33dp"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="40dp"
                 android:background="@color/black_242424"
                 android:gravity="center"
                 android:text="重新发送(60s)"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_33px"/>
+
+            <EditText
+                android:id="@+id/editText_password"
+                style="@style/login_widget_style"
+                android:layout_below="@id/editText_checknum"
+                android:layout_marginTop="20dp"
+                android:background="@color/white_fade75"
+                android:gravity="center"
+                android:hint="@string/input_password"
+                android:inputType="textPassword"/>
+
+            <EditText
+                android:id="@+id/editText_repeat_password"
+                style="@style/login_widget_style"
+                android:layout_below="@id/editText_password"
+                android:layout_marginTop="20dp"
+                android:background="@color/white_fade75"
+                android:gravity="center"
+                android:hint="@string/repeat_password"
+                android:inputType="textPassword"/>
         </RelativeLayout>
 
     </RelativeLayout>

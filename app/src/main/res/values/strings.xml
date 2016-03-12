@@ -24,10 +24,14 @@
     <string name="register">注册</string>
     <string name="input_phonenumber">请输入手机号</string>
     <string name="input_checknumber">请输入验证码</string>
+    <string name="input_password">设置密码</string>
+    <string name="repeat_password">重复密码</string>
     <string name="nextStep">下一步</string>
     <string name="resend">重新发送(%1$ds)</string>
     <string name="resend_now">重新发送</string>
     <string name="checknum_send_success">验证码已成功发送至&#160;&#160;&#160;&#160;</string>
+    <string name="none_password">密码不能为空</string>
+    <string name="password_not_same">两次输入密码不一致</string>
     <string name="input_error">用户名或密码为空！</string>
     <string name="login_error">用户名或密码不存在！</string>
     <string name="alreay_register">该号码已经注册过了，直接登录</string>

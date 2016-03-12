@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,8 @@ import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.activity.MainActivity;
 import com.qixingbang.qxb.base.activity.BaseActivity;
 import com.qixingbang.qxb.beans.QAccount;
+import com.qixingbang.qxb.common.utils.DensityUtil;
+import com.qixingbang.qxb.common.utils.SecurityUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.server.RequestUtil;
 import com.qixingbang.qxb.server.ResponseUtil;
@@ -56,6 +59,8 @@ public class RegisterActivity extends BaseActivity {
     RelativeLayout checkPartLayout;
     EditText checkNumberEdt;
     TextView resendTextView;
+    EditText passwordEdt;
+    EditText repeatPasswordEdt;
 
     boolean mFinishFlag = false;
 
@@ -83,6 +88,9 @@ public class RegisterActivity extends BaseActivity {
     };
 
     private VerifyHandler verifyHandler = new VerifyHandler();
+
+    private String mPhoneNumber;
+    private String mPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +124,9 @@ public class RegisterActivity extends BaseActivity {
         checkNumberEdt = (EditText) findViewById(R.id.editText_checknum);
         resendTextView = (TextView) findViewById(R.id.textView_resend);
         resendTextView.setOnClickListener(this);
+
+        passwordEdt = (EditText) findViewById(R.id.editText_password);
+        repeatPasswordEdt = (EditText) findViewById(R.id.editText_repeat_password);
     }
 
     @Override
@@ -186,19 +197,35 @@ public class RegisterActivity extends BaseActivity {
             ToastUtil.toast("手机号不对！");
             return;
         }
-        SMSSDK.getVerificationCode("86", userCodeEdt.getText().toString());
+        mPhoneNumber = userCodeEdt.getText().toString();
+        SMSSDK.getVerificationCode("86", mPhoneNumber);
         mFinishFlag = true;
         userCodeEdt.setVisibility(View.INVISIBLE);
         checkPartLayout.setVisibility(View.VISIBLE);
-        sendSuccessHint.setVisibility(View.VISIBLE);
-        sendSuccessHint.setText(getString(R.string.checknum_send_success) + userCodeEdt.getText().toString());
-        ObjectAnimator animator = ObjectAnimator.ofFloat(sendSuccessHint, "alpha", 0f, 1f, 1f, 1f, 0f);
-        animator.setDuration(4000);//4s
-        animator.start();
+
         mResendHandler.postDelayed(mRunnableCount, mDelay);
+
+        // next button move;
+        float curTranslationY = nextButton.getTranslationX();
+        float moveLength = DensityUtil.dip2px(this, 33 * 2 + 20 * 2);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(nextButton, "translationY", curTranslationY, moveLength)
+                .setDuration(500);
+        animator.start();
     }
 
     private void startVerify() {
+        String password = passwordEdt.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            ToastUtil.toast(R.string.none_password);
+            return;
+        }
+        String repeatPassword = repeatPasswordEdt.getText().toString();
+        if (!password.equals(repeatPassword)) {
+            ToastUtil.toast(R.string.password_not_same);
+            repeatPasswordEdt.setText("");
+            return;
+        }
+        mPassword = password;
         SMSSDK.submitVerificationCode("86", userCodeEdt.getText().toString(),
                 checkNumberEdt.getText().toString());
     }
@@ -221,6 +248,13 @@ public class RegisterActivity extends BaseActivity {
                     ToastUtil.toast("提交验证码成功");
                     registerToServer();
                 } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+                    //                    sendSuccessHint.setVisibility(View.VISIBLE);
+                    //                    sendSuccessHint.setText(getString(R.string.checknum_send_success) + userCodeEdt.getText().toString());
+                    //
+                    //                    //hint text move
+                    //                    ObjectAnimator animator = ObjectAnimator.ofFloat(sendSuccessHint, "alpha", 0f, 1f, 1f, 1f, 0f);
+                    //                    animator.setDuration(4000);//4s
+                    //                    animator.start();
                     ToastUtil.toast("验证码已经发送");
                 } else {
                     ((Throwable) data).printStackTrace();
@@ -232,17 +266,20 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void registerToServer() {
-        String userCode = userCodeEdt.getText().toString();
         JSONObject jsonObject = new JSONObject();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            jsonObject.put("nickname", userCode);
-            jsonObject.put("passwd", userCode);
+            jsonObject.put("nickname", mPhoneNumber);
+            jsonObject.put("passwd", SecurityUtil.encrypt(mPassword));
             jsonObject.put("age", 20);
             jsonObject.put("sex", 0);
             jsonObject.put("birthday", format.format(new Date(System.currentTimeMillis())));
-            jsonObject.put("phone", userCode);
+            jsonObject.put("phone", mPhoneNumber);
         } catch (JSONException e) {
+
+        } catch (Exception e) {
+            Log.d(TAG, "encrypt failed!");
+            return;
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getUserRegisterUrl(), jsonObject,
                 new Response.Listener<JSONObject>() {
@@ -271,20 +308,22 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void login() {
-        final String userCode = userCodeEdt.getText().toString();
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("userCode", userCode);
-            jsonObject.put("passwd", userCode);
-        } catch (JSONException e) {
+            jsonObject.put("userCode", mPhoneNumber);
+            jsonObject.put("passwd", SecurityUtil.encrypt(mPassword));
+        } catch (Exception e) {
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getUserLoginUrl(), jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         QAccount.saveToken(response.optString("token"));
-                        //TODO 密码 信息需要确认 是否  这样生成
-                        QAccount.saveLoginInfo(userCode, userCode);
+                        try {
+                            QAccount.saveLoginInfo(mPhoneNumber, SecurityUtil.encrypt(mPassword));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         MainActivity.start(RegisterActivity.this);
                         RegisterActivity.this.finish();
                     }
