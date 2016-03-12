@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.common.utils.L;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.qixingbang.qxb.R;
@@ -125,7 +126,7 @@ public class RideCycleFragment extends BaseFragment implements RideCycleViewPage
         }
         mAdapter = new RideCycleViewPagerAdapter(getActivity(), mContentLists);
         mAdapter.setListViewListener(this);
-
+        L.d(mContentLists.toString());
         mViewPager.setAdapter(mAdapter);
     }
 
