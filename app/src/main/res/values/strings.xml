@@ -15,6 +15,7 @@
     <string name="not_login_yet">未登录，请先登录</string>
     <string name="share_text">骑行邦，骑行的乌托邦</string>
     <string name="click_again_to_exit">再按一次退出骑行邦</string>
+    <string name="sending">正在发送...</string>
     <!-- common part end -->
     <!-- login part start -->
     <string name="accouter">账号</string>
@@ -100,6 +101,7 @@
     <string name="add_pictures">添加图片</string>
     <string name="ask_success">提问成功</string>
     <string name="submitting">正在提交</string>
+    <string name="click_too_fre">点击过于频繁</string>
     <!-- Communicate Part End -->
 
     <!-- MineFragment Start -->

@@ -48,6 +48,7 @@ import com.qixingbang.qxb.common.application.QApplication;
 import com.qixingbang.qxb.common.utils.FileUtil;
 import com.qixingbang.qxb.common.utils.LogUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
+import com.qixingbang.qxb.dialog.DialogUtil;
 import com.qixingbang.qxb.dialog.communicate.PreviewImageDialog;
 import com.qixingbang.qxb.server.MultipartRequest;
 import com.qixingbang.qxb.server.RequestUtil;
@@ -205,14 +206,20 @@ public class ReplyActivity extends BaseActivity implements PullToRefreshBase.OnR
         }
     }
 
+    private long mLastClickTime = 0;
 
     private void submitComment() {
+        if (System.currentTimeMillis() - mLastClickTime < 1000) {
+            mLastClickTime = System.currentTimeMillis();
+            ToastUtil.toast(R.string.click_too_fre);
+            return;
+        }
         String commentContent = commentEditText.getText().toString().trim();
         if (TextUtils.isEmpty(commentContent)) {
             ToastUtil.toast(R.string.must_have_text);
             return;
         }
-        if(!QAccount.hasAccount()){
+        if (!QAccount.hasAccount()) {
             LoginActivity.start(this);
             ToastUtil.toast(R.string.not_login_yet);
             return;
@@ -229,7 +236,7 @@ public class ReplyActivity extends BaseActivity implements PullToRefreshBase.OnR
                 entityBuilder.addPart("ansPic", fileBody);
             }
         }
-
+        DialogUtil.showWaitingDialog(this, R.string.sending);
         MultipartRequest multipartRequest = new MultipartRequest(Request.Method.POST, UrlUtil.getSendAnswerUrl(), entityBuilder.build(),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -247,13 +254,16 @@ public class ReplyActivity extends BaseActivity implements PullToRefreshBase.OnR
                             getReplayFromServer();
                         } else if (300 == response.optInt("result")) {
                             ToastUtil.toast(R.string.comment_send_failed);
+                            DialogUtil.dismissWaitingDialog();
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         ResponseUtil.toastError(error);
+                        DialogUtil.dismissWaitingDialog();
                     }
                 }) {
             @Override
@@ -288,13 +298,14 @@ public class ReplyActivity extends BaseActivity implements PullToRefreshBase.OnR
                         if (contentListView.isRefreshing()) {
                             contentListView.onRefreshComplete();
                         }
+                        DialogUtil.dismissWaitingDialog();
 
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        DialogUtil.dismissWaitingDialog();
                     }
                 }) {
             @Override
@@ -406,7 +417,7 @@ public class ReplyActivity extends BaseActivity implements PullToRefreshBase.OnR
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE_CAMERA) {
             if (resultCode == RESULT_OK) {
-//                saveSelectedBitmap(ResizeBitmap(BitmapFactory.decodeFile(FileUtil.getTakePhotoPath()), 800));// 图像重塑，节省空间，减少OOM。
+                //                saveSelectedBitmap(ResizeBitmap(BitmapFactory.decodeFile(FileUtil.getTakePhotoPath()), 800));// 图像重塑，节省空间，减少OOM。
                 saveSelectedBitmap(BitmapFactory.decodeFile(FileUtil.getTakePhotoPath()));// 原图。
                 new File(FileUtil.getTakePhotoPath()).delete();//临时牌照的图片就删了，相册选的则不删
             }

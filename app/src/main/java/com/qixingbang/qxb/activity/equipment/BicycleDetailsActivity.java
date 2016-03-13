@@ -3,9 +3,9 @@ package com.qixingbang.qxb.activity.equipment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,11 +27,13 @@ import com.qixingbang.qxb.base.activity.BaseActivity;
 import com.qixingbang.qxb.beans.QAccount;
 import com.qixingbang.qxb.beans.equipment.Comment;
 import com.qixingbang.qxb.beans.equipment.Equipment;
+import com.qixingbang.qxb.beans.equipment.accesory.Accessory;
 import com.qixingbang.qxb.beans.equipment.bicycle.Bicycle;
 import com.qixingbang.qxb.beans.equipment.bicycle.ConfigItem;
 import com.qixingbang.qxb.common.share.ShareUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.common.utils.ViewUtil;
+import com.qixingbang.qxb.dialog.DialogUtil;
 import com.qixingbang.qxb.server.RequestUtil;
 import com.qixingbang.qxb.server.ResponseUtil;
 import com.qixingbang.qxb.server.UrlUtil;
@@ -47,7 +49,7 @@ import java.util.Map;
  * Created by zqj on 2015/9/1 14:47.
  * 三级页面--整车详情
  */
-public class BicycleDetailsActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class BicycleDetailsActivity extends BaseActivity implements ViewPager.OnPageChangeListener, AdapterView.OnItemClickListener {
 
     private final String TAG = BicycleDetailsActivity.class.getName();
 
@@ -122,15 +124,6 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
 
     private static Bicycle mBicycle;
     private static int mBikeId;
-
-    private Runnable mRefreshCommentListTask = new Runnable() {
-        @Override
-        public void run() {
-            getCommentsFromServer();
-        }
-    };
-
-    private Handler mHandler;
 
     private Gson mGson;
 
@@ -214,11 +207,10 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
     @Override
     public void initData() {
         mGson = new Gson();
-        mHandler = new Handler();
-
         mConfigList = new ArrayList<>();
         mConfigAdapter = new ConfigurationListAdapter(this, mConfigList);
         configurationListView.setAdapter(mConfigAdapter);
+        configurationListView.setOnItemClickListener(this);
         ViewUtil.adjustListViewHeight(configurationListView);
 
         mCommentList = new ArrayList<>();
@@ -461,32 +453,7 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
     private void refreshConfigList() {
         listShort.clear();
         listTotal.clear();
-        ConfigItem configItem = new ConfigItem("车架", mBicycle.getFrame());
-        listTotal.add(configItem);
-        if (null != mBicycle.getFrontFork()) {
-            configItem = new ConfigItem("前叉", mBicycle.getFrontFork().getName());
-            listTotal.add(configItem);
-        }
-        if (null != mBicycle.getLever()) {
-            configItem = new ConfigItem("变速", mBicycle.getLever().getName());
-            listTotal.add(configItem);
-        }
-        if (null != mBicycle.getBrake()) {
-            configItem = new ConfigItem("刹车", mBicycle.getBrake().getName());
-            listTotal.add(configItem);
-        }
-        if (null != mBicycle.getCassettes()) {
-            configItem = new ConfigItem("齿轮", mBicycle.getCassettes().getName());
-            listTotal.add(configItem);
-        }
-
-        configItem = new ConfigItem("外胎", mBicycle.getOuterTire());
-        listTotal.add(configItem);
-
-        if (null != mBicycle.getWheelSystem()) {
-            configItem = new ConfigItem("轮组", mBicycle.getWheelSystem().getName());
-            listTotal.add(configItem);
-        }
+        ConfigItem.buildConfigListFromBicycle(mBicycle, listTotal);
         if (listTotal.size() <= 4) {
             layoutMoreConfig.setVisibility(View.GONE);
             listShort.addAll(listTotal);
@@ -498,6 +465,14 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
         mConfigAdapter.notifyDataSetChanged();
         ViewUtil.adjustListViewHeight(configurationListView);
         refreshBicycleInfo();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Accessory accessory = listTotal.get(position).getContent();
+        if (accessory.getHasDetail()) {
+            BicyclePartsDetailsActivity.start(this, accessory.getAccessoryId());
+        }
     }
 
     /**
@@ -539,8 +514,10 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
         }
         String content = commentEditText.getText().toString();
         if (content.isEmpty()) {
+            ToastUtil.toast(R.string.must_have_text);
             return;
         }
+        DialogUtil.showWaitingDialog(this, R.string.sending);
         JSONObject jsonObject = Comment.getSubmitCommentJSON(mBicycle.getBikeId(), content, Equipment.BIKE);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getSendCommentUrl(), jsonObject,
                 new Response.Listener<JSONObject>() {
@@ -548,18 +525,21 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
                     public void onResponse(JSONObject response) {
                         if (200 == response.optInt("result")) {
                             mMaxCommentId = 0;
-                            mHandler.postDelayed(mRefreshCommentListTask, 1000);
                             commentEditText.setText("");
                             commentEditText.clearFocus();
+
                         } else if (300 == response.optInt("result")) {
                             ToastUtil.toast(R.string.comment_send_failed);
+                            DialogUtil.dismissWaitingDialog();
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         ResponseUtil.toastError(error);
+                        DialogUtil.dismissWaitingDialog();
                     }
                 }) {
             @Override
@@ -602,12 +582,14 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
                     public void onResponse(JSONObject response) {
                         mBicycle.setComments(Comment.fromJsonArray(response.optJSONArray("comments")));
                         refreshCommentList();
+                        DialogUtil.dismissWaitingDialog();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         ResponseUtil.toastError(error);
+                        DialogUtil.dismissWaitingDialog();
                     }
                 }) {
             @Override
@@ -730,4 +712,5 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
         mBicycle = new Bicycle(bikeId);
         context.startActivity(intent);
     }
+
 }

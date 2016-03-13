@@ -25,6 +25,7 @@
         android:textSize="@dimen/text_size_33px"/>
 
     <ImageView
+        android:visibility="invisible"
         android:id="@+id/imageView_itemMore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

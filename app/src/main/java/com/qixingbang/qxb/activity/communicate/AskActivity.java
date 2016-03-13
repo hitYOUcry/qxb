@@ -28,7 +28,7 @@ import com.qixingbang.qxb.common.utils.BitmapUtil;
 import com.qixingbang.qxb.common.utils.FileUtil;
 import com.qixingbang.qxb.common.utils.LogUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
-import com.qixingbang.qxb.dialog.WaitingDialog;
+import com.qixingbang.qxb.dialog.DialogUtil;
 import com.qixingbang.qxb.server.MultipartRequest;
 import com.qixingbang.qxb.server.RequestUtil;
 import com.qixingbang.qxb.server.ResponseUtil;
@@ -77,7 +77,6 @@ public class AskActivity extends BaseActivity {
     private int mClickedBtnFlag;
 
     private List<String> mBitmapPath;
-    private WaitingDialog waitingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +106,6 @@ public class AskActivity extends BaseActivity {
         picTwo.setOnClickListener(this);
         picThree = (ImageView) findViewById(R.id.imageView_three);
         picThree.setOnClickListener(this);
-
-        waitingDialog = new WaitingDialog(this);
     }
 
     @Override
@@ -251,7 +248,6 @@ public class AskActivity extends BaseActivity {
             return;
         }
         contentEditText.clearFocus();
-        startWaitingDialog();
         MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
         //        entityBuilder.addPart("title", new StringBody(title, ContentType.create("text/plain", Consts.UTF_8)));
         entityBuilder.addPart("content", new StringBody(content, ContentType.create("text/plain", Consts.UTF_8)));
@@ -261,6 +257,7 @@ public class AskActivity extends BaseActivity {
                 entityBuilder.addPart("quesPic", fileBody);
             }
         }
+        DialogUtil.showWaitingDialog(this, R.string.submitting);
         MultipartRequest multipartRequest = new MultipartRequest(Request.Method.POST, UrlUtil.getSendQuestionUrl(), entityBuilder.build(),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -273,14 +270,14 @@ public class AskActivity extends BaseActivity {
                             ToastUtil.toast(R.string.comment_send_failed);
                             dismissPopWindow();
                         }
-                        dismissWaitingDialog();
+                        DialogUtil.dismissWaitingDialog();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         ResponseUtil.toastError(error);
-                        dismissWaitingDialog();
+                        DialogUtil.dismissWaitingDialog();
                     }
                 }) {
             @Override
@@ -305,17 +302,6 @@ public class AskActivity extends BaseActivity {
             mBitmapPath.set(mClickedBtnFlag, bitmapFilePath);
         } catch (IOException e) {
             LogUtil.e(TAG, "save bitmap failed");
-        }
-    }
-
-    private void startWaitingDialog() {
-        waitingDialog.show();
-        waitingDialog.setHintText(R.string.submitting);
-    }
-
-    private void dismissWaitingDialog() {
-        if (null != waitingDialog && waitingDialog.isShowing()) {
-            waitingDialog.dismiss();
         }
     }
 

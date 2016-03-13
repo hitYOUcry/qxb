@@ -24,13 +24,18 @@ public class Accessory implements Comparable {
     private String pic2;
     private String pic3;
     private List<Comment> comments;
-    private boolean hasDetail;
+    private boolean hasDetail = false;
     private List<String> picList = new ArrayList<>(); //图片URL ，三张
 
-    public Accessory(){}
+    public Accessory() {
+    }
 
-    public Accessory(int accessoryId){
+    public Accessory(int accessoryId) {
         this.accessoryId = accessoryId;
+    }
+
+    public Accessory(String name) {
+        this.name = name;
     }
 
     public int getAccessoryId() {
@@ -124,7 +129,7 @@ public class Accessory implements Comparable {
         this.comments = comments;
     }
 
-    public boolean getHasDetail(){
+    public boolean getHasDetail() {
         return hasDetail;
     }
 

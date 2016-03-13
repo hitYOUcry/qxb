@@ -58,6 +58,14 @@ public class Bicycle implements Serializable, Comparable {
         this.bikeId = bikeId;
     }
 
+    public Accessory getKit() {
+        return kit;
+    }
+
+    public void setKit(Accessory kit) {
+        this.kit = kit;
+    }
+
     public int getBikeId() {
         return bikeId;
     }

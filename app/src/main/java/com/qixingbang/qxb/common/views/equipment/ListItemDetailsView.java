@@ -2,7 +2,6 @@ package com.qixingbang.qxb.common.views.equipment;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
@@ -29,6 +28,7 @@ import com.qixingbang.qxb.common.share.ShareUtil;
 import com.qixingbang.qxb.common.utils.DensityUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.common.utils.ViewUtil;
+import com.qixingbang.qxb.dialog.DialogUtil;
 import com.qixingbang.qxb.server.RequestUtil;
 import com.qixingbang.qxb.server.ResponseUtil;
 import com.qixingbang.qxb.server.UrlUtil;
@@ -121,13 +121,6 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
     private Context mContext;
     private int mMaxCommentId;
     private int mCommentNums;
-    private Runnable mRefreshCommentListTask = new Runnable() {
-        @Override
-        public void run() {
-            getCommentsFromServer();
-        }
-    };
-    private Handler mHandler;
 
     /**
      * 类型和id信息
@@ -201,7 +194,6 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
     }
 
     private void initData() {
-        mHandler = new Handler();
         mCommentList = new ArrayList<>();
         mTempCommentsList = new ArrayList<>();
         mCommentAdapter = new CommentListAdapter(mContext, mCommentList);
@@ -238,13 +230,13 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
     public void setDescription(String description) {
         mDescription = description;
         descriptionTextView.setText(mDescription);
-//        Rect rect = new Rect();
-//        descriptionTextView.getGlobalVisibleRect(rect);
-//        if (rect.height() < height_180dp) {
-//            layoutShowMore.setVisibility(GONE);
-//        }
+        //        Rect rect = new Rect();
+        //        descriptionTextView.getGlobalVisibleRect(rect);
+        //        if (rect.height() < height_180dp) {
+        //            layoutShowMore.setVisibility(GONE);
+        //        }
         int line = descriptionTextView.getLineCount();
-        if(line <= 10){
+        if (line <= 10) {
             layoutShowMore.setVisibility(GONE);
         }
     }
@@ -439,7 +431,7 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
     /**
      * 配置列表的打开与收起
      */
-    private static int height_180dp = DensityUtil.dip2px(QApplication.getInstance(),180.0f);
+    private static int height_180dp = DensityUtil.dip2px(QApplication.getInstance(), 180.0f);
 
     private void configToggle() {
         ViewGroup.LayoutParams lp = descriptionTextView.getLayoutParams();
@@ -508,6 +500,7 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
         if (content.isEmpty()) {
             return;
         }
+        DialogUtil.showWaitingDialog(mContext, R.string.sending);
         JSONObject jsonObject = Comment.getSubmitCommentJSON(mItemId, content, mType);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getSendCommentUrl(), jsonObject,
                 new Response.Listener<JSONObject>() {
@@ -515,18 +508,21 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
                     public void onResponse(JSONObject response) {
                         if (200 == response.optInt("result")) {
                             mMaxCommentId = 0;
-                            mHandler.postDelayed(mRefreshCommentListTask, 1000);
                             commentEditText.setText("");
                             commentEditText.clearFocus();
+                            getCommentsFromServer();
                         } else if (300 == response.optInt("result")) {
                             ToastUtil.toast(R.string.comment_send_failed);
+                            DialogUtil.dismissWaitingDialog();
                         }
+
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         ResponseUtil.toastError(error);
+                        DialogUtil.dismissWaitingDialog();
                     }
                 }) {
             @Override
@@ -569,12 +565,14 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
                     public void onResponse(JSONObject response) {
                         mTempCommentsList = Comment.fromJsonArray(response.optJSONArray("comments"));
                         refreshCommentList();
+                        DialogUtil.dismissWaitingDialog();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         ResponseUtil.toastError(error);
+                        DialogUtil.dismissWaitingDialog();
                     }
                 }) {
             @Override

@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qixingbang.qxb.R;
-import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.beans.equipment.bicycle.ConfigItem;
+import com.qixingbang.qxb.common.utils.ToastUtil;
 
 import java.util.List;
 
@@ -47,8 +47,12 @@ public class ConfigurationListAdapter extends BaseAdapter {
         TextView itemName = (TextView) view.findViewById(R.id.textView_itemName);
         TextView itemContent = (TextView) view.findViewById(R.id.textVIew_itemContent);
         ImageView showDetails = (ImageView) view.findViewById(R.id.imageView_itemMore);
+
         itemName.setText(mList.get(position).getName());
-        itemContent.setText(mList.get(position).getContent());
+        itemContent.setText(mList.get(position).getContent().getName());
+        if (mList.get(position).getContent().getHasDetail()) {
+            showDetails.setVisibility(View.VISIBLE);
+        }
         showDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

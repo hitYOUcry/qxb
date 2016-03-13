@@ -3,7 +3,6 @@ package com.qixingbang.qxb.activity.ridecycle;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -29,6 +28,7 @@ import com.qixingbang.qxb.beans.ridecycle.RideCycleBean;
 import com.qixingbang.qxb.common.share.ShareUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.common.utils.ViewUtil;
+import com.qixingbang.qxb.dialog.DialogUtil;
 import com.qixingbang.qxb.server.RequestUtil;
 import com.qixingbang.qxb.server.ResponseUtil;
 import com.qixingbang.qxb.server.UrlUtil;
@@ -51,7 +51,6 @@ public class CommonDetailsActivity extends BaseActivity {
 
     private static RideCycleBean mSelected;
     WebView webView;
-    private Handler mHandler;
     /**
      * title
      */
@@ -86,13 +85,6 @@ public class CommonDetailsActivity extends BaseActivity {
     TextView submitComment;
     private int mMaxCommentId;
     private int mCommentNums;
-
-    private Runnable mRefreshCommentListTask = new Runnable() {
-        @Override
-        public void run() {
-            getCommentsFromServer();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +158,6 @@ public class CommonDetailsActivity extends BaseActivity {
     }
 
     public void initData() {
-        mHandler = new Handler();
         mCommentList = new ArrayList<>();
         mCommentAdapter = new CommentListAdapter(this, mCommentList);
         commentListView.setAdapter(mCommentAdapter);
@@ -210,7 +201,7 @@ public class CommonDetailsActivity extends BaseActivity {
                 likeClicked();
                 break;
             case R.id.imageView_share:
-                ShareUtil.share(this,mSelected.getTitle());
+                ShareUtil.share(this, mSelected.getTitle());
                 break;
             default:
                 break;
@@ -391,6 +382,7 @@ public class CommonDetailsActivity extends BaseActivity {
         if (content.isEmpty()) {
             return;
         }
+        DialogUtil.showWaitingDialog(this, R.string.sending);
         JSONObject jsonObject = Comment.getSubmitCommentJSON(mSelected.getArticleId(), content, mSelected.getType().toString());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getSendCommentUrl(), jsonObject,
                 new Response.Listener<JSONObject>() {
@@ -398,11 +390,12 @@ public class CommonDetailsActivity extends BaseActivity {
                     public void onResponse(JSONObject response) {
                         if (200 == response.optInt("result")) {
                             mMaxCommentId = 0;
-                            mHandler.postDelayed(mRefreshCommentListTask, 1000);
                             commentEditText.setText("");
                             commentEditText.clearFocus();
+                            getCommentsFromServer();
                         } else if (300 == response.optInt("result")) {
                             ToastUtil.toast(R.string.comment_send_failed);
+                            DialogUtil.dismissWaitingDialog();
                         }
                     }
                 },
@@ -410,6 +403,7 @@ public class CommonDetailsActivity extends BaseActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         ResponseUtil.toastError(error);
+                        DialogUtil.dismissWaitingDialog();
                     }
                 }) {
             @Override
@@ -454,12 +448,14 @@ public class CommonDetailsActivity extends BaseActivity {
                     public void onResponse(JSONObject response) {
                         mSelected.setCommentLists(Comment.fromJsonArray(response.optJSONArray("comments")));
                         refreshCommentList();
+                        DialogUtil.dismissWaitingDialog();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         ResponseUtil.toastError(error);
+                        DialogUtil.dismissWaitingDialog();
                     }
                 }) {
             @Override
@@ -481,12 +477,12 @@ public class CommonDetailsActivity extends BaseActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-//                        webView.loadData(response, "text/html; charset=utf-8", null);
+                        //                        webView.loadData(response, "text/html; charset=utf-8", null);
                         webView.loadDataWithBaseURL("null", response, "text/html", "utf-8", "");
                         webView.getSettings().setBuiltInZoomControls(true); //显示放大缩小 controler
                         webView.getSettings().setSupportZoom(true); //可以缩放
                         webView.setSaveEnabled(true);
-//                        webView.loadUrl("http://player.youku.com/embed/XNTM5MTUwNDA0");
+                        //                        webView.loadUrl("http://player.youku.com/embed/XNTM5MTUwNDA0");
                     }
                 },
                 new Response.ErrorListener() {
