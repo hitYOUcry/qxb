@@ -18,11 +18,13 @@ public class JPushReceiver extends BroadcastReceiver{
     private static final String TAG = "JPushReceiver";
     @Override
     public void onReceive(Context context, Intent intent) {
+
         Bundle bundle = intent.getExtras();
-        Log.d(TAG, "onReceive - " + intent.getAction());
 
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
 
+            String title = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
+            Log.d(TAG, "registration ID - " + title);
         }else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
             System.out.println("收到了自定义消息。消息内容是：" + bundle.getString(JPushInterface.EXTRA_MESSAGE));
             // 自定义消息不会展示在通知栏，完全要开发者写代码去处理
