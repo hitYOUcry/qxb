@@ -24,7 +24,7 @@
     <TextView
         android:id="@+id/tv_current_version"
         android:layout_width="match_parent"
-        android:layout_height="13dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:textColor="@color/color868686"
@@ -58,8 +58,8 @@
 
         <TextView
             android:id="@+id/tv_newest_version"
-            android:layout_width="30dp"
-            android:layout_height="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="6dp"
             android:layout_toLeftOf="@id/tv_version_update"

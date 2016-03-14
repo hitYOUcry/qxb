@@ -6,11 +6,13 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -19,16 +21,21 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.common.utils.L;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.base.activity.BaseActivity;
+import com.qixingbang.qxb.common.utils.FileUtil;
+import com.qixingbang.qxb.common.utils.ToastUtil;
+import com.qixingbang.qxb.dialog.DialogUtil;
+import com.qixingbang.qxb.dialog.ProgressDialog;
 import com.qixingbang.qxb.server.RequestUtil;
 import com.qixingbang.qxb.server.UrlUtil;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -57,6 +64,7 @@ public class AboutQxbActivity extends BaseActivity {
     private String versionName;
     private String newestVersion;
     private static final String TAG = "AboutQxbActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,39 +77,47 @@ public class AboutQxbActivity extends BaseActivity {
     @Override
     protected void initView() {
         mTextViewTabTip.setText(R.string.about_qxb);
-        mTvCurrentVersion.setText("当前版本 " + getCurrentVersionInfo());
     }
 
-    private String getCurrentVersionInfo() {
-        //获取当前APP的版本信息
+    @Override
+    protected void initData() {
         PackageInfo packInfo;
         try {
             packInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            versionName= packInfo.versionName;
+            versionName = packInfo.versionName;
             int versionCode = packInfo.versionCode;
             L.d(versionName);
             L.d(versionCode + "");
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return versionName;
-    }
+        mTvCurrentVersion.setText("当前版本: " + versionName);
 
-    @Override
-    protected void initData() {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
                 UrlUtil.getVersionInfo(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 L.d(response.toString());
-                try {
-                    newestVersion = response.getJSONObject("update").getString("version");
-                    mTvNewestVersion.setText(newestVersion);
-                    //downloadUrl = response.getJSONObject("update").getString("url");
-                    downloadUrl = "https://www.baidu.com/link?url=HYLdsiU4EljKoOEYYwpIQhlR6yOOdzcrlaXhJhHSryt3VPh5VtCFAOyMTRdQ-8mmSoQUMHDG0pjd4Hcua02BFpOxKDC-1EdLCGjB7L-poQa&wd=&eqid=d345cfd30001c2660000000256d99197";
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                JSONObject updateJson = response.optJSONObject("update");
+                if (updateJson != null) {
+                    newestVersion = updateJson.optString("version");
+                    if (!TextUtils.isEmpty(versionName) && !versionName.equals(newestVersion)) {
+                        mTvNewestVersion.setText("有新版本(" + newestVersion + ")点击更新");
+                    }
+                    downloadUrl = updateJson.optString("url");
+                } else {
+                    ToastUtil.toast(R.string.non_version_info);
+                    return;
                 }
+
+                //                try {
+                //                    newestVersion = response.getJSONObject("update").getString("version");
+                //                    mTvNewestVersion.setText(newestVersion);
+                //                    //downloadUrl = response.getJSONObject("update").getString("url");
+                //                    downloadUrl = "https://www.baidu.com/link?url=HYLdsiU4EljKoOEYYwpIQhlR6yOOdzcrlaXhJhHSryt3VPh5VtCFAOyMTRdQ-8mmSoQUMHDG0pjd4Hcua02BFpOxKDC-1EdLCGjB7L-poQa&wd=&eqid=d345cfd30001c2660000000256d99197";
+                //                } catch (JSONException e) {
+                //                    e.printStackTrace();
+                //                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -112,59 +128,24 @@ public class AboutQxbActivity extends BaseActivity {
     }
 
     @OnClick(R.id.rl_version_update)
-    public void updateVersion(){
-        if (versionName.equals(newestVersion)){
-            Toast.makeText(this, "已经升级至最新版本", Toast.LENGTH_SHORT).show();
-        }else {
-            Toast.makeText(this, "马上下载昂，别急", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "更TMD，更新，体验最新版本！", Toast.LENGTH_SHORT).show();
-            //检查url不为空
-            //检查是否挂载SD卡
-            //url不为空， SD卡可用  执行下面的下载
-            if(downloadUrl != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-                //文件目标路径（根目录）  apk名字
-                String target = Environment.getExternalStorageDirectory() + "/qxb" + "_" + newestVersion + ".apk";
-                //联网更新
-                RequestParams params = new RequestParams(downloadUrl);
-                x.http().get(params, new Callback.CommonCallback<File>() {
-                    @Override
-                    public void onSuccess(File result) {
-                        //安装apk
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.addCategory(Intent.CATEGORY_DEFAULT);
-                        intent.setDataAndType(Uri.fromFile(result),
-                                "application/vnd.android.package-archive");
-                        //可能由于签名不同，导致无法覆盖安装
-                        //确保正式签名一样
-                        startActivity(intent);
-                    }
+    public void updateVersion() {
+        if (versionName.equals(newestVersion)) {
+            ToastUtil.toast(R.string.already_newest_version);
+            return;
+        } else {
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        Log.d("error", ex.toString());
-                    }
-
-                    @Override
-                    public void onCancelled(CancelledException cex) {
-
-                    }
-
-                    @Override
-                    public void onFinished() {
-
-                    }
-                });
-            }else if (downloadUrl == null){
-                Log.d(TAG, "错误的下载地址");
-            }else {
-                Log.d(TAG, "SD不可用");
-            }
+            DialogUtil.showTextDialog(this, R.string.update_version, getString(R.string.newest_version) + newestVersion,
+                    R.string.update, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            downloadApk();
+                        }
+                    });
         }
     }
 
     @OnClick(R.id.rl_service_terms)
-    public void serviceTerms(){
+    public void serviceTerms() {
 
     }
 
@@ -172,5 +153,86 @@ public class AboutQxbActivity extends BaseActivity {
     @OnClick(R.id.imageView_back)
     public void back() {
         finish();
+    }
+
+    private static final int DOWNLOAD_ERROR = 0;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case DOWNLOAD_ERROR:
+                    ToastUtil.toast(R.string.download_error);
+                    break;
+                default:
+                    super.handleMessage(msg);
+                    break;
+            }
+        }
+    };
+
+    private void downloadApk() {
+        if (downloadUrl != null && Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            final ProgressDialog pd;    //进度条对话框
+            pd = new ProgressDialog(this);
+            pd.show();
+            pd.setTitle(R.string.downloading);
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        File file = getFileFromServer(pd);
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.addCategory(Intent.CATEGORY_DEFAULT);
+                        intent.setDataAndType(Uri.fromFile(file),
+                                "application/vnd.android.package-archive");
+                        //可能由于签名不同，导致无法覆盖安装
+                        //确保正式签名一样
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        Message msg = Message.obtain(null, DOWNLOAD_ERROR);
+                        mHandler.sendMessage(msg);
+                        e.printStackTrace();
+                    } finally {
+                        pd.dismiss(); //结束掉进度条对话框
+                    }
+                }
+            }.start();
+        } else if (downloadUrl == null) {
+            ToastUtil.toast(R.string.download_url_error);
+        } else {
+            ToastUtil.toast(R.string.sd_card_error);
+        }
+    }
+
+    private File getFileFromServer(ProgressDialog pd) throws Exception {
+        URL url;
+        File file = null;
+        url = new URL(downloadUrl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setConnectTimeout(5000);
+        //获取到文件的大小
+        pd.setMax(conn.getContentLength());
+        InputStream is = conn.getInputStream();
+        if (FileUtil.getQXBExternalFilesDir().isEmpty()) {
+            ToastUtil.toast(R.string.non_sd_card);
+            return null;
+        }
+        file = new File(FileUtil.getQXBExternalFilesDir(), "updata.apk");
+        FileOutputStream fos = new FileOutputStream(file);
+        BufferedInputStream bis = new BufferedInputStream(is);
+        byte[] buffer = new byte[1024];
+        int len;
+        int total = 0;
+        while ((len = bis.read(buffer)) != -1) {
+            fos.write(buffer, 0, len);
+            total += len;
+            //获取当前下载量
+            pd.setProgress(total);
+        }
+        fos.close();
+        bis.close();
+        is.close();
+        return file;
     }
 }

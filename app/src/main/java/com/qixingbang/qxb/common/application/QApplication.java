@@ -2,7 +2,6 @@ package com.qixingbang.qxb.common.application;
 
 import android.app.Application;
 import android.app.Notification;
-import android.os.Environment;
 
 import com.lidroid.xutils.BitmapUtils;
 import com.qixingbang.qxb.R;
@@ -47,7 +46,7 @@ public class QApplication extends Application {
 
         x.Ext.init(this);
         x.Ext.setDebug(true);
-//        ShareSDK.initSDK(this);
+        //        ShareSDK.initSDK(this);
     }
 
     private void initBitmapUtils() {
@@ -55,9 +54,9 @@ public class QApplication extends Application {
         final int cacheSize = maxMemory / 8;
         //磁盘高速缓存路径 (磁盘高速缓存大小10MB)
         String mCachePath =
-                Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
-                        !Environment.isExternalStorageRemovable() ? getExternalCacheDir().getPath() :
-                        getCacheDir().getPath();
+                //                Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
+                //                        !Environment.isExternalStorageRemovable() ? getExternalCacheDir().getPath() :
+                getCacheDir().getPath();
         mBitmapUtils = new BitmapUtils(this, mCachePath, cacheSize, GlobalConstant.DISK_CACHE_SIZE);
     }
 

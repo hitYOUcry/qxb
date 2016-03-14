@@ -12,13 +12,8 @@ public class FileUtil {
     public static final String PATH_QXB = QApplication.getInstance().getFilesDir().getAbsolutePath()
             + "/qxb/";
 
-    private static final String PATH_QXB_TEMP = QApplication.getInstance()
-            .getExternalFilesDir(null).getAbsolutePath()
-            + "/qxbTemp";
-
     public static void init() {
         createPath(PATH_QXB);
-        createPath(PATH_QXB_TEMP);
     }
 
     private static void createPath(String path) {
@@ -28,12 +23,22 @@ public class FileUtil {
         }
     }
 
+    public static String getQXBExternalFilesDir() {
+        String path = "";
+        File file = QApplication.getInstance().getExternalFilesDir(null);
+        if (null != file) {
+            path = file.getAbsolutePath() + "/qxbTemp";
+            createPath(path);
+        }
+        return path;
+    }
+
 
     /**
      * 获取拍照的临时路径，照片拍摄结束后删除图片
      */
     public static String getTakePhotoPath() {
-        return PATH_QXB_TEMP + "/takephoto.png";
+        return getQXBExternalFilesDir() + "/takephoto.png";
     }
 
     public static long getDirSize(File file) {

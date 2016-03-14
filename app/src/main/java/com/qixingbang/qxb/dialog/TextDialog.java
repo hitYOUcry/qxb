@@ -50,6 +50,7 @@ public class TextDialog extends Dialog {
             public void onClick(View v) {
                 if (null != mConfirmListener)
                     mConfirmListener.onClick(v);
+                dismiss();
             }
         });
     }

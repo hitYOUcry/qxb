@@ -1,8 +1,6 @@
 package com.qixingbang.qxb.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -19,7 +17,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.lidroid.xutils.BitmapUtils;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.activity.equipment.BicycleActivity;
 import com.qixingbang.qxb.activity.equipment.BicycleEqpActivity;
@@ -28,7 +25,7 @@ import com.qixingbang.qxb.activity.equipment.PersonalEqpActivity;
 import com.qixingbang.qxb.activity.ridecycle.CommonDetailsActivity;
 import com.qixingbang.qxb.base.activity.BaseFragment;
 import com.qixingbang.qxb.beans.ridecycle.RideCycleBean;
-import com.qixingbang.qxb.common.application.GlobalConstant;
+import com.qixingbang.qxb.common.application.QApplication;
 import com.qixingbang.qxb.common.cache.CacheSP;
 import com.qixingbang.qxb.server.RequestUtil;
 import com.qixingbang.qxb.server.ResponseUtil;
@@ -243,26 +240,12 @@ public class EquipmentFragment extends BaseFragment implements ViewPager.OnPageC
         public final static int NEWS_NUM = 3;
         private View[] mViews = new View[NEWS_NUM];
         private List<RideCycleBean> mNewsContent;
-        private BitmapUtils mBitmapUtils;
 
         public NewsViewPagerAdapter(List<RideCycleBean> newsContent) {
-            initBitmapUtils();
             mNewsContent = newsContent;
             calculateViews();
         }
 
-        private void initBitmapUtils() {
-            Context mContext = EquipmentFragment.this.getActivity();
-            final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-            final int cacheSize = maxMemory / 8;
-
-            //磁盘高速缓存路径 (磁盘高速缓存大小10MB)
-            String mCachePath =
-                    Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
-                            !Environment.isExternalStorageRemovable() ? mContext.getExternalCacheDir().getPath() :
-                            mContext.getCacheDir().getPath();
-            mBitmapUtils = new BitmapUtils(mContext, mCachePath, cacheSize, GlobalConstant.DISK_CACHE_SIZE);
-        }
 
         @Override
         public int getCount() {
@@ -297,7 +280,7 @@ public class EquipmentFragment extends BaseFragment implements ViewPager.OnPageC
                     }
                 });
                 ImageView contentImage = (ImageView) view.findViewById(R.id.imageView);
-                mBitmapUtils.display(contentImage, mNewsContent.get(i).getLogo());
+                QApplication.getImageLoader().display(contentImage, mNewsContent.get(i).getLogo());
                 TextView contentText = (TextView) view.findViewById(R.id.textView_newsText);
                 contentText.setText(mNewsContent.get(i).getTitle());
                 mViews[i] = view;
