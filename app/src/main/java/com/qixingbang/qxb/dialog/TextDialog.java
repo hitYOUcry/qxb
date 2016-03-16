@@ -19,10 +19,6 @@ public class TextDialog extends Dialog {
         super(context);
     }
 
-    public TextDialog(Context context, int theme) {
-        super(context, theme);
-    }
-
     TextView titleTextView;
     TextView contentTextView;
     Button confirmButton;
