@@ -8,7 +8,7 @@ android {
         applicationId "com.qixingbang.qxb"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 3
+        versionCode 1
         versionName "1.0.3"
         multiDexEnabled true
     }

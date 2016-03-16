@@ -8,14 +8,19 @@
         android:id="@+id/imageView_brandPic"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_ride_cycle_brand_gray"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_ride_cycle_brand_gray"/>
 
-    <TextView
+    <com.qixingbang.qxb.common.views.MarqueeTextView
         android:id="@+id/textView_brandName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLength="6"
+        android:singleLine="true"
+        android:focusableInTouchMode="true"/>
 
 </RelativeLayout>
