@@ -30,6 +30,7 @@ import com.qixingbang.qxb.beans.QAccount;
 import com.qixingbang.qxb.beans.communicate.CommunicateBean;
 import com.qixingbang.qxb.beans.mine.UserInfoBean;
 import com.qixingbang.qxb.beans.mine.myQuestion.MyQuestionList;
+import com.qixingbang.qxb.common.cache.CacheSP;
 import com.qixingbang.qxb.server.UrlUtil;
 
 import java.util.ArrayList;
@@ -132,6 +133,11 @@ public class MyQuestionActivity extends BaseActivity implements AdapterView.OnIt
         tvTitle.setText(R.string.my_question);
         getHeadAndNickname();
         getMyQuestionListFromServer();
+        clearHint();
+    }
+
+    private void clearHint() {
+        CacheSP.setMyQuestionHint(false);
     }
 
     private void getHeadAndNickname() {

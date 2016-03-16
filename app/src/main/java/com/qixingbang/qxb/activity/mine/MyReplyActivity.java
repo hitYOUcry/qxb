@@ -29,6 +29,7 @@ import com.qixingbang.qxb.beans.QAccount;
 import com.qixingbang.qxb.beans.communicate.CommunicateBean;
 import com.qixingbang.qxb.beans.mine.myReply.MyReplyBean;
 import com.qixingbang.qxb.beans.mine.myReply.MyReplyList;
+import com.qixingbang.qxb.common.cache.CacheSP;
 import com.qixingbang.qxb.server.UrlUtil;
 
 import java.util.ArrayList;
@@ -114,6 +115,11 @@ public class MyReplyActivity extends BaseActivity implements AdapterView.OnItemC
     public void initData() {
         tvTitle.setText(R.string.my_reply);
         initListView();
+        clearHint();
+    }
+
+    private void clearHint() {
+        CacheSP.setMyReplyHint(false);
     }
 
     private void initListView() {

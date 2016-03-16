@@ -19,6 +19,7 @@ public class CacheSP {
     private final static String TAG = "com.qixingbang.qxb.common.cache.CacheSP";
 
     private final static String CACHE_SDP_PATH = "com.qxb.sharedpreference.cache";
+    private final static String CACHE_NEW_INFO = "com.qxb.sharedpreference.new_info";
 
     private final static String KEY_EQP_NEWS = "key_eqp_news";
     private final static String KEY_EQP_BICYCLE = "key_eqp_bicycle";
@@ -32,6 +33,10 @@ public class CacheSP {
     private final static String KEY_RIDE_CYCLE_CARE = "key_ride_cycle_care";
     private final static String KEY_RIDE_CYCLE_STRATEGY = "key_ride_cycle_strategy";
     private final static String KEY_RIDE_CYCLE_DRY_CARGO = "key_ride_cycle_dry_cargo";
+
+    private final static String KEY_QUESTION_NEW_INFO = "key_question_new_info";
+    private final static String KEY_REPLY_NEW_INFO = "key_reply_new_info";
+    private final static String KEY_SYSTEM_NEW_INFO = "key_system_new_info";
 
 
     //------------------- equipment part start -------------------//
@@ -217,5 +222,45 @@ public class CacheSP {
         SharedPreferences.Editor editor = sPreference.edit();
         editor.clear();
         editor.commit();
+    }
+
+
+    private static void setNewMessageCache(Boolean b, String key) {
+        SharedPreferences sharedPreferences = QApplication.getInstance()
+                .getSharedPreferences(CACHE_NEW_INFO, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(key, b);
+        editor.commit();
+    }
+
+    private static Boolean getNewMessageCache(String key) {
+        SharedPreferences sPreference = QApplication.getInstance()
+                .getSharedPreferences(CACHE_NEW_INFO, Context.MODE_PRIVATE);
+
+        return sPreference.getBoolean(key, false);
+    }
+
+    public static void setMyQuestionHint(Boolean b) {
+        setNewMessageCache(b, KEY_QUESTION_NEW_INFO);
+    }
+
+    public static void setMyReplyHint(Boolean b) {
+        setNewMessageCache(b, KEY_REPLY_NEW_INFO);
+    }
+
+    public static void setSystemMessageHint(Boolean b) {
+        setNewMessageCache(b, KEY_SYSTEM_NEW_INFO);
+    }
+
+    public static Boolean getMyQuestionHint(){
+        return getNewMessageCache(KEY_QUESTION_NEW_INFO);
+    }
+
+    public static Boolean getMyReplyHint(){
+        return getNewMessageCache(KEY_REPLY_NEW_INFO);
+    }
+
+    public static Boolean getSystemMessageHint(){
+        return getNewMessageCache(KEY_SYSTEM_NEW_INFO);
     }
 }

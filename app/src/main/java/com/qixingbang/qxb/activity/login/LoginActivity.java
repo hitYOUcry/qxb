@@ -42,7 +42,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Set;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.PlatformDb;
@@ -221,6 +224,12 @@ public class LoginActivity extends BaseActivity implements PlatformActionListene
                         }
                         getUserInfo();
                         L.d(response.toString());
+                        JPushInterface.setAlias(LoginActivity.this, userCode, new TagAliasCallback() {
+                            @Override
+                            public void gotResult(int i, String s, Set<String> set) {
+
+                            }
+                        });
                     }
                 },
                 new Response.ErrorListener() {
