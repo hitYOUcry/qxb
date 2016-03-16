@@ -201,7 +201,7 @@ public class CommonDetailsActivity extends BaseActivity {
                 likeClicked();
                 break;
             case R.id.imageView_share:
-                ShareUtil.share(this, mSelected.getTitle());
+                ShareUtil.share(this, mSelected.getTitle(), UrlUtil.getNewsDetailsUrl(mSelected.getArticleId()));
                 break;
             default:
                 break;

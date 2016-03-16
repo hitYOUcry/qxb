@@ -53,4 +53,10 @@ public class ShareUtil {
         mTitle = title;
         share(context);
     }
+
+    public static void share(Context context, String title, String contentUrl) {
+        mTitle = title;
+        mUrl = contentUrl;
+        share(context);
+    }
 }
