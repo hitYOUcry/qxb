@@ -15,11 +15,7 @@ import com.qixingbang.qxb.common.utils.FileUtil;
  */
 public class ProgressDialog extends Dialog {
     public ProgressDialog(Context context) {
-        super(context);
-    }
-
-    public ProgressDialog(Context context, int theme) {
-        super(context, theme);
+        super(context, android.R.style.Theme_Translucent);
     }
 
     private SeekBar mSeekBar;
@@ -51,6 +47,7 @@ public class ProgressDialog extends Dialog {
         });
         mTitleTextView = (TextView) findViewById(R.id.textView_title);
         mHintTextView = (TextView) findViewById(R.id.textView_progressHint);
+
     }
 
     public void setTitle(int titleRes) {
