@@ -149,7 +149,7 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
         //分享
         shareImageView = (ImageView) findViewById(R.id.imageView_share);
         shareImageView.setOnClickListener(this);
-        shareImageView.setVisibility(View.VISIBLE);
+        shareImageView.setVisibility(View.GONE);
 
         //标题
         tabTipTextView = (TextView) findViewById(R.id.textView_tabTip);
