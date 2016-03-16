@@ -96,6 +96,10 @@ public class MineFragment extends BaseFragment {
     private TextView tvSex;
     private TextView tvAge;
 
+    private ImageView ivQuestionHint;
+    private ImageView ivReplyHint;
+    private ImageView ivSystemHint;
+
     private String token;
 
     private UserInfoBean mUserInfoBean;
@@ -132,7 +136,35 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public void onStart() {
+        Log.d("MineFragment", "onStart");
         super.onStart();
+
+        setHint();
+    }
+
+    private void setHint() {
+        //获取缓存
+        Boolean myQuestionHint = CacheSP.getMyQuestionHint();
+        Boolean myReplyHint = CacheSP.getMyReplyHint();
+        Boolean systemMessageHint = CacheSP.getSystemMessageHint();
+
+        if (myQuestionHint){
+            ivQuestionHint.setVisibility(View.VISIBLE);
+        }else {
+            ivQuestionHint.setVisibility(View.INVISIBLE);
+        }
+
+        if (myReplyHint){
+            ivReplyHint.setVisibility(View.VISIBLE);
+        }else {
+            ivReplyHint.setVisibility(View.INVISIBLE);
+        }
+
+        if (systemMessageHint){
+            ivSystemHint.setVisibility(View.VISIBLE);
+        }else {
+            ivSystemHint.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -167,6 +199,10 @@ public class MineFragment extends BaseFragment {
         mBitmapUtils = new BitmapUtils(getActivity());
         //tvNickname.setTypeface(QApplication.YAHEI_FONT);
         //tvSex.setTypeface(QApplication.YAHEI_FONT);
+
+        ivQuestionHint = (ImageView) rootView.findViewById(R.id.iv_hint_my_question);
+        ivReplyHint = (ImageView) rootView.findViewById(R.id.iv_hint_my_reply);
+        ivSystemHint = (ImageView) rootView.findViewById(R.id.iv_hint_system_message);
     }
 
     @Override
@@ -330,4 +366,12 @@ public class MineFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        Log.d("MineFragment", "onHiddenChanged = " + hidden);
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            setHint();
+        }
+    }
 }
