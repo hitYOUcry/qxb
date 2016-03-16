@@ -1,7 +1,6 @@
 package com.qixingbang.qxb.common.views.ridecycle;
 
 import android.content.Context;
-import android.os.Environment;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -32,10 +31,7 @@ public class DryCargoItemView extends RelativeLayout {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         final int cacheSize = maxMemory / 8;
         //磁盘高速缓存路径 (磁盘高速缓存大小10MB)
-        String mCachePath =
-                Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
-                        !Environment.isExternalStorageRemovable() ? mContext.getExternalCacheDir().getPath() :
-                        mContext.getCacheDir().getPath();
+        String mCachePath = mContext.getCacheDir().getPath();
         mBitmapUtils = new BitmapUtils(mContext, mCachePath, cacheSize, GlobalConstant.DISK_CACHE_SIZE);
         init(context);
     }

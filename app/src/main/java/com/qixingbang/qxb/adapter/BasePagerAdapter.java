@@ -1,7 +1,6 @@
 package com.qixingbang.qxb.adapter;
 
 import android.content.Context;
-import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 
 import com.lidroid.xutils.BitmapUtils;
@@ -21,10 +20,7 @@ public abstract class BasePagerAdapter extends PagerAdapter {
         final int cacheSize = maxMemory / 8;
 
         //磁盘高速缓存路径 (磁盘高速缓存大小10MB)
-        String mCachePath =
-                Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
-                        !Environment.isExternalStorageRemovable() ? mContext.getExternalCacheDir().getPath() :
-                        mContext.getCacheDir().getPath();
+        String mCachePath = mContext.getCacheDir().getPath();
         mBitmapUtils = new BitmapUtils(mContext, mCachePath, cacheSize, GlobalConstant.DISK_CACHE_SIZE);
     }
 }
