@@ -1,8 +1,11 @@
 package com.common.utils;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.WindowManager;
 
 //常用单位转换的辅助类
 public class DensityUtils
@@ -64,4 +67,21 @@ public class DensityUtils
         return (pxVal / context.getResources().getDisplayMetrics().scaledDensity);
     }
 
+    public static DisplayMetrics getScreenMetrics(Context context){
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        return dm;
+    }
+
+    public static int getScreenWidth_Px(Context context){
+        return getScreenMetrics(context).widthPixels;
+    }
+
+    public static float getScreenWidth_dp(Context context){
+        return px2dp(context,getScreenMetrics(context).widthPixels);
+    }
+    public static int getScreenHeight_Px(Context context){
+        return getScreenMetrics(context).heightPixels;
+    }
 }

@@ -59,26 +59,32 @@ public class DryCargoView extends RelativeLayout {
         drawContent();
     }
 
+    private final int mColumn = 3;
+
     private void drawContent() {
         if (null == mDryCargoList || mDryCargoList.size() <= 0)
             return;
+
+        int mSubItemWidth= 70;
         int count = mDryCargoList.size();
         int raw;
-        if (count % 4 == 0) {
-            raw = count / 4;
+        if (count % mColumn == 0) {
+            raw = count / mColumn;
         } else {
-            raw = 1 + count / 4;
+            raw = 1 + count / mColumn;
         }
+        int widthAvailable = (int) (DensityUtils.getScreenWidth_dp(mContext) - 20 * 2 - mSubItemWidth);
+        int deltaOfWidth = widthAvailable / (mColumn - 1);
         for (int i = 0; i < raw; i++) {
-            int loopLength = (i == raw - 1) ? (count - i * 4) : 4;
+            int loopLength = (i == raw - 1) ? (count - i * mColumn) : mColumn;
             for (int j = 0; j < loopLength; j++) {
-                final DryCargoItemBean dryCargo = mDryCargoList.get(4 * i + j);
+                final DryCargoItemBean dryCargo = mDryCargoList.get(mColumn * i + j);
 
                 DryCargoItemView itemView = new DryCargoItemView(mContext, dryCargo);
 
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
-                int leftMargin = 20 + 90 * j;
+                int leftMargin = 20 + deltaOfWidth * j;
                 int topMargin = 20 + 90 * i;
                 layoutParams.leftMargin = DensityUtils.dp2px(mContext, leftMargin);
                 layoutParams.topMargin = DensityUtils.dp2px(mContext, topMargin);

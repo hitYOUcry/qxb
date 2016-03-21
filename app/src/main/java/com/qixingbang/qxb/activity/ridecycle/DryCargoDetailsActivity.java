@@ -142,7 +142,7 @@ public class DryCargoDetailsActivity extends BaseActivity implements DryCargoVie
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    scrollView.scrollTo(0, 0);
+                    scrollView.smoothScrollTo(0, 0);
                 }
             });
             linearLayout.addView(view);
