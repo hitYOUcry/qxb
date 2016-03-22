@@ -247,6 +247,7 @@ public class ReplyActivity extends BaseActivity implements PullToRefreshBase.OnR
                             commentEditText.setText("");
                             commentEditText.clearFocus();
                             mCommentCount = 0;
+                            mBitmapPath.clear();
                             if (null != mReplayBeanList && !mReplayBeanList.isEmpty()) {
                                 mReplayBeanList.clear();
                                 mReplayBeanList.add(new ReplyBean(mQuestion));
