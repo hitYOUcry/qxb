@@ -131,6 +131,7 @@
     <string name="change_user_hint">换个账号试试</string>
     <string name="switch_account">切换</string>
     <string name="original_password">第三方用户的初始密码为:888888</string>
+    <string name="submit">提交</string>
     <!-- SettingActivity End -->
     <!-- FeedbackActivity Start -->
     <string name="tel_content">电话：18810538830</string>

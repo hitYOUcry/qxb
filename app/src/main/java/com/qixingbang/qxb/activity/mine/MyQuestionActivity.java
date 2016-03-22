@@ -31,6 +31,7 @@ import com.qixingbang.qxb.beans.communicate.CommunicateBean;
 import com.qixingbang.qxb.beans.mine.UserInfoBean;
 import com.qixingbang.qxb.beans.mine.myQuestion.MyQuestionList;
 import com.qixingbang.qxb.common.cache.CacheSP;
+import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.server.UrlUtil;
 
 import java.util.ArrayList;
@@ -72,14 +73,6 @@ public class MyQuestionActivity extends BaseActivity implements AdapterView.OnIt
                     @Override
                     protected void convert(ViewHolder helper, CommunicateBean item) {
                         int replyCount = Integer.parseInt(item.getAnswerCount());
-                        helper.setVisibility(R.id.tv_reply_count, View.VISIBLE);
-                        if (replyCount == 0){
-                            helper.setVisibility(R.id.tv_reply_count, View.GONE);
-                        }else if (replyCount > 0 && replyCount <= 9){
-                            helper.setText(R.id.tv_reply_count, replyCount + "");
-                        }else {
-                            helper.setText(R.id.tv_reply_count, "!");
-                        }
                         helper.setText(R.id.tv_content, item.getContent());
                         helper.setText(R.id.tv_date, item.getCreateTime());
                         helper.setText(R.id.tv_thumb_number, item.getAnswerCount() + "");
@@ -99,6 +92,7 @@ public class MyQuestionActivity extends BaseActivity implements AdapterView.OnIt
                     }
                 };
                 mPullToRefreshListView.setAdapter(mAdapter);
+
             }
         }
     };
@@ -119,9 +113,10 @@ public class MyQuestionActivity extends BaseActivity implements AdapterView.OnIt
     @Override
     public void initView() {
         mQuestionBeans = new ArrayList<CommunicateBean>();
+        mHandler.sendEmptyMessage(REQUEST_QUESTION_OK);
         mMyQuestionList = new MyQuestionList();
 
-        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
 
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setMessage("加载中......");
@@ -132,7 +127,7 @@ public class MyQuestionActivity extends BaseActivity implements AdapterView.OnIt
     public void initData() {
         tvTitle.setText(R.string.my_question);
         getHeadAndNickname();
-        getMyQuestionListFromServer();
+        getMyQuestionListFromServer(0);
         clearHint();
     }
 
@@ -151,38 +146,21 @@ public class MyQuestionActivity extends BaseActivity implements AdapterView.OnIt
     }
 
     public void initListener(){
-        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        mPullToRefreshListView.onRefreshComplete();
-                    }
-                };
-                mHandler.postDelayed(runnable, 2000);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        mPullToRefreshListView.onRefreshComplete();
-                    }
-                };
-                mHandler.postDelayed(runnable, 2000);
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                getMyQuestionListFromServer(mQuestionBeans.size());
             }
         });
 
         mPullToRefreshListView.setOnItemClickListener(this);
     }
 
-    private void getMyQuestionListFromServer() {
+    private void getMyQuestionListFromServer(int questionCount) {
         RequestParams params = new RequestParams();
         params.addHeader("authorization", token);
         HttpUtils httpUtils = new HttpUtils();
-        String myQuestionListUrl = UrlUtil.getMyQuestionList() + "/0";
+        String myQuestionListUrl = UrlUtil.getMyQuestionList(questionCount);
         httpUtils.send(HttpRequest.HttpMethod.POST, myQuestionListUrl, params, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
@@ -191,8 +169,13 @@ public class MyQuestionActivity extends BaseActivity implements AdapterView.OnIt
                 mMyQuestionList = gson.fromJson(responseInfo.result, MyQuestionList.class);
                 int resultCode = mMyQuestionList.result;
                 if (resultCode == 200) {
-                    mQuestionBeans = mMyQuestionList.questions;
-                    mHandler.sendEmptyMessage(REQUEST_QUESTION_OK);
+                    if (mMyQuestionList.questions.size() == 0) {
+                        ToastUtil.toast("暂无更多提问");
+                    }else {
+                        mQuestionBeans.addAll(mMyQuestionList.questions);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    mPullToRefreshListView.onRefreshComplete();
                 } else if (resultCode == 300) {
                     T.show(MyQuestionActivity.this, "获取失败", Toast.LENGTH_SHORT);
                 } else if (resultCode == 250) {

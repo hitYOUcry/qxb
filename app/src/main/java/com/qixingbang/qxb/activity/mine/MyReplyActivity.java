@@ -6,6 +6,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.qixingbang.qxb.beans.communicate.CommunicateBean;
 import com.qixingbang.qxb.beans.mine.myReply.MyReplyBean;
 import com.qixingbang.qxb.beans.mine.myReply.MyReplyList;
 import com.qixingbang.qxb.common.cache.CacheSP;
+import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.server.UrlUtil;
 
 import java.util.ArrayList;
@@ -107,8 +109,9 @@ public class MyReplyActivity extends BaseActivity implements AdapterView.OnItemC
         tvTitle = (TextView) findViewById(R.id.textView_tabTip);
         ptrReply = (PullToRefreshListView) findViewById(R.id.lv_reply);
         mReplyBeans = new ArrayList<MyReplyBean>();
+        mHandler.sendEmptyMessage(REQUEST_REPLY_OK);
         mMyReplyList = new MyReplyList();
-        ptrReply.setMode(PullToRefreshBase.Mode.BOTH);
+        ptrReply.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
     }
 
     @Override
@@ -123,29 +126,40 @@ public class MyReplyActivity extends BaseActivity implements AdapterView.OnItemC
     }
 
     private void initListView() {
-        getMyReplyListFromServer();
+        getMyReplyListFromServer(0);
     }
 
     private void initListener() {
+        ptrReply.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                int answerId = mReplyBeans.get(mReplyBeans.size() - 1).answerId;
+                getMyReplyListFromServer(answerId);
+            }
+        });
         ptrReply.setOnItemClickListener(this);
     }
 
-    private void getMyReplyListFromServer() {
+    private void getMyReplyListFromServer(int answerId) {
         RequestParams params = new RequestParams();
         params.addHeader("authorization", token);
         HttpUtils httpUtils = new HttpUtils();
-        String myQuestionListUrl = UrlUtil.getMyReplyList() + "/0";
+        String myQuestionListUrl = UrlUtil.getMyReplyList(answerId);
         httpUtils.send(HttpRequest.HttpMethod.POST, myQuestionListUrl, params, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 L.d(responseInfo.result);
                 Gson gson = new Gson();
                 mMyReplyList = gson.fromJson(responseInfo.result, MyReplyList.class);
-
                 int resultCode = mMyReplyList.result;
                 if (resultCode == 200) {
-                    mReplyBeans = mMyReplyList.answer;
-                    mHandler.sendEmptyMessage(REQUEST_REPLY_OK);
+                    if (mMyReplyList.answer.size() == 0){
+                        ToastUtil.toast("暂无更多回复");
+                    }else {
+                        mReplyBeans.addAll(mMyReplyList.answer);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    ptrReply.onRefreshComplete();
                 } else if (resultCode == 300) {
                     T.show(MyReplyActivity.this, "获取失败", Toast.LENGTH_SHORT);
                 } else if (resultCode == 250) {

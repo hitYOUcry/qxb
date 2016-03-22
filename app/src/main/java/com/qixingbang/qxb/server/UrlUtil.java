@@ -227,12 +227,12 @@ public class UrlUtil {
     private final static String MY_HEAD_PORTRAIT = ADDRESS + "/user/icon";
 
 
-    public static String getMyFavEqpList() {
-        return MY_FAV_EQP_LIST;
+    public static String getMyFavEqpList(int startId) {
+        return MY_FAV_EQP_LIST + "/" + startId;
     }
 
-    public static String getMyFavArticleList() {
-        return MY_FAV_ARTICLE_LIST;
+    public static String getMyFavArticleList(int startId) {
+        return MY_FAV_ARTICLE_LIST + "/" + startId;
     }
 
     public static String getMyHeadPortrait() {
@@ -242,15 +242,15 @@ public class UrlUtil {
     //我的提问列表
     private final static String MY_QUESTION_LIST = ADDRESS + "/user/question";
 
-    public static String getMyQuestionList() {
-        return MY_QUESTION_LIST;
+    public static String getMyQuestionList(int questionCount) {
+        return MY_QUESTION_LIST + "/" + questionCount;
     }
 
     //我的回复列表
     private final static String MY_REPLY_LIST = ADDRESS + "/user/answer";
 
-    public static String getMyReplyList() {
-        return MY_REPLY_LIST;
+    public static String getMyReplyList(int answerId) {
+        return MY_REPLY_LIST + "/" + answerId;
     }
 
     private final static String UPDATE_USER_INFO = ADDRESS + "/user/update";
@@ -269,5 +269,18 @@ public class UrlUtil {
 
     public static String getCheckPassword() {
         return CHECK_PASSWORD;
+    }
+    //意见反馈
+    private final static String FEEDBACK = ADDRESS + "/user/suggestion";
+
+    public static String getFeedback(){
+        return FEEDBACK;
+    }
+
+    //服务条款
+    private final static String SERVICE_TERMS = "http://www.njhwt.com/upload/service.html";
+
+    public static String getServiceTerms(){
+        return SERVICE_TERMS;
     }
 }

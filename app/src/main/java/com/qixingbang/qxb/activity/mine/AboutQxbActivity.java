@@ -165,7 +165,8 @@ public class AboutQxbActivity extends BaseActivity {
 
     @OnClick(R.id.rl_service_terms)
     public void serviceTerms(){
-
+        Intent intent = new Intent(this, ServiceTermsActivity.class);
+        startActivity(intent);
     }
 
     //点击返回

@@ -1,11 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:fitsSystemWindows="true">
+<com.zhy.android.percent.support.PercentLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+
+    android:orientation="vertical">
+
     <include
         layout="@layout/common_titlebar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_bar_height" />
-</LinearLayout>
+        android:layout_height="0dp"
+        app:layout_heightPercent="7.344%"/>
+
+    <EditText
+        android:id="@+id/edt_feedback"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/xml_shape_communicate_ask_edit_bg"
+        android:gravity="top"
+        android:hint="@string/ask_edit_hint_text"
+        android:maxLength="120"
+        android:maxLines="6"
+        android:padding="10dp"
+        android:textColor="@color/black_242424_fade80"
+        android:textColorHint="@color/black_242424_fade80"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/text_size_36px"
+        app:layout_heightPercent="17.8%"
+        app:layout_marginBottomPercent="3.8%"
+        app:layout_marginLeftPercent="6.67%"
+        app:layout_marginRightPercent="6.67%"
+        app:layout_marginTopPercent="6.25%"
+        app:layout_widthPercent="86.66%"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:fillViewport="true">
+
+        </ScrollView>
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:background="@color/white"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/submit"/>
+</com.zhy.android.percent.support.PercentLinearLayout>
+
