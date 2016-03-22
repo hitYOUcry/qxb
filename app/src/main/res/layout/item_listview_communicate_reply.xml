@@ -49,9 +49,9 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/textView_nickname"
         android:layout_below="@id/textView_nickname"
-        android:layout_marginTop="7dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp"
         android:maxLines="2"
-        android:text="asdqwdas\nasds"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_36px"/>
 

@@ -31,7 +31,7 @@
             android:layout_height="@dimen/ridecycle_mainInfo_height"
             android:layout_gravity="center_vertical"
             android:layout_weight="80"
-            android:scaleType="centerInside"/>
+            android:scaleType="fitXY"/>
 
         <View
             android:layout_width="0dp"
