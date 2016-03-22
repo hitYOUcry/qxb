@@ -46,6 +46,7 @@ import com.qixingbang.qxb.beans.mine.myFav.MyFavoriteRCycleBean;
 import com.qixingbang.qxb.beans.mine.myFav.MyFavoriteRCycleList;
 import com.qixingbang.qxb.beans.ridecycle.RideCycleBean;
 import com.qixingbang.qxb.beans.ridecycle.Type;
+import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.server.UrlUtil;
 
 import java.util.ArrayList;
@@ -121,27 +122,21 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == REQUEST_EQP_OK){
-                if (mEqpListAdapter == null){
-                    mEqpListAdapter = new CommonAdapter<MyFavoriteEqpBean>(getApplicationContext(),
-                            mMyFavoriteEqpBeans ,R.layout.item_listview_my_favorite_eqp) {
-                        @Override
-                        protected void convert(ViewHolder helper, MyFavoriteEqpBean item) {
-                            mBitmapUtils.display(helper.getView(R.id.iv_item), UrlUtil.getBaseAddress() + item.logo.substring(20));
-                            helper.setText(R.id.tv_title, item.name);
-                            if(helper.getPosition() % 2 == 0){
-                                helper.getConvertView().setBackgroundColor(getResources().getColor(R.color.theme_black));
-                            }else {
-                                helper.getConvertView().setBackgroundColor(getResources().getColor(R.color.black_242424));
-                            }
-                            helper.setText(R.id.tv_price, "参考价位: " + item.price + "元");
-
+                mEqpListAdapter = new CommonAdapter<MyFavoriteEqpBean>(getApplicationContext(),
+                        mMyFavoriteEqpBeans ,R.layout.item_listview_my_favorite_eqp) {
+                    @Override
+                    protected void convert(ViewHolder helper, MyFavoriteEqpBean item) {
+                        mBitmapUtils.display(helper.getView(R.id.iv_item), UrlUtil.getBaseAddress() + item.logo.substring(20));
+                        helper.setText(R.id.tv_title, item.name);
+                        if(helper.getPosition() % 2 == 0){
+                            helper.getConvertView().setBackgroundColor(getResources().getColor(R.color.theme_black));
+                        }else {
+                            helper.getConvertView().setBackgroundColor(getResources().getColor(R.color.black_242424));
                         }
-                    };
-                    ptrlvEquipment.setAdapter(mEqpListAdapter);
-                }else {
-                    ptrlvEquipment.onRefreshComplete();
-                    mEqpListAdapter.notifyDataSetChanged();
-                }
+                        helper.setText(R.id.tv_price, "参考价位: " + item.price + "元");
+                    }
+                };
+                ptrlvEquipment.setAdapter(mEqpListAdapter);
 
             }else if (msg.what == REQUEST_RCYCLE_OK){
                 mRCycleListAdapter = new CommonAdapter<MyFavoriteRCycleBean>(getApplicationContext(),
@@ -197,7 +192,9 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
 
         mFavoriteEqpList = new MyFavoriteEqpList();
         mMyFavoriteEqpBeans = new LinkedList<MyFavoriteEqpBean>();
+        mHandler.sendEmptyMessage(REQUEST_EQP_OK);
         mMyFavoriteRCycleBeans = new LinkedList<MyFavoriteRCycleBean>();
+        mHandler.sendEmptyMessage(REQUEST_RCYCLE_OK);
     }
 
     @Override
@@ -224,8 +221,7 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
         ptrlvEquipment.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                String myFavEqpUrl = UrlUtil.getMyFavEqpList() + "/" + mMyFavoriteEqpBeans.getLast().favId;
-                L.d(myFavEqpUrl);
+                String myFavEqpUrl = UrlUtil.getMyFavEqpList(mMyFavoriteEqpBeans.getLast().favId);
                 getFavEqpFromServer(myFavEqpUrl);
             }
         });
@@ -264,6 +260,8 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
         ptrlvRideCycle.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                String myFavRCycleUrl = UrlUtil.getMyFavEqpList(mMyFavoriteRCycleBeans.getLast().favId);
+                getFavArticleFromServer(myFavRCycleUrl);
             }
         });
     }
@@ -351,11 +349,10 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
     }
 
     private void initListView() {
-        //TODO: 登陆调试通后，去掉模拟的数据，调用服务器数据
-        String myFavEqpUrl = UrlUtil.getMyFavEqpList() + "/0";
+        String myFavEqpUrl = UrlUtil.getMyFavEqpList(0);
         getFavEqpFromServer(myFavEqpUrl);
 
-        String myFavArticleUrl = UrlUtil.getMyFavArticleList() + "/0";
+        String myFavArticleUrl = UrlUtil.getMyFavArticleList(0);
         getFavArticleFromServer(myFavArticleUrl);
     }
 
@@ -373,11 +370,13 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
                 mFavoriteEqpList = gson.fromJson(result, MyFavoriteEqpList.class);
                 int resultCode = mFavoriteEqpList.result;
                 if (resultCode == 200){
-                    mMyFavoriteEqpBeans.addAll(mFavoriteEqpList.favorites);
-                    Message msg = Message.obtain();
-                    msg.what = REQUEST_EQP_OK;
-                    mHandler.sendMessage(msg);
-
+                    if (mFavoriteEqpList.favorites.size() == 0){
+                        ToastUtil.toast("暂无更多收藏装备");
+                    }else {
+                        mMyFavoriteEqpBeans.addAll(mFavoriteEqpList.favorites);
+                        mEqpListAdapter.notifyDataSetChanged();
+                    }
+                    ptrlvEquipment.onRefreshComplete();
                 }else if (resultCode == 300){
                     T.show(MyFavoriteActivity.this, "获取失败", Toast.LENGTH_SHORT);
                 }else if (resultCode == 250){
@@ -405,11 +404,13 @@ public class MyFavoriteActivity extends BaseActivity implements ViewPager.OnPage
                 mFavoriteRCycleList = gson.fromJson(result, MyFavoriteRCycleList.class);
                 int resultCode = mFavoriteRCycleList.result;
                 if (resultCode == 200){
-                    mMyFavoriteRCycleBeans.addAll(mFavoriteRCycleList.favorites);
-                    Message msg = Message.obtain();
-                    msg.what = REQUEST_RCYCLE_OK;
-                    mHandler.sendMessage(msg);
-
+                    if (mFavoriteRCycleList.favorites.size() == 0){
+                        ToastUtil.toast("暂无更多收藏装备");
+                    }else {
+                        mMyFavoriteRCycleBeans.addAll(mFavoriteRCycleList.favorites);
+                        mRCycleListAdapter.notifyDataSetChanged();
+                    }
+                    ptrlvRideCycle.onRefreshComplete();
                 }else if (resultCode == 300){
                     T.show(MyFavoriteActivity.this, "获取失败", Toast.LENGTH_SHORT);
                 }else if (resultCode == 250){
