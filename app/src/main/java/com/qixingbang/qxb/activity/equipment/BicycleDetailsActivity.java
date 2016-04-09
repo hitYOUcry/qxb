@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -276,7 +277,7 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
                             ToastUtil.toast(R.string.server_error);
                             return;
                         }
-                        String bikeInfo = response.optJSONObject("bike").toString();
+                        String bikeInfo = object.toString();
                         mBicycle = mGson.fromJson(bikeInfo, Bicycle.class);
                         mBicycle.setBikeId(mBikeId);
                         mLikeFlag = response.optInt("isLike") == 1;
@@ -323,7 +324,11 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
      */
     private void refreshBicycleInfo() {
         tabTipTextView.setText(mBicycle.getModel());
-        priceTextView.setText(mBicycle.getPrice() + "￥");
+        if (TextUtils.isEmpty(mBicycle.getPrice())) {
+            priceTextView.setText("暂无");
+        } else {
+            priceTextView.setText(mBicycle.getPrice() + "￥");
+        }
         likeNumTextView.setText(mBicycle.getLikeCount() + "");
         modelNameTextView.setText(mBicycle.getModel());
         bicycleColorTextView.setText(mBicycle.getColor());
@@ -663,35 +668,6 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
     public void onPageScrollStateChanged(int state) {
     }
 
-    //    private void share() {
-    //        OnekeyShare oks = new OnekeyShare();
-    //        //关闭sso授权
-    //        oks.disableSSOWhenAuthorize();
-    //        oks.setTheme(OnekeyShareTheme.CLASSIC);
-    ////        oks.setSilent(true);
-    //        oks.setSilent(false);
-    //        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
-    //        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-    //        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用(QQ系必填)
-    //        oks.setTitle(getString(R.string.title_activity_main));
-    //        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-    //        oks.setTitleUrl(GlobalConstant.QXB_WEBSITE);
-    //        // text是分享文本，所有平台都需要这个字段
-    //        oks.setText(getString(R.string.share_text));
-    //        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-    //        oks.setImageUrl(GlobalConstant.SHARE_IMG);
-    //        // url仅在微信（包括好友和朋友圈）中使用
-    //        oks.setUrl(GlobalConstant.QXB_WEBSITE);
-    //        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-    //        //        oks.setComment("我是测试评论文本");
-    //        // site是分享此内容的网站名称，仅在QQ空间使用
-    //        oks.setSite(getString(R.string.app_name));
-    //        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-    //        oks.setSiteUrl(GlobalConstant.QXB_WEBSITE);
-    ////        oks.setViewToShare(rootView);
-    //        // 启动分享GUI
-    //        oks.show(this);
-    //    }
 
     /**
      * start this activity

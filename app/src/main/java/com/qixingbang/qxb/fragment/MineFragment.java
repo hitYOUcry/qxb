@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,11 +106,6 @@ public class MineFragment extends BaseFragment {
 
     private CacheSizeTask mCacheSizeTask;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d("MineFragment", "onCreate");
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,7 +123,11 @@ public class MineFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
-        initData();
+        if (QAccount.getUserInfo().isEmpty()) {
+            refreshUserInfo();
+        } else {
+            initData();
+        }
         mCacheSizeTask = new CacheSizeTask();
         mCacheSizeTask.execute(GlobalConstant.CACHE_PATH);
     }
@@ -138,7 +136,6 @@ public class MineFragment extends BaseFragment {
     public void onStart() {
         Log.d("MineFragment", "onStart");
         super.onStart();
-
         setHint();
     }
 
@@ -148,21 +145,21 @@ public class MineFragment extends BaseFragment {
         Boolean myReplyHint = CacheSP.getMyReplyHint();
         Boolean systemMessageHint = CacheSP.getSystemMessageHint();
 
-        if (myQuestionHint){
+        if (myQuestionHint) {
             ivQuestionHint.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             ivQuestionHint.setVisibility(View.INVISIBLE);
         }
 
-        if (myReplyHint){
+        if (myReplyHint) {
             ivReplyHint.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             ivReplyHint.setVisibility(View.INVISIBLE);
         }
 
-        if (systemMessageHint){
+        if (systemMessageHint) {
             ivSystemHint.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             ivSystemHint.setVisibility(View.INVISIBLE);
         }
     }
@@ -208,12 +205,15 @@ public class MineFragment extends BaseFragment {
     @Override
     public void initData() {
         String userInfo = QAccount.getUserInfo();
+        if (userInfo.isEmpty()) {
+            return;
+        }
         Gson gson = new Gson();
         mUserInfoBean = gson.fromJson(userInfo, UserInfoBean.class);
         if (mUserInfoBean.result == 200) {
             mBitmapUtils.display(ivHeadPortrait, mUserInfoBean.user.icon);
             tvNickname.setText(mUserInfoBean.user.nickname);
-            if (mUserInfoBean.user.sex == false) {
+            if (!mUserInfoBean.user.sex) {
                 tvSex.setText("男");
             } else {
                 tvSex.setText("女");
@@ -238,9 +238,9 @@ public class MineFragment extends BaseFragment {
                 switchActivity(SystemMessageActivity.class);
                 break;
             case R.id.rl_setting:
-                if(QAccount.hasAccount()){
+                if (QAccount.hasAccount()) {
                     switchActivity(SettingActivity.class, MainActivity.REQUEST_MINE_SETTING);
-                }else {
+                } else {
                     ToastUtil.toast(R.string.not_login_yet);
                 }
                 break;
@@ -333,7 +333,7 @@ public class MineFragment extends BaseFragment {
 
     public boolean refreshUserInfo() {
         String token = QAccount.getToken();
-        if(token.isEmpty()){
+        if (token.isEmpty()) {
             return false;
         }
         String detailsUrl = UrlUtil.getUserDetails();
@@ -347,7 +347,7 @@ public class MineFragment extends BaseFragment {
                 Gson gson = new Gson();
                 UserInfoBean mUserInfoBean = gson.fromJson(responseInfo.result, UserInfoBean.class);
                 if (mUserInfoBean.result == 200) {
-//                    mBitmapUtils.display(ivHeadPortrait, mUserInfoBean.user.icon);
+                    //                    mBitmapUtils.display(ivHeadPortrait, mUserInfoBean.user.icon);
                     QAccount.setUserInfo(result);
                     initData();
                 } else if (mUserInfoBean.result == 250) {
@@ -370,7 +370,7 @@ public class MineFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         Log.d("MineFragment", "onHiddenChanged = " + hidden);
         super.onHiddenChanged(hidden);
-        if (!hidden){
+        if (!hidden) {
             setHint();
         }
     }

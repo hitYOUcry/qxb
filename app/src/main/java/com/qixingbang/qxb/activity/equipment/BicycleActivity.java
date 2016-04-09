@@ -44,7 +44,7 @@ public class BicycleActivity extends BaseActivity implements ListItemView.ItemLi
     private final List<String> mBrandList = new ArrayList<>();
 
     private final List<String> mTypeList = Arrays.asList(
-            "不限", "休闲车", "公路车", "城市车", "山地车", "童车", "折叠车", "旅行车","酷飞车","其他");
+            "不限", "休闲车", "公路车", "城市车", "山地车", "童车", "折叠车", "旅行车", "酷飞车", "其他");
 
     private ListItemView mItemListView;
     private BicycleInfoAdapter mBicycleInfoAdapter;
@@ -95,10 +95,16 @@ public class BicycleActivity extends BaseActivity implements ListItemView.ItemLi
                 mBrandList.clear();
                 mBrandList.add("不限");
                 JSONArray jsonArray = response.optJSONArray("brands");
+                mBrandList.add("美利达");
+                mBrandList.add("捷安特");
                 for (int i = 0; i < jsonArray.length(); i++) {
+                    if (jsonArray.optString(i).equals("美利达")
+                            || jsonArray.optString(i).equals("捷安特")) {
+                        continue;
+                    }
                     mBrandList.add(jsonArray.optString(i));
                 }
-                mBrandList.add("更多");
+                //                mBrandList.add("更多");
                 mItemListView.setLists(mBrandList, mTypeList, mPriceList);
             }
         }, new Response.ErrorListener() {

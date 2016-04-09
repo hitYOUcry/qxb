@@ -17,16 +17,11 @@ import com.qixingbang.qxb.activity.communicate.ReplyActivity;
 import com.qixingbang.qxb.activity.login.LoginActivity;
 import com.qixingbang.qxb.base.activity.BaseFragmentActivity;
 import com.qixingbang.qxb.beans.QAccount;
-import com.qixingbang.qxb.common.application.GlobalConstant;
 import com.qixingbang.qxb.common.utils.BitmapUtil;
 import com.qixingbang.qxb.fragment.CommunicateFragment;
 import com.qixingbang.qxb.fragment.EquipmentFragment;
 import com.qixingbang.qxb.fragment.MineFragment;
 import com.qixingbang.qxb.fragment.RideCycleFragment;
-
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
-import cn.sharesdk.onekeyshare.OnekeyShareTheme;
 
 
 /**
@@ -34,7 +29,7 @@ import cn.sharesdk.onekeyshare.OnekeyShareTheme;
  */
 public class MainActivity extends BaseFragmentActivity {
 
-    private final String TAG = MainActivity.class.getName();
+    private final String TAG = "MainActivity";
 
     TextView tabTipTextView;
     ImageView shareImageView;
@@ -76,6 +71,7 @@ public class MainActivity extends BaseFragmentActivity {
         initView();
         initData();
         onClick(equipment);
+        QAccount.appStart();
     }
 
     @Override
@@ -125,28 +121,23 @@ public class MainActivity extends BaseFragmentActivity {
                 mCurrentIndex = INDEX_COMMUNICATE;
                 break;
             case R.id.relativeLayout_mine:
-                //TODO
                 if (!QAccount.hasAccount()) {
                     LoginActivity.start(this, REQUEST_LOGIN);
-                    //                    finish();
                 } else {
                     mCurrentIndex = INDEX_MINE;
                 }
                 break;
-            case R.id.imageView_share:
-                showShare();
-                return;
+            default:
+                break;
         }
-        showFragment(mCurrentIndex);
+        switchFragment();
     }
 
-    private void showFragment(int index) {
-        setBtmBar(index);
-        setTabTip(index);
+    private void switchFragment() {
+        setBtmBar();
+        setTabTip();
         //先隐藏所有fragment,然后根据index显示相应fragment。
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-
-        //TODO 其他三个fragment有待添加
         if (null != equipmentFragment) {
             transaction.hide(equipmentFragment);
         }
@@ -160,7 +151,7 @@ public class MainActivity extends BaseFragmentActivity {
             transaction.hide(mineFragment);
         }
 
-        switch (index) {
+        switch (mCurrentIndex) {
             case INDEX_HOMEPAGE:
                 if (null == equipmentFragment) {
                     equipmentFragment = new EquipmentFragment();
@@ -196,7 +187,7 @@ public class MainActivity extends BaseFragmentActivity {
     }
 
 
-    private void setBtmBar(int index) {
+    private void setBtmBar() {
         Resources res = getResources();
         equipmentImageView.setImageBitmap(BitmapUtil.compressBitmap(R.drawable.ic_eqp_not_selected));
         equipmentTextView.setTextColor(res.getColor(R.color.white));
@@ -206,7 +197,7 @@ public class MainActivity extends BaseFragmentActivity {
         communicateTextView.setTextColor(res.getColor(R.color.white));
         mineImageView.setImageBitmap(BitmapUtil.compressBitmap(R.drawable.ic_mine_not_selected));
         mineTextView.setTextColor(res.getColor(R.color.white));
-        switch (index) {
+        switch (mCurrentIndex) {
             case INDEX_HOMEPAGE:
                 equipmentImageView.setImageBitmap(BitmapUtil.compressBitmap(R.drawable.ic_eqp_selected));
                 equipmentTextView.setTextColor(res.getColor(R.color.yellow_light));
@@ -228,9 +219,9 @@ public class MainActivity extends BaseFragmentActivity {
         }
     }
 
-    private void setTabTip(int index) {
+    private void setTabTip() {
         Resources res = getResources();
-        switch (index) {
+        switch (mCurrentIndex) {
             case INDEX_HOMEPAGE:
                 tabTipTextView.setText(res.getString(R.string.equipment));
                 break;
@@ -248,40 +239,6 @@ public class MainActivity extends BaseFragmentActivity {
         }
     }
 
-
-    /**
-     * shareSDK分享设置
-     * 后期需要根据骑行邦具体内容修订
-     */
-    private void showShare() {
-        ShareSDK.initSDK(this);
-        OnekeyShare oks = new OnekeyShare();
-        //关闭sso授权
-        oks.disableSSOWhenAuthorize();
-        oks.setTheme(OnekeyShareTheme.CLASSIC);
-
-        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
-        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(getString(R.string.share));
-        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl(GlobalConstant.QXB_WEBSITE);
-        // text是分享文本，所有平台都需要这个字段
-        oks.setText("我是分享文本");
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImageUrl("http://g.hiphotos.baidu.com/baike/c0%3Dbaike92%2C5%2C5%2C92%2C30/sign=52a0efa0c9bf6c81e33a24badd57da50/dbb44aed2e738bd47d3eb9f9a48b87d6267ff9df.jpg");
-        // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl(GlobalConstant.QXB_WEBSITE);
-        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("我是测试评论文本");
-        // site是分享此内容的网站名称，仅在QQ空间使用
-        oks.setSite(getString(R.string.app_name));
-        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl(GlobalConstant.QXB_WEBSITE);
-
-        // 启动分享GUI
-        oks.show(this);
-    }
 
     //监测返回信息，更新相应的fragment
     public final static int REQUEST_LOGIN = 100;
@@ -305,9 +262,9 @@ public class MainActivity extends BaseFragmentActivity {
                 onClick(mine);
             }
         }
-        if(mCurrentIndex == INDEX_MINE){
-            if(null != mineFragment){
-                if(!mineFragment.refreshUserInfo()){
+        if (mCurrentIndex == INDEX_MINE) {
+            if (null != mineFragment) {
+                if (!mineFragment.refreshUserInfo()) {
                     onClick(equipment);
                 }
             }
@@ -341,7 +298,6 @@ public class MainActivity extends BaseFragmentActivity {
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
-        QAccount.appStart();
     }
 
 }

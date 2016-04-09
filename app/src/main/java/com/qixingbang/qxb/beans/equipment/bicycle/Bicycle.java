@@ -18,7 +18,7 @@ public class Bicycle implements Serializable, Comparable {
     private int bikeId;         //后台生成的自行车ID
 
     private String brand;      //品牌
-    private int price;   //参考价
+    private String price;   //参考价
     private String bikeType;       //种类
     private String model;      //型号
     private String color;      //颜色
@@ -38,7 +38,7 @@ public class Bicycle implements Serializable, Comparable {
     private Accessory kit;
     private Accessory frontDerailleur;//前变速器
     private Accessory backDerailleur;//后变速器
-    private Accessory lever;     //变速
+    private String lever;     //变速
     private Accessory brake;     //刹车
     private Accessory cassettes;  //齿轮
     private String cassettesParam;//齿轮参数
@@ -82,11 +82,11 @@ public class Bicycle implements Serializable, Comparable {
         this.brand = brand;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -221,11 +221,11 @@ public class Bicycle implements Serializable, Comparable {
         this.backDerailleur = backDerailleur;
     }
 
-    public Accessory getLever() {
+    public String getLever() {
         return lever;
     }
 
-    public void setLever(Accessory lever) {
+    public void setLever(String lever) {
         this.lever = lever;
     }
 

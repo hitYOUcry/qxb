@@ -8,7 +8,7 @@ import java.lang.ref.WeakReference;
 /**
  * Created by zqj on 2015/12/18 16:33.
  */
-public class CommonMsgHandler<T extends Activity> extends Handler {
+public abstract class CommonMsgHandler<T extends Activity> extends Handler {
     protected WeakReference<T> mActivity;
 
     public CommonMsgHandler(T activity) {

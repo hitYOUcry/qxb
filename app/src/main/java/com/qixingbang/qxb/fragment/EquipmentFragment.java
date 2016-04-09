@@ -62,9 +62,9 @@ public class EquipmentFragment extends BaseFragment implements ViewPager.OnPageC
     RelativeLayout bicycleEquipmentArea;
     RelativeLayout bicyclePartsArea;
 
-//    // 搜索框和图标
-//    EditText searchEditText;
-//    TextView searchConfirmTextView;
+    //    // 搜索框和图标
+    //    EditText searchEditText;
+    //    TextView searchConfirmTextView;
 
     private NewsViewPagerAdapter mAdapter;
     private List<RideCycleBean> mNewsList;
@@ -107,6 +107,8 @@ public class EquipmentFragment extends BaseFragment implements ViewPager.OnPageC
     @Override
     public void initView() {
         View view = getView();
+        if (view == null)
+            return;
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         viewPager.addOnPageChangeListener(EquipmentFragment.this);
 
@@ -129,9 +131,9 @@ public class EquipmentFragment extends BaseFragment implements ViewPager.OnPageC
         bicyclePartsArea = (RelativeLayout) view.findViewById(R.id.relativeLayout_bicycleParts);
         bicyclePartsArea.setOnClickListener(this);
 
-//        searchEditText = (EditText) view.findViewById(R.id.editText_search);
-//        searchConfirmTextView = (TextView) view.findViewById(R.id.textView_search_confirm);
-//        searchConfirmTextView.setOnClickListener(this);
+        //        searchEditText = (EditText) view.findViewById(R.id.editText_search);
+        //        searchConfirmTextView = (TextView) view.findViewById(R.id.textView_search_confirm);
+        //        searchConfirmTextView.setOnClickListener(this);
     }
 
     @Override
@@ -195,10 +197,10 @@ public class EquipmentFragment extends BaseFragment implements ViewPager.OnPageC
             case R.id.relativeLayout_bicycleParts:
                 BicyclePartsActivity.start(getActivity());
                 break;
-//            case R.id.textView_search_confirm:
-//                //TODO
-//                ToastUtil.toast("Searching " + searchEditText.getText().toString());
-//                break;
+            //            case R.id.textView_search_confirm:
+            //                //TODO
+            //                ToastUtil.toast("Searching " + searchEditText.getText().toString());
+            //                break;
             default:
                 break;
         }

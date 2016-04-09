@@ -74,7 +74,7 @@ public class BicycleInfoAdapter extends BaseInfoAdapter {
         viewHolder.modelDetailsTextView.setText(bicycle.getRoadType());
 
         viewHolder.suitableTextView.setText(bicycle.getBikeType());
-        if (bicycle.getPrice() == 0) {
+        if (bicycle.getPrice() == null) {
             viewHolder.priceTextView.setText("参考价位：----￥");
         } else {
             viewHolder.priceTextView.setText("参考价位：" + bicycle.getPrice() + "￥");

@@ -147,6 +147,8 @@ public class CommonDetailsActivity extends BaseActivity {
         webView.getSettings().setDefaultTextEncodingName("utf-8");//设置默认为utf-8
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        webSettings.setBuiltInZoomControls(false);
+        //        webSettings.setTextZoom(30);
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onShowCustomView(View view, CustomViewCallback callback) {
@@ -201,7 +203,7 @@ public class CommonDetailsActivity extends BaseActivity {
                 likeClicked();
                 break;
             case R.id.imageView_share:
-                ShareUtil.share(this, mSelected.getTitle(), UrlUtil.getNewsDetailsUrl(mSelected.getArticleId()));
+                ShareUtil.share(this);
                 break;
             default:
                 break;

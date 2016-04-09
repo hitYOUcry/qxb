@@ -110,7 +110,7 @@ public class QAccount {
                 .getSharedPreferences(ACCOUNT_SDF_PATH, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sPreference.edit();
         editor.putString(KEY_TOKEN, token);
-        editor.commit();
+        editor.apply();
     }
 
     public synchronized static void savePassword(String encryptPassword) {
@@ -118,7 +118,7 @@ public class QAccount {
                 .getSharedPreferences(ACCOUNT_SDF_PATH, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sPreference.edit();
         editor.putString(KEY_PASSWD, encryptPassword);
-        editor.commit();
+        editor.apply();
     }
 
     public synchronized static String getToken() {
@@ -133,7 +133,7 @@ public class QAccount {
         SharedPreferences.Editor editor = sPreference.edit();
         editor.putString(KEY_USER_CODE, id);
         editor.putString(KEY_PASSWD, passwd);
-        editor.commit();
+        editor.apply();
     }
 
     public synchronized static JSONObject getLoginInfo() {
@@ -159,7 +159,7 @@ public class QAccount {
                 .getSharedPreferences(ACCOUNT_SDF_PATH, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sPreference.edit();
         editor.putString(KEY_USER_INFO, userInfo);
-        editor.commit();
+        editor.apply();
     }
 
     public synchronized static String getUserInfo() {
@@ -181,7 +181,7 @@ public class QAccount {
                 .getSharedPreferences(ACCOUNT_SDF_PATH, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sPreference.edit();
         editor.clear();
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -192,7 +192,7 @@ public class QAccount {
                 .getSharedPreferences(ACCOUNT_SDF_PATH, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sPreference.edit();
         editor.putInt(KEY_OPENTIME, sPreference.getInt(KEY_OPENTIME, Context.MODE_PRIVATE) + 1);
-        editor.commit();
+        editor.apply();
     }
 
     /**

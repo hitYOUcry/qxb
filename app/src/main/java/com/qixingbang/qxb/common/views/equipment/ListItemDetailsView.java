@@ -214,6 +214,7 @@ public class ListItemDetailsView extends LinearLayout implements View.OnClickLis
 
     public void setPrice(int price) {
         mPrice = price;
+
         priceTextView.setText(mPrice + "￥");
     }
 

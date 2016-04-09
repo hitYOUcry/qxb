@@ -50,10 +50,6 @@ public class ConfigItem {
             configItem = new ConfigItem("前叉", mBicycle.getFrontFork());
             listTotal.add(configItem);
         }
-        if (null != mBicycle.getLever()) {
-            configItem = new ConfigItem("变速", mBicycle.getLever());
-            listTotal.add(configItem);
-        }
         if (null != mBicycle.getBrake()) {
             configItem = new ConfigItem("刹车", mBicycle.getBrake());
             listTotal.add(configItem);

@@ -10,7 +10,7 @@ import cn.sharesdk.onekeyshare.OnekeyShareTheme;
  */
 public class ShareUtil {
     public static final String SHARE_TITLE_DEFAULT = "骑行邦";
-    public static final String SHARE_URL_DEFAULT = "www.njhwt.com";
+    public static final String SHARE_URL_DEFAULT = "http://www.njhwt.com/qxb_back/";
     public static final String SHARE_TEXT_DEFAULT = "骑行邦，骑行的乌托邦";
     public static final String SHARE_IMG_URL_DEFAULT = "http://www.njhwt.com/upload/share/share.png";
 
