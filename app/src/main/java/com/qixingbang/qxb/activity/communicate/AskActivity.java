@@ -3,7 +3,6 @@ package com.qixingbang.qxb.activity.communicate;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -196,7 +195,7 @@ public class AskActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CAMERA) {
             if (resultCode == RESULT_OK) {
-                showAndSaveSelectedPic(BitmapUtil.resizeBitmap(BitmapFactory.decodeFile(FileUtil.getTakePhotoPath()), 800));// 图像重塑，节省空间，减少OOM。
+                showAndSaveSelectedPic(BitmapUtil.resizeBitmap(FileUtil.getTakePhotoPath(), 800));// 图像重塑，节省空间，减少OOM。
                 new File(FileUtil.getTakePhotoPath()).delete();//临时拍照的图片就删了，相册选的则不删
             }
         } else if (requestCode == REQUEST_GALLERY) {
@@ -209,7 +208,7 @@ public class AskActivity extends BaseActivity {
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 String picturePath = cursor.getString(columnIndex);
                 cursor.close();
-                showAndSaveSelectedPic(BitmapUtil.resizeBitmap(BitmapFactory.decodeFile(picturePath), 800));
+                showAndSaveSelectedPic(BitmapUtil.resizeBitmap(picturePath, 800));
             }
         }
         dismissPopWindow();

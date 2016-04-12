@@ -134,7 +134,8 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.ridecycle.DryCargoDetailsActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
         <!-- RideCycle Part End -->
 
 

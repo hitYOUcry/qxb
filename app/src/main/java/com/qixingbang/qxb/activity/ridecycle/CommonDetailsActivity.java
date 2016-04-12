@@ -3,6 +3,7 @@ package com.qixingbang.qxb.activity.ridecycle;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -153,6 +154,7 @@ public class CommonDetailsActivity extends BaseActivity {
             @Override
             public void onShowCustomView(View view, CustomViewCallback callback) {
                 super.onShowCustomView(view, callback);
+                Log.d(TAG, "onShowCustomView");
             }
         });
 
