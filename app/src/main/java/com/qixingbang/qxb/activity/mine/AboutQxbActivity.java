@@ -101,8 +101,13 @@ public class AboutQxbActivity extends BaseActivity {
                 JSONObject updateJson = response.optJSONObject("update");
                 if (updateJson != null) {
                     newestVersion = updateJson.optString("version");
-                    if (!TextUtils.isEmpty(versionName) && !versionName.equals(newestVersion)) {
-                        mTvNewestVersion.setText("有新版本(" + newestVersion + ")点击更新");
+                    if (!TextUtils.isEmpty(versionName)) {
+                        int compare = versionName.compareTo(newestVersion);
+                        if (compare < 0) {
+                            mTvNewestVersion.setText("有新版本(" + newestVersion + ")点击更新");
+                        } else if (compare > 0) {
+                            mTvNewestVersion.setText("开发者测试版");
+                        }
                     }
                     downloadUrl = updateJson.optString("url");
                 } else {
@@ -129,7 +134,7 @@ public class AboutQxbActivity extends BaseActivity {
 
     @OnClick(R.id.rl_version_update)
     public void updateVersion() {
-        if (versionName.equals(newestVersion)) {
+        if (versionName.compareTo(newestVersion) >= 0) {
             ToastUtil.toast(R.string.already_newest_version);
             return;
         } else {
@@ -145,7 +150,7 @@ public class AboutQxbActivity extends BaseActivity {
     }
 
     @OnClick(R.id.rl_service_terms)
-    public void serviceTerms(){
+    public void serviceTerms() {
         Intent intent = new Intent(this, ServiceTermsActivity.class);
         startActivity(intent);
     }
