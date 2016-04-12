@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -39,6 +40,8 @@ public class ChangePasswordAty extends BaseActivity {
     private Button mSaveBtn;
     private boolean flag;
 
+    ImageView backImageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,14 @@ public class ChangePasswordAty extends BaseActivity {
         mNewPwdEdt = (EditText) findViewById(R.id.edt_new_pwd);
         mRepeatNewPwdEdt = (EditText) findViewById(R.id.edt_repeat_new_pwd);
         mSaveBtn = (Button) findViewById(R.id.btn_save_password);
+
+        backImageView = (ImageView) findViewById(R.id.imageView_back);
+        backImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @Override
