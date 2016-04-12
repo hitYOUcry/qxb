@@ -8,7 +8,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="220">
+        android:layout_weight="220"
+        android:background="@color/black_242424">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"

@@ -58,6 +58,8 @@ public class QApplication extends Application {
                 //                        !Environment.isExternalStorageRemovable() ? getExternalCacheDir().getPath() :
                 getCacheDir().getPath();
         mBitmapUtils = new BitmapUtils(this, mCachePath, cacheSize, GlobalConstant.DISK_CACHE_SIZE);
+        mBitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_common_load_failed);
+        mBitmapUtils.configDefaultLoadingImage(R.drawable.ic_common_loading);
     }
 
     private void initJPushNotification() {
