@@ -22,6 +22,7 @@ import com.common.utils.L;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.base.activity.BaseActivity;
 import com.qixingbang.qxb.common.utils.FileUtil;
+import com.qixingbang.qxb.common.utils.SecurityUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.dialog.DialogUtil;
 import com.qixingbang.qxb.dialog.ProgressDialog;
@@ -102,7 +103,7 @@ public class AboutQxbActivity extends BaseActivity {
                 if (updateJson != null) {
                     newestVersion = updateJson.optString("version");
                     if (!TextUtils.isEmpty(versionName)) {
-                        int compare = versionName.compareTo(newestVersion);
+                        int compare = SecurityUtil.versionNameCompare(versionName, newestVersion);
                         if (compare < 0) {
                             mTvNewestVersion.setText("有新版本(" + newestVersion + ")点击更新");
                         } else if (compare > 0) {
@@ -134,7 +135,7 @@ public class AboutQxbActivity extends BaseActivity {
 
     @OnClick(R.id.rl_version_update)
     public void updateVersion() {
-        if (versionName.compareTo(newestVersion) >= 0) {
+        if (SecurityUtil.versionNameCompare(versionName, newestVersion) >= 0) {
             ToastUtil.toast(R.string.already_newest_version);
             return;
         } else {

@@ -14,7 +14,7 @@ import com.qixingbang.qxb.common.utils.LogUtil;
  */
 public class RequestUtil {
 
-    private String TAG_REQUEST = RequestUtil.class.getName();
+    private static final String TAG_REQUEST = "RequestUtil";
 
     //singleton
     private static RequestUtil instance;

@@ -6,6 +6,7 @@ import android.app.Notification;
 import com.lidroid.xutils.BitmapUtils;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.common.utils.FileUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.xutils.x;
 
@@ -46,7 +47,9 @@ public class QApplication extends Application {
 
         x.Ext.init(this);
         x.Ext.setDebug(true);
-        //        ShareSDK.initSDK(this);
+
+        //bugly detect init
+        CrashReport.initCrashReport(getApplicationContext(), "1104946409", false);
     }
 
     private void initBitmapUtils() {

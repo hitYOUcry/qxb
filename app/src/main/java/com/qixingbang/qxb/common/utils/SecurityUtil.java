@@ -11,12 +11,18 @@ import javax.crypto.spec.DESKeySpec;
  * Created by zqj on 2016/3/12 18:56.
  */
 public class SecurityUtil {
-    /** 加密、解密key. */
+    /**
+     * 加密、解密key.
+     */
     private static final String PASSWORD_CRYPT_KEY = "kEHrDooxWHCWtfeSxvDvgqZq";
-    /** 加密算法,可用 DES,DESede,Blowfish. */
+    /**
+     * 加密算法,可用 DES,DESede,Blowfish.
+     */
     private final static String ALGORITHM = "DES";
+
     /**
      * 对数据进行DES加密.
+     *
      * @param data 待进行DES加密的数据
      * @return 返回经过DES加密后的数据
      * @throws Exception
@@ -30,20 +36,23 @@ public class SecurityUtil {
 
     /**
      * 对用DES加密过的数据进行解密.
+     *
      * @param data DES加密数据
      * @return 返回解密后的数据
      * @throws Exception
      * @author <a href="mailto:xiexingxing1121@126.com" mce_href="mailto:xiexingxing1121@126.com">AmigoXie</a>
      * Creation date: 2007-7-31 - 下午12:07:54
      */
-    public final static String encrypt(String data) throws Exception  {
+    public final static String encrypt(String data) throws Exception {
         return byte2hex(encrypt(data.getBytes(), PASSWORD_CRYPT_KEY
                 .getBytes()));
     }
+
     /**
      * 用指定的key对数据进行DES加密.
+     *
      * @param data 待加密的数据
-     * @param key DES加密的key
+     * @param key  DES加密的key
      * @return 返回DES加密后的数据
      * @throws Exception
      * @author <a href="mailto:xiexingxing1121@126.com" mce_href="mailto:xiexingxing1121@126.com">AmigoXie</a>
@@ -66,10 +75,12 @@ public class SecurityUtil {
         // 正式执行加密操作
         return cipher.doFinal(data);
     }
+
     /**
      * 用指定的key对数据进行DES解密.
+     *
      * @param data 待解密的数据
-     * @param key DES解密的key
+     * @param key  DES解密的key
      * @return 返回DES解密后的数据
      * @throws Exception
      * @author <a href="mailto:xiexingxing1121@126.com" mce_href="mailto:xiexingxing1121@126.com">AmigoXie</a>
@@ -92,6 +103,7 @@ public class SecurityUtil {
         // 正式执行解密操作
         return cipher.doFinal(data);
     }
+
     public static byte[] hex2byte(byte[] b) {
         if ((b.length % 2) != 0)
             throw new IllegalArgumentException("长度不是偶数");
@@ -102,6 +114,7 @@ public class SecurityUtil {
         }
         return b2;
     }
+
     public static String byte2hex(byte[] b) {
         String hs = "";
         String stmp = "";
@@ -113,6 +126,27 @@ public class SecurityUtil {
                 hs = hs + stmp;
         }
         return hs.toUpperCase();
+    }
+
+    public static int versionNameCompare(String versionNameA, String versionNameB) {
+        String pattern = "(\\d+\\.)*\\d+";// match 1231.12120.123
+        if (!versionNameA.matches(pattern) || !versionNameB.matches(pattern))
+            return 0;
+        String[] a_version = versionNameA.split("\\.");
+        String[] b_version = versionNameB.split("\\.");
+        int length = Math.min(a_version.length, b_version.length);
+        int[] a = new int[length];
+        int[] b = new int[length];
+        for (int i = 0; i < length; i++) {
+            a[i] = Integer.valueOf(a_version[i]);
+            b[i] = Integer.valueOf(b_version[i]);
+            if (a[i] > b[i]) {
+                return 1;
+            } else if (a[i] < b[i]) {
+                return -1;
+            }
+        }
+        return 0;
     }
 
 }

@@ -118,6 +118,7 @@ public class MainActivity extends BaseFragmentActivity {
                 mCurrentIndex = INDEX_RIDE_CIRCLE;
                 break;
             case R.id.relativeLayout_communicate:
+                //TODO:
                 mCurrentIndex = INDEX_COMMUNICATE;
                 break;
             case R.id.relativeLayout_mine:
