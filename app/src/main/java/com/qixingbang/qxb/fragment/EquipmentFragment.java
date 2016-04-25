@@ -110,7 +110,7 @@ public class EquipmentFragment extends BaseFragment implements ViewPager.OnPageC
         if (view == null)
             return;
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        viewPager.addOnPageChangeListener(EquipmentFragment.this);
+        viewPager.addOnPageChangeListener(this);
 
         indicatorOne = (ImageView) view.findViewById(R.id.imageView_dot1);
         indicatorOne.setOnClickListener(this);
@@ -271,6 +271,7 @@ public class EquipmentFragment extends BaseFragment implements ViewPager.OnPageC
         }
 
         private void calculateViews() {
+            RideCycleBean bean = null;
             for (int i = 0; i < NEWS_NUM; i++) {
                 View view = View.inflate(getActivity(), R.layout.item_viewpager_homepage, null);
 
@@ -281,10 +282,12 @@ public class EquipmentFragment extends BaseFragment implements ViewPager.OnPageC
                         CommonDetailsActivity.start(getActivity(), mNewsContent.get(position));
                     }
                 });
+
+                bean = mNewsContent.get(i);
                 ImageView contentImage = (ImageView) view.findViewById(R.id.imageView);
-                QApplication.getImageLoader().display(contentImage, mNewsContent.get(i).getLogo());
+                QApplication.getImageLoader().display(contentImage, bean.getLogo());
                 TextView contentText = (TextView) view.findViewById(R.id.textView_newsText);
-                contentText.setText(mNewsContent.get(i).getTitle());
+                contentText.setText(bean.getTitle());
                 mViews[i] = view;
             }
         }

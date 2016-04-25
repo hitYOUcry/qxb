@@ -532,12 +532,11 @@ public class BicycleDetailsActivity extends BaseActivity implements ViewPager.On
                             mMaxCommentId = 0;
                             commentEditText.setText("");
                             commentEditText.clearFocus();
-
+                            getCommentsFromServer();
                         } else if (300 == response.optInt("result")) {
                             ToastUtil.toast(R.string.comment_send_failed);
                             DialogUtil.dismissWaitingDialog();
                         }
-
                     }
                 },
                 new Response.ErrorListener() {

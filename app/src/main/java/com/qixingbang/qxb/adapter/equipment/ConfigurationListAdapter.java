@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.beans.equipment.bicycle.ConfigItem;
-import com.qixingbang.qxb.common.utils.ToastUtil;
 
 import java.util.List;
 
@@ -53,12 +52,6 @@ public class ConfigurationListAdapter extends BaseAdapter {
         if (mList.get(position).getContent().getHasDetail()) {
             showDetails.setVisibility(View.VISIBLE);
         }
-        showDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.toast("Clicked item " + (position + 1));
-            }
-        });
         return view;
     }
 }

@@ -29,6 +29,7 @@ public class DialogUtil {
             return;
         if (mWaitDialog.isShowing()) {
             mWaitDialog.dismiss();
+            //important,avoid memory leak
             mWaitDialog = null;
         }
     }

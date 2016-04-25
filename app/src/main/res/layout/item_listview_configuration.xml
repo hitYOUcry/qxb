@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:minHeight="50dp">
 
     <TextView
         android:id="@+id/textView_itemName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_marginLeft="25dp"
+        android:layout_weight="2"
         android:textColor="#000"
         android:textSize="@dimen/text_size_33px"/>
 
     <TextView
         android:id="@+id/textVIew_itemContent"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="105dp"
-        android:layout_marginRight="40dp"
+        android:layout_weight="2"
         android:textColor="#000"
         android:textSize="@dimen/text_size_33px"/>
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="2"/>
+
     <ImageView
-        android:visibility="invisible"
         android:id="@+id/imageView_itemMore"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="25dp"
-        android:src="@drawable/ic_eqp_show_details"/>
-</RelativeLayout>
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginRight="15dp"
+        android:layout_weight="1"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_eqp_show_details"
+        android:visibility="invisible"/>
+</LinearLayout>

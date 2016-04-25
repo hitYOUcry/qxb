@@ -178,10 +178,10 @@
 
     <style name="mineFragment_middle_textView_style">
         <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:layout_width">50dp</item>
-        <item name="android:layout_height">14dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text_size_36px</item>
+        <item name="android:textSize">@dimen/text_size_33px</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:layout_marginTop">14dp</item>
     </style>

@@ -4,28 +4,28 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Common Start -->
-    <dimen name="text_size_xx_small">10dp</dimen>
-    <dimen name="text_size_x_small">12dp</dimen>
-    <dimen name="text_size_60px">20dp</dimen>
-    <dimen name="text_size_48px">16dp</dimen>
-    <dimen name="text_size_45px">15dp</dimen>
-    <dimen name="text_size_42px">14dp</dimen>
-    <dimen name="text_size_30px">10dp</dimen>
-    <dimen name="text_size_33px">11dp</dimen>
-    <dimen name="text_size_36px">12dp</dimen>
-    <dimen name="text_size_27px">9dp</dimen>
-    <dimen name="text_size_24px">8dp</dimen>
-    <dimen name="text_size_18px">6dp</dimen>
-    <dimen name="text_size_15px">5dp</dimen>
-    <dimen name="text_size_small">14dp</dimen>
-    <dimen name="text_size_medium">16dp</dimen>
-    <dimen name="text_size_50px">17dp</dimen>
-    <dimen name="text_size_large">18dp</dimen>
-    <dimen name="text_size_x_large">20dp</dimen>
-    <dimen name="text_size_xx_large">22dp</dimen>
-    <dimen name="text_size_56px">19dp</dimen>
-    <dimen name="text_size_66px">22dp</dimen>
-    <dimen name="text_size_69px">23dp</dimen>
+    <dimen name="text_size_xx_small">10sp</dimen>
+    <dimen name="text_size_x_small">12sp</dimen>
+    <dimen name="text_size_60px">20sp</dimen>
+    <dimen name="text_size_48px">16sp</dimen>
+    <dimen name="text_size_45px">15sp</dimen>
+    <dimen name="text_size_42px">14sp</dimen>
+    <dimen name="text_size_30px">10sp</dimen>
+    <dimen name="text_size_33px">11sp</dimen>
+    <dimen name="text_size_36px">12sp</dimen>
+    <dimen name="text_size_27px">9sp</dimen>
+    <dimen name="text_size_24px">8sp</dimen>
+    <dimen name="text_size_18px">6sp</dimen>
+    <dimen name="text_size_15px">5sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_50px">17sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_x_large">20sp</dimen>
+    <dimen name="text_size_xx_large">22sp</dimen>
+    <dimen name="text_size_56px">19sp</dimen>
+    <dimen name="text_size_66px">22sp</dimen>
+    <dimen name="text_size_69px">23sp</dimen>
     <!-- Common End -->
 
     <!--HomePageActivity Start -->

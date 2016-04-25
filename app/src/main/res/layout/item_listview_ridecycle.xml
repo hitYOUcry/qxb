@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/theme_black"
     android:minHeight="@dimen/ridecycle_listItem_height"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
@@ -49,7 +48,7 @@
                 android:id="@+id/textView_ridecycle"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="40"
+                android:layout_weight="55"
                 android:ellipsize="end"
                 android:gravity="top"
                 android:textColor="@color/white"
@@ -58,7 +57,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="20"/>
+                android:layout_weight="5"/>
 
             <TextView
                 android:id="@+id/textView_date"

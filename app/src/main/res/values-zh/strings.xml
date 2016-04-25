@@ -1,0 +1,162 @@
+<resources>
+    <string name="app_name">Qxb</string>
+    <string name="title_activity_main">骑行邦内侧</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- common part start -->
+    <string name="load_more">加载更多</string>
+    <string name="loading">正在载入</string>
+    <string name="begin_load">放开刷新...</string>
+    <string name="no_more_content">暂无更多内容</string>
+    <string name="no_related_content">没有相关内容</string>
+    <string name="system_error">系统错误，请重试</string>
+    <string name="not_login_yet">未登录，请先登录</string>
+    <string name="share_text">骑行邦，骑行的乌托邦</string>
+    <string name="click_again_to_exit">再按一次退出骑行邦</string>
+    <string name="sending">正在发送...</string>
+    <!-- common part end -->
+    <!-- login part start -->
+    <string name="accouter">账号</string>
+    <string name="password">密码</string>
+    <string name="login">登录</string>
+    <string name="login_simple">一键登录</string>
+    <string name="register">注册</string>
+    <string name="input_phonenumber">请输入手机号</string>
+    <string name="input_checknumber">请输入验证码</string>
+    <string name="input_password">设置密码</string>
+    <string name="repeat_password">重复密码</string>
+    <string name="nextStep">下一步</string>
+    <string name="resend">重新发送(%1$ds)</string>
+    <string name="resend_now">重新发送</string>
+    <string name="checknum_send_success">验证码已成功发送至&#160;&#160;&#160;&#160;</string>
+    <string name="none_password">密码不能为空</string>
+    <string name="password_not_same">两次输入密码不一致</string>
+    <string name="input_error">用户名或密码为空！</string>
+    <string name="login_error">用户名或密码错误！</string>
+    <string name="alreay_register">该号码已经注册过了，直接登录</string>
+    <string name="connect_platform">连接指定平台中(请耐心等待)</string>
+    <!-- login part end -->
+
+    <!-- HomeActivity Start-->
+    <string name="home_page">首页</string>
+    <string name="equipment">装备</string>
+    <string name="riding_circle">骑行圈</string>
+    <string name="communicate">交流</string>
+    <string name="mine">我的</string>
+    <!-- HomeActivity End-->
+
+    <!-- EquipmentFragment Start -->
+    <string name="searcher_editText_hint">搜索</string>
+    <string name="whole_bicycle">整车</string>
+    <string name="user_equipment">人身装备</string>
+    <string name="bicycle_equipment">车身装备</string>
+    <string name="bicycle_parts">零部件</string>
+    <string name="sure">确认</string>
+    <!-- EquipmentFragment End -->
+
+    <!-- BicycleActivity Start -->
+    <string name="brand">品牌</string>
+    <string name="type">类型</string>
+    <string name="price">价格</string>
+    <!-- BicycleActivity End -->
+
+    <!-- BicycleDetailsActivity Start -->
+    <string name="price_refer">参考价格：</string>
+    <string name="bicycle_color">车体颜色：</string>
+    <string name="bicycle_size">车架尺寸：</string>
+    <string name="configuration">配置：</string>
+    <string name="show_more">显示更多</string>
+    <string name="show_less">收起</string>
+    <string name="like_success">点赞成功</string>
+    <string name="like_cancel">取消点赞</string>
+    <string name="favorites_success">收藏成功</string>
+    <string name="favorites_cancel">取消收藏</string>
+    <string name="comment">骑友评论</string>
+    <string name="show_more_comment">查看更多评论</string>
+    <string name="brief_intro">简介</string>
+    <string name="no_comment">暂无更多评论</string>
+    <string name="add_comment">写评论</string>
+    <string name="submit_comment">发表</string>
+    <string name="comment_send_success">评论成功</string>
+    <string name="comment_send_failed">"评论发送失败，请稍后重试"</string>
+    <string name="accessory_no_details">"该零件还没有详情介绍噢"</string>
+    <!-- BicycleDetailsActivity End -->
+    <!-- EquipmentFragment End -->
+
+    <!-- RidecycleFragment Start -->
+    <string name="ridecycle_newstxt">新闻</string>
+    <string name="ridecycle_caretxt">保养</string>
+    <string name="ridecycle_strtxt">攻略</string>
+    <string name="ridecycle_drytxt">干货</string>
+    <!-- Communicate Part Start -->
+    <string name="ask">提问</string>
+    <string name="commit">提交</string>
+    <string name="reply">回复</string>
+    <string name="must_have_text">文字部分不能为空.</string>
+    <string name="pic_num_outOfBounder">暂时只支持最多三张图片</string>
+    <string name="no_camera_app">没有相机程序可用</string>
+    <string name="ask_edit_hint_text">请输入内容（不超过120字）</string>
+    <string name="add_pictures">添加图片</string>
+    <string name="ask_success">提问成功</string>
+    <string name="submitting">正在提交</string>
+    <string name="click_too_fre">点击过于频繁</string>
+    <!-- Communicate Part End -->
+
+    <!-- MineFragment Start -->
+    <string name="my_reply">我的回复</string>
+    <string name="my_favorite">我的收藏</string>
+    <string name="my_question">我的提问</string>
+    <string name="system_message">系统消息</string>
+    <string name="setting">设置</string>
+    <string name="about_qxb">关于骑行邦</string>
+    <string name="feedback">意见反馈</string>
+    <string name="clean_cache">清除缓存</string>
+    <string name="clean">清除</string>
+    <string name="nick_name">昵 称</string>
+    <string name="sex_age">男      24岁</string>
+    <string name="update">更新</string>
+    <string name="update_version">版本更新</string>
+    <string name="non_version_info">无版本信息</string>
+    <string name="newest_version">最新版本：</string>
+    <string name="download_url_error">下载地址错误</string>
+    <string name="download_error">下载出错，请稍后重试</string>
+    <string name="non_sd_card">SD缺失或挂载错误</string>
+    <string name="sd_card_error">外部存储器错误</string>
+    <string name="downloading">正在下载更新</string>
+    <string name="service_terms">服务条款</string>
+    <string name="back">返回</string>
+    <string name="already_newest_version">已经是最新版本</string>
+    <!-- SettingActivity Start -->
+    <string name="sex">性别</string>
+    <string name="age">年龄</string>
+    <string name="change_password">修改密码</string>
+    <string name="change_user">切换账号</string>
+    <string name="message_push">消息推送</string>
+    <string name="save_success">保存成功</string>
+    <string name="portrait_change_success">头像更换成功</string>
+    <string name="all_img">全部图片</string>
+    <string name="img_count">%1$d张</string>
+    <string name="chang_folder">更改文件夹</string>
+    <string name="change_user_hint">换个账号试试</string>
+    <string name="switch_account">切换</string>
+    <string name="original_password">第三方用户的初始密码为:888888</string>
+    <string name="submit">提交</string>
+    <!-- SettingActivity End -->
+    <!-- FeedbackActivity Start -->
+    <string name="tel_content">电话：18810538830</string>
+    <string name="email_content">邮箱：18810538830@163.com</string>
+    <string name="address_content">地址：北京市朝阳区太阳宫街道芍药居北理</string>
+    <!-- FeedbackActivity End -->
+    <!-- ChooseHeadPortraitActivity Start -->
+    <string name="head_portrait_title">选择照片</string>
+    <!-- ChooseHeadPortraitActivity End -->
+    <!-- MineFragment End -->
+
+    <!-- Internet Part Start -->
+    <string name="network_error">网络错误，请检查网络连接</string>
+    <string name="server_error">服务器出错了，稍后再试吧</string>
+    <string name="title_activity_test">TestActivity</string>
+    <!-- Internet Part End -->
+</resources>

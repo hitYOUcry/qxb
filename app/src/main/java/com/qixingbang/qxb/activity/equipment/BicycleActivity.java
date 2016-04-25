@@ -3,6 +3,7 @@ package com.qixingbang.qxb.activity.equipment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -97,9 +98,13 @@ public class BicycleActivity extends BaseActivity implements ListItemView.ItemLi
                 JSONArray jsonArray = response.optJSONArray("brands");
                 mBrandList.add("美利达");
                 mBrandList.add("捷安特");
+                mBrandList.add("A-BIKE");
+                String brandName;
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    if (jsonArray.optString(i).equals("美利达")
-                            || jsonArray.optString(i).equals("捷安特")) {
+                    brandName = jsonArray.optString(i);
+                    if (TextUtils.isEmpty(brandName) || brandName.equals("美利达")
+                            || brandName.equals("捷安特")
+                            || brandName.equals("A-BIKE")) {
                         continue;
                     }
                     mBrandList.add(jsonArray.optString(i));
