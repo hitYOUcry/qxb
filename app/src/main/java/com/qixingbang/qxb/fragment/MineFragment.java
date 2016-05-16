@@ -2,12 +2,17 @@ package com.qixingbang.qxb.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -34,10 +39,12 @@ import com.qixingbang.qxb.base.activity.BaseFragment;
 import com.qixingbang.qxb.beans.QAccount;
 import com.qixingbang.qxb.beans.mine.UserInfoBean;
 import com.qixingbang.qxb.common.application.GlobalConstant;
+import com.qixingbang.qxb.common.application.QApplication;
 import com.qixingbang.qxb.common.cache.CacheSP;
 import com.qixingbang.qxb.common.utils.BitmapUtil;
 import com.qixingbang.qxb.common.utils.FileUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
+import com.qixingbang.qxb.common.views.CircleButton;
 import com.qixingbang.qxb.dialog.TextDialog;
 import com.qixingbang.qxb.server.UrlUtil;
 
@@ -128,8 +135,73 @@ public class MineFragment extends BaseFragment {
         } else {
             initData();
         }
+        initFloatBtn();
         mCacheSizeTask = new CacheSizeTask();
         mCacheSizeTask.execute(GlobalConstant.CACHE_PATH);
+    }
+
+
+    private WindowManager mWindowManager;
+    CircleButton mFloatingButton;
+    WindowManager.LayoutParams mLayoutParams;
+    private final int TouchSlop = ViewConfiguration.get(QApplication.getInstance()).getScaledTouchSlop();
+
+    private void initFloatBtn() {
+        mWindowManager = getActivity().getWindowManager();
+        mFloatingButton = new CircleButton(getActivity());
+        mFloatingButton.setImageResource(R.drawable.ic_eqp_not_selected);
+        //        mFloatingButton.setColor();
+        mLayoutParams = new WindowManager.LayoutParams(64 * 3, 64 * 3, 0, 0, PixelFormat.TRANSLUCENT);
+        mLayoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+        mLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        mLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
+        mLayoutParams.x = 100;
+        mLayoutParams.y = 300;
+
+        mWindowManager.addView(mFloatingButton, mLayoutParams);
+        mFloatingButton.setOnTouchListener(new View.OnTouchListener() {
+
+            private int offsetX;
+            private int offsetY;
+
+            private int downX;
+            private int downY;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int rawX = (int) event.getRawX();
+                int rawY = (int) event.getRawY();
+                boolean result = false;
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        offsetX = mLayoutParams.x - rawX;
+                        offsetY = mLayoutParams.y - rawY;
+                        downX = rawX;
+                        downY = rawY;
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        mLayoutParams.x = rawX + offsetX;
+                        mLayoutParams.y = rawY + offsetY;
+                        mWindowManager.updateViewLayout(mFloatingButton, mLayoutParams);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (Math.abs(rawY - downY) > TouchSlop || Math.abs(rawX - downX) > TouchSlop) {
+                            mFloatingButton.setAnimationProgress(0);
+                            result = true;
+                        }
+                    default:
+                        break;
+                }
+                return result;
+            }
+        });
+        mFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.toast("建设中...");
+            }
+        });
     }
 
     @Override
@@ -137,6 +209,25 @@ public class MineFragment extends BaseFragment {
         Log.d("MineFragment", "onStart");
         super.onStart();
         setHint();
+        openFloatBtn();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        closeFloatBtn();
+    }
+
+    public void openFloatBtn() {
+        if (null != mFloatingButton) {
+            mFloatingButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void closeFloatBtn() {
+        if (null != mFloatingButton) {
+            mFloatingButton.setVisibility(View.GONE);
+        }
     }
 
     private void setHint() {
@@ -200,6 +291,8 @@ public class MineFragment extends BaseFragment {
         ivQuestionHint = (ImageView) rootView.findViewById(R.id.iv_hint_my_question);
         ivReplyHint = (ImageView) rootView.findViewById(R.id.iv_hint_my_reply);
         ivSystemHint = (ImageView) rootView.findViewById(R.id.iv_hint_system_message);
+
+
     }
 
     @Override

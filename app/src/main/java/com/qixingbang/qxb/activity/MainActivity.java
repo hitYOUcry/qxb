@@ -149,6 +149,7 @@ public class MainActivity extends BaseFragmentActivity {
             transaction.hide(communicateFragment);
         }
         if (null != mineFragment) {
+            mineFragment.closeFloatBtn();
             transaction.hide(mineFragment);
         }
 
@@ -179,6 +180,7 @@ public class MainActivity extends BaseFragmentActivity {
                     mineFragment = new MineFragment();
                     transaction.add(R.id.fragment_content, mineFragment);
                 }
+                mineFragment.openFloatBtn();
                 transaction.show(mineFragment);
                 break;
             default:

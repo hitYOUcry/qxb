@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 22
         versionCode 3
-        versionName "1.1.2"
+        versionName "1.1.3"
         multiDexEnabled true
         ndk {
             //设置支持的SO库架构

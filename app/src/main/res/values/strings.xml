@@ -147,7 +147,7 @@
     <!-- FeedbackActivity Start -->
     <string name="tel_content">电话：18810538830</string>
     <string name="email_content">邮箱：18810538830@163.com</string>
-    <string name="address_content">地址：北京市朝阳区太阳宫街道芍药居北理</string>
+    <string name="address_content">公司：南京万事邦信息科技有限公司</string>
     <!-- FeedbackActivity End -->
     <!-- ChooseHeadPortraitActivity Start -->
     <string name="head_portrait_title">选择照片</string>
