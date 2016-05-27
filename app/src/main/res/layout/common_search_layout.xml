@@ -14,6 +14,8 @@
         android:layout_marginRight="62dp"
         android:background="@drawable/xml_shape_search_edit_bg"
         android:hint="@string/searcher_editText_hint"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
         android:paddingLeft="30dp"
         android:textColor="@color/white_cb"
         android:textColorHint="@color/white_cb"

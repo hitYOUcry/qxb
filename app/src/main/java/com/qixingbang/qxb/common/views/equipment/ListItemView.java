@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -107,6 +109,17 @@ public class ListItemView extends LinearLayout implements View.OnClickListener, 
         tabTipTextView = (TextView) findViewById(R.id.textView_tabTip);
 
         searchEdittext = (EditText) findViewById(R.id.editText_search);
+        searchEdittext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND || actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    onClick(searchConfirmTextView);
+                    return true;
+                }
+                return false;
+            }
+        });
         searchConfirmTextView = (TextView) findViewById(R.id.textView_search_confirm);
         searchConfirmTextView.setOnClickListener(this);
 
