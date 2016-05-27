@@ -28,6 +28,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.activity.MainActivity;
+import com.qixingbang.qxb.activity.mine.map.MapActivity;
 import com.qixingbang.qxb.activity.mine.AboutQxbActivity;
 import com.qixingbang.qxb.activity.mine.FeedbackActivity;
 import com.qixingbang.qxb.activity.mine.MyFavoriteActivity;
@@ -199,7 +200,7 @@ public class MineFragment extends BaseFragment {
         mFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.toast("建设中...");
+                MapActivity.start(mFloatingButton.getContext());
             }
         });
     }

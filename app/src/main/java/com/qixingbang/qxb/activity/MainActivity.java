@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.activity.communicate.ReplyActivity;
@@ -18,6 +17,7 @@ import com.qixingbang.qxb.activity.login.LoginActivity;
 import com.qixingbang.qxb.base.activity.BaseFragmentActivity;
 import com.qixingbang.qxb.beans.QAccount;
 import com.qixingbang.qxb.common.utils.BitmapUtil;
+import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.fragment.CommunicateFragment;
 import com.qixingbang.qxb.fragment.EquipmentFragment;
 import com.qixingbang.qxb.fragment.MineFragment;
@@ -283,7 +283,7 @@ public class MainActivity extends BaseFragmentActivity {
             super.onBackPressed();
         } else {
             mLastClickTime = systemTime;
-            Toast.makeText(this, R.string.click_again_to_exit, Toast.LENGTH_SHORT).show();
+            ToastUtil.toast(R.string.click_again_to_exit);
         }
     }
 
