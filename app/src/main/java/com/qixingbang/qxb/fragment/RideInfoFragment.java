@@ -1,12 +1,9 @@
 package com.qixingbang.qxb.fragment;
 
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -75,7 +72,6 @@ public class RideInfoFragment extends BaseFragment {
     };
 
     private LocationManager mLocationManager;
-    private boolean GPS_STATE;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -191,24 +187,6 @@ public class RideInfoFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_rideinfo, container, false);
-    }
-
-    @Override
-    public void onDestroy() {
-        //TODO seems do not work
-        if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            Intent gpsIntent = new Intent();
-            gpsIntent.setClassName("com.android.settings",
-                    "com.android.settings.widget.SettingsAppWidgetProvider");
-            gpsIntent.addCategory("android.intent.category.ALTERNATIVE");
-            gpsIntent.setData(Uri.parse("custom:3"));
-            try {
-                PendingIntent.getBroadcast(getActivity(), 0, gpsIntent, 0).send();
-            } catch (PendingIntent.CanceledException e) {
-                e.printStackTrace();
-            }
-        }
-        super.onDestroy();
     }
 
     @Override

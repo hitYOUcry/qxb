@@ -129,6 +129,7 @@ public class MapService {
      */
     public void stopRecordTrace() {
         mTraceClient.stopTrace(mTrace, mStopTraceListener);
+        setRefreshTaskState(false);
         drawHistoryTrack(mTracePoints);
     }
 
@@ -239,7 +240,6 @@ public class MapService {
         mStopTraceListener = new OnStopTraceListener() {
             @Override
             public void onStopTraceSuccess() {
-                setRefreshTaskState(false);
             }
 
             @Override
@@ -357,9 +357,6 @@ public class MapService {
         // 绘制新覆盖物前，清空之前的覆盖物
         mMap.clear();
         if (points == null || points.size() == 0) {
-            Looper.prepare();
-            ToastUtil.toast("当前查询无轨迹点");
-            Looper.loop();
             resetMarker();
         } else if (points.size() > 1) {
             LatLng llC = points.get(0);
