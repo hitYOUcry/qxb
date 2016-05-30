@@ -8,7 +8,6 @@
         android:name="com.qixingbang.qxb.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature"/>
     <!-- ShareSDK必需权限 -->
-
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -32,6 +31,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
     <!-- Optional. Required for location feature -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
@@ -135,8 +135,8 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.ridecycle.DryCargoDetailsActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"/>
         <!-- RideCycle Part End -->
 
 
@@ -193,6 +193,9 @@
             android:name=".activity.mine.ServiceTermsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".activity.mine.map.RideActivity"
+            android:screenOrientation="portrait"/>
         <!-- Mine Part End -->
 
 
@@ -324,6 +327,20 @@
         <!-- 发到 Google Play 的APK可以设置为 google-play; -->
         <!-- 发到其他市场的 APK 可以设置为 xxx-market。 -->
         <!-- 目前这个渠道统计功能的报表还未开放。 -->
+        <!-- baidu map service-->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+        </service>
+        <service
+            android:name="com.baidu.trace.LBSTraceService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="L5IE5brFciPiQbdjhslpTT62V5Z6xM84"/>
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default"/>

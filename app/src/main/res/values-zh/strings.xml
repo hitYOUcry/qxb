@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Qxb</string>
-    <string name="title_activity_main">骑行邦内侧</string>
+    <string name="title_activity_main">骑行邦内测</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -152,6 +152,20 @@
     <!-- ChooseHeadPortraitActivity Start -->
     <string name="head_portrait_title">选择照片</string>
     <!-- ChooseHeadPortraitActivity End -->
+
+    <!-- MapActivity Start -->
+    <string name="ride_begin">开始骑行</string>
+    <string name="ride_close">结束骑行</string>
+    <string name="trace_history">轨迹记录</string>
+    <string name="ride_info">骑行信息</string>
+    <string name="ride_map">地图</string>
+    <string name="speed">时速</string>
+    <string name="time">时间</string>
+    <string name="average_speed">均速</string>
+    <string name="mileage">里程</string>
+    <string name="leave">离开</string>
+    <!-- MapActivity End -->
+
     <!-- MineFragment End -->
 
     <!-- Internet Part Start -->

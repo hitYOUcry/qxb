@@ -36,4 +36,6 @@
     <color name="white_f4f4f4">#f4f4f4</color>
     <color name="black_313131">#313131</color>
     <color name="gray_76777b">#76777b</color>
+    <color name="blue">#5757df</color>
+    <color name="red_ff">#ff5656</color>
 </resources>
