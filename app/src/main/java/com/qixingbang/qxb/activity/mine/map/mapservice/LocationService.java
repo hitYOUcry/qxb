@@ -1,4 +1,4 @@
-package com.qixingbang.qxb.activity.mine.map;
+package com.qixingbang.qxb.activity.mine.map.mapservice;
 
 import android.content.Context;
 

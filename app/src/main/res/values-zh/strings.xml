@@ -157,6 +157,13 @@
     <string name="ride_begin">开始骑行</string>
     <string name="ride_close">结束骑行</string>
     <string name="trace_history">轨迹记录</string>
+    <string name="ride_info">骑行信息</string>
+    <string name="ride_map">地图</string>
+    <string name="speed">时速</string>
+    <string name="time">时间</string>
+    <string name="average_speed">均速</string>
+    <string name="mileage">里程</string>
+    <string name="leave">离开</string>
     <!-- MapActivity End -->
 
     <!-- MineFragment End -->

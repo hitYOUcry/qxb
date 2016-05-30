@@ -1,4 +1,4 @@
-package com.qixingbang.qxb.activity.mine.map;
+package com.qixingbang.qxb.activity.mine.map.mapservice;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -17,6 +17,8 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.baidu.trace.LBSTraceClient;
 import com.baidu.trace.LocationMode;
 import com.baidu.trace.OnEntityListener;
@@ -26,15 +28,23 @@ import com.baidu.trace.OnTrackListener;
 import com.baidu.trace.Trace;
 import com.baidu.trace.TraceLocation;
 import com.qixingbang.qxb.R;
+import com.qixingbang.qxb.activity.mine.map.trackutils.GsonService;
+import com.qixingbang.qxb.activity.mine.map.trackutils.HistoryTrackData;
 import com.qixingbang.qxb.common.utils.LogUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zqj on 2016/5/27 18:58.
  */
 public class MapService {
+
+    public interface StateListener {
+        void distanceChanged(double distance);
+    }
+
     public static final int SERVICE_ID = 117158;//百度鹰眼服务Id
 
     private static final String TAG = "MapService";
@@ -89,12 +99,12 @@ public class MapService {
 
     private int mPackageInterval = 2 * mRefreshPeriod;
 
-    /**
-     * start trace
-     */
-    public void startRecordTrace() {
-        mTraceClient.startTrace(mTrace, mStartTraceListener);
-    }
+    private double mCurrentDistance = 0d;
+    private LatLng prev = null;
+    private LatLng curr = null;
+    private float speed = 0f;
+
+    private StateListener mStateListener;
 
     public MapService(MapView mapView, String entityName, Context context) {
         mMapView = mapView;
@@ -104,16 +114,54 @@ public class MapService {
     }
 
     /**
+     * start trace
+     */
+    public void startRecordTrace() {
+        mCurrentDistance = 0;
+        mMap.clear();
+        mTracePoints.clear();
+        resetMarker();
+        mTraceClient.startTrace(mTrace, mStartTraceListener);
+    }
+
+    /**
      * stop trace
      */
     public void stopRecordTrace() {
         mTraceClient.stopTrace(mTrace, mStopTraceListener);
+        drawHistoryTrack(mTracePoints);
     }
 
+    public void setStateListener(StateListener listener) {
+        mStateListener = listener;
+    }
+
+    /**
+     * stop service
+     */
     public void stop() {
-        stopRecordTrace();
         mLocationService.stop();
         mLocationService.unregisterListener(mLocationListener);
+    }
+
+    public void queryhistoryTrack(int startTime, int endTime) {
+        int simpleReturn = 0;
+        int pageSize = 1000;
+        int pageIndex = 1;
+        mTraceClient.queryHistoryTrack(SERVICE_ID, mEntityName, simpleReturn, startTime, endTime,
+                pageSize, pageIndex, mTrackListener);
+    }
+
+    public boolean isTracing() {
+        return !(mRefreshTask == null);
+    }
+
+    public double getCurrentDistance() {
+        return mCurrentDistance;
+    }
+
+    public float getSpeed() {
+        return speed;
     }
 
     private void init() {
@@ -171,8 +219,7 @@ public class MapService {
             @Override
             public void onQueryHistoryTrackCallback(String s) {
                 super.onQueryHistoryTrackCallback(s);
-                //TODO
-                //                showHistoryTrack(s);
+                showHistoryTrack(s);
             }
         };
 
@@ -235,6 +282,16 @@ public class MapService {
 
             mTracePoints.add(latLng);
             drawRealTimePoint(latLng);
+            if (mTracePoints.size() >= 2) {
+                curr = mTracePoints.get(mTracePoints.size() - 1);
+                prev = mTracePoints.get(mTracePoints.size() - 2);
+                double distance = DistanceUtil.getDistance(prev, curr);
+                mCurrentDistance += distance;
+                if (Math.abs(distance) > 1 && mStateListener != null) {
+                    mStateListener.distanceChanged(mCurrentDistance);
+                }
+            }
+            speed = location.getSpeed();
         }
     }
 
@@ -250,16 +307,98 @@ public class MapService {
             mPolyline = new PolylineOptions().width(10)
                     .color(Color.RED).points(mTracePoints);
         }
+
+        if (mCurrentDistance > 5) {
+            mBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_start);
+            // 添加起点图标
+            startMarker = new MarkerOptions()
+                    .position(mTracePoints.get(0)).icon(mBitmapDescriptor)
+                    .zIndex(9).draggable(true);
+        }
         /**
          * plot info on map
          */
         mMap.clear();
         mMap.setMapStatus(msUpdate);
         mMap.addOverlay(mOverlay);
+        if(startMarker != null){
+            mMap.addOverlay(startMarker);
+        }
         if (null != mPolyline) {
             mMap.addOverlay(mPolyline);
         }
 
+    }
+
+    private void showHistoryTrack(String historyTrack) {
+
+        HistoryTrackData historyTrackData = GsonService.parseJson(historyTrack,
+                HistoryTrackData.class);
+
+        List<LatLng> latLngList = new ArrayList<LatLng>();
+        if (historyTrackData != null && historyTrackData.getStatus() == 0) {
+            if (historyTrackData.getListPoints() != null) {
+                latLngList.addAll(historyTrackData.getListPoints());
+            }
+            drawHistoryTrack(latLngList);
+        }
+
+    }
+
+    /**
+     * 绘制历史轨迹
+     */
+    // 起点图标覆盖物
+    private MarkerOptions startMarker = null;
+    // 终点图标覆盖物
+    private MarkerOptions endMarker = null;
+
+    private void drawHistoryTrack(final List<LatLng> points) {
+        // 绘制新覆盖物前，清空之前的覆盖物
+        mMap.clear();
+        if (points == null || points.size() == 0) {
+            Looper.prepare();
+            ToastUtil.toast("当前查询无轨迹点");
+            Looper.loop();
+            resetMarker();
+        } else if (points.size() > 1) {
+            LatLng llC = points.get(0);
+            LatLng llD = points.get(points.size() - 1);
+            LatLngBounds bounds = new LatLngBounds.Builder()
+                    .include(llC).include(llD).build();
+
+            msUpdate = MapStatusUpdateFactory.newLatLngBounds(bounds);
+
+            mBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_start);
+            // 添加起点图标
+            startMarker = new MarkerOptions()
+                    .position(points.get(0)).icon(mBitmapDescriptor)
+                    .zIndex(9).draggable(true);
+            mBitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_end);
+
+
+            // 添加终点图标
+            endMarker = new MarkerOptions().position(points.get(points.size() - 1))
+                    .icon(mBitmapDescriptor).zIndex(9).draggable(true);
+
+            // 添加路线（轨迹）
+            mPolyline = new PolylineOptions().width(10)
+                    .color(Color.RED).points(points);
+            mMap.setMapStatus(msUpdate);
+            mMap.addOverlay(startMarker);
+            mMap.addOverlay(endMarker);
+            mMap.addOverlay(mPolyline);
+        }
+
+    }
+
+    /**
+     * 重置覆盖物
+     */
+    private void resetMarker() {
+        startMarker = null;
+        endMarker = null;
+        mPolyline = null;
     }
 
     private class RefreshMapTask extends Thread {

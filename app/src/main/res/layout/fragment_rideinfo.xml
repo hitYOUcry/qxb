@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"
+        android:layout_weight="5"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/speed"
+            android:textSize="@dimen/text_size_small"/>
+
+        <TextView
+            android:id="@+id/textView_speed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="0.00"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_270px"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="km/h"
+            android:textSize="@dimen/text_size_small"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/mileage"
+                android:textSize="@dimen/text_size_small"/>
+
+            <TextView
+                android:id="@+id/textView_mileage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0.00"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_90px"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="km"
+                android:textSize="@dimen/text_size_small"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/time"
+                android:textSize="@dimen/text_size_small"/>
+
+            <TextView
+                android:id="@+id/textView_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="00:00"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_90px"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textSize="@dimen/text_size_small"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/average_speed"
+                android:textSize="@dimen/text_size_small"/>
+
+            <TextView
+                android:id="@+id/textView_ave_speed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0.00"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_90px"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="km/h"
+                android:textSize="@dimen/text_size_small"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_start_ride"
+            android:layout_width="240dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:text="@string/ride_begin"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"/>
+    </LinearLayout>
+
+
+</LinearLayout>

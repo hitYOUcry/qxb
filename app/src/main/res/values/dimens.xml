@@ -26,6 +26,8 @@
     <dimen name="text_size_56px">19sp</dimen>
     <dimen name="text_size_66px">22sp</dimen>
     <dimen name="text_size_69px">23sp</dimen>
+    <dimen name="text_size_90px">30sp</dimen>
+    <dimen name="text_size_270px">90sp</dimen>
     <!-- Common End -->
 
     <!--HomePageActivity Start -->

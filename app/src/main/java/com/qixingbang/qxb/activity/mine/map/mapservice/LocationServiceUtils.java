@@ -1,4 +1,4 @@
-package com.qixingbang.qxb.activity.mine.map;
+package com.qixingbang.qxb.activity.mine.map.mapservice;
 
 public class LocationServiceUtils {
 	public final static String CoorType_GCJ02 = "gcj02";

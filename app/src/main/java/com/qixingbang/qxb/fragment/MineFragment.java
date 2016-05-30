@@ -28,7 +28,6 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.activity.MainActivity;
-import com.qixingbang.qxb.activity.mine.map.MapActivity;
 import com.qixingbang.qxb.activity.mine.AboutQxbActivity;
 import com.qixingbang.qxb.activity.mine.FeedbackActivity;
 import com.qixingbang.qxb.activity.mine.MyFavoriteActivity;
@@ -36,6 +35,7 @@ import com.qixingbang.qxb.activity.mine.MyQuestionActivity;
 import com.qixingbang.qxb.activity.mine.MyReplyActivity;
 import com.qixingbang.qxb.activity.mine.SettingActivity;
 import com.qixingbang.qxb.activity.mine.SystemMessageActivity;
+import com.qixingbang.qxb.activity.mine.map.RideActivity;
 import com.qixingbang.qxb.base.activity.BaseFragment;
 import com.qixingbang.qxb.beans.QAccount;
 import com.qixingbang.qxb.beans.mine.UserInfoBean;
@@ -200,7 +200,7 @@ public class MineFragment extends BaseFragment {
         mFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MapActivity.start(mFloatingButton.getContext());
+                RideActivity.start(mFloatingButton.getContext());
             }
         });
     }
@@ -210,7 +210,9 @@ public class MineFragment extends BaseFragment {
         Log.d("MineFragment", "onStart");
         super.onStart();
         setHint();
-        openFloatBtn();
+        if (!isHiddened) {
+            openFloatBtn();
+        }
     }
 
     @Override
@@ -460,12 +462,18 @@ public class MineFragment extends BaseFragment {
     }
 
 
+    private boolean isHiddened;
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         Log.d("MineFragment", "onHiddenChanged = " + hidden);
         super.onHiddenChanged(hidden);
+        isHiddened = hidden;
         if (!hidden) {
             setHint();
+            openFloatBtn();
         }
     }
+
+
 }
