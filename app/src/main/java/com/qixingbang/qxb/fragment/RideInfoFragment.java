@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.base.activity.BaseFragment;
+import com.qixingbang.qxb.dialog.DialogUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -110,6 +111,7 @@ public class RideInfoFragment extends BaseFragment {
 
     /**
      * may call from other thread,refresh UI carefully
+     *
      * @param distance
      */
     public void refreshMileage(double distance) {
@@ -126,24 +128,55 @@ public class RideInfoFragment extends BaseFragment {
     public void onClick(View v) {
         if (v == startRideBtn) {
             if (isStarted) {
-                if (mListener != null) {
-                    mListener.stopRide();
-                }
-                startRideBtn.setBackgroundColor(getResources().getColor(R.color.blue));
-                startRideBtn.setText(R.string.ride_begin);
-                isStarted = false;
+                double usedTime = (System.currentTimeMillis() - startTime) / 1000d / 3600;
+                String rideInfo = String.format(getString(R.string.ride_info_format), mileage, usedTime);
+                DialogUtil.showTextDialog(getActivity(), R.string.stop_ride, rideInfo,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                stopTraceService();
+                            }
+
+                        });
             } else {
-                resetInfo();
-                if (mListener != null) {
-                    mListener.startRide();
-                    startTime = System.currentTimeMillis();
-                    mHandler.post(timeRefreshTask);
+                if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    openTraceService();
+                } else {
+                    DialogUtil.showTextDialog(getActivity(), R.string.gps_hint, R.string.gps_hint_content,
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                                        openTraceService();
+                                    }
+                                }
+
+                            });
                 }
-                startRideBtn.setBackgroundColor(getResources().getColor(R.color.red_ff));
-                startRideBtn.setText(R.string.ride_close);
-                isStarted = true;
             }
+
         }
+    }
+
+    private void openTraceService() {
+        resetInfo();
+        if (mListener != null) {
+            mListener.startRide();
+            startTime = System.currentTimeMillis();
+            mHandler.post(timeRefreshTask);
+        }
+        startRideBtn.setBackgroundColor(getResources().getColor(R.color.red_ff));
+        startRideBtn.setText(R.string.ride_close);
+        isStarted = true;
+    }
+
+    private void stopTraceService() {
+        if (mListener != null) {
+            mListener.stopRide();
+        }
+        startRideBtn.setBackgroundColor(getResources().getColor(R.color.blue));
+        startRideBtn.setText(R.string.ride_begin);
+        isStarted = false;
     }
 
     private void handleMsg(Message msg) {
