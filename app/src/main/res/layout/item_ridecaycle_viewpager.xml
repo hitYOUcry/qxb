@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshListView
         android:id="@+id/pullToRefreshListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,5 +15,5 @@
         android:scrollbars="none"
         ptr:ptrHeaderBackground="@color/theme_black"
         ptr:ptrHeaderTextColor="@color/white">
-    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+    </com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshListView>
 </LinearLayout>

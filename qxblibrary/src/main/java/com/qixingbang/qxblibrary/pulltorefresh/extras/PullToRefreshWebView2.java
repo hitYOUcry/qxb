@@ -21,7 +21,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.webkit.WebView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshWebView;
+import com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshWebView;
 
 /**
  * An advanced version of {@link PullToRefreshWebView} which delegates the

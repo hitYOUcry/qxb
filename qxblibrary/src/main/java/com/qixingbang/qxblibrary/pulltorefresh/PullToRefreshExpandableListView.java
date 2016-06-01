@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.handmark.pulltorefresh.library;
+package com.qixingbang.qxblibrary.pulltorefresh;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -21,25 +21,25 @@ import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.GridView;
+import android.widget.ExpandableListView;
 
 import com.qixingbang.qxblibrary.pulltorefresh.internal.EmptyViewMethodAccessor;
 
-public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView> {
+public class PullToRefreshExpandableListView extends PullToRefreshAdapterViewBase<ExpandableListView> {
 
-	public PullToRefreshGridView(Context context) {
+	public PullToRefreshExpandableListView(Context context) {
 		super(context);
 	}
 
-	public PullToRefreshGridView(Context context, AttributeSet attrs) {
+	public PullToRefreshExpandableListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	public PullToRefreshGridView(Context context, Mode mode) {
+	public PullToRefreshExpandableListView(Context context, Mode mode) {
 		super(context, mode);
 	}
 
-	public PullToRefreshGridView(Context context, Mode mode, AnimationStyle style) {
+	public PullToRefreshExpandableListView(Context context, Mode mode, AnimationStyle style) {
 		super(context, mode, style);
 	}
 
@@ -49,28 +49,28 @@ public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView
 	}
 
 	@Override
-	protected final GridView createRefreshableView(Context context, AttributeSet attrs) {
-		final GridView gv;
+	protected ExpandableListView createRefreshableView(Context context, AttributeSet attrs) {
+		final ExpandableListView lv;
 		if (VERSION.SDK_INT >= VERSION_CODES.GINGERBREAD) {
-			gv = new InternalGridViewSDK9(context, attrs);
+			lv = new InternalExpandableListViewSDK9(context, attrs);
 		} else {
-			gv = new InternalGridView(context, attrs);
+			lv = new InternalExpandableListView(context, attrs);
 		}
 
-		// Use Generated ID (from res/values/ids.xml)
-		gv.setId(R.id.gridview);
-		return gv;
+		// Set it to this so it can be used in ListActivity/ListFragment
+		lv.setId(android.R.id.list);
+		return lv;
 	}
 
-	class InternalGridView extends GridView implements EmptyViewMethodAccessor {
+	class InternalExpandableListView extends ExpandableListView implements EmptyViewMethodAccessor {
 
-		public InternalGridView(Context context, AttributeSet attrs) {
+		public InternalExpandableListView(Context context, AttributeSet attrs) {
 			super(context, attrs);
 		}
 
 		@Override
 		public void setEmptyView(View emptyView) {
-			PullToRefreshGridView.this.setEmptyView(emptyView);
+			PullToRefreshExpandableListView.this.setEmptyView(emptyView);
 		}
 
 		@Override
@@ -80,9 +80,9 @@ public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView
 	}
 
 	@TargetApi(9)
-	final class InternalGridViewSDK9 extends InternalGridView {
+	final class InternalExpandableListViewSDK9 extends InternalExpandableListView {
 
-		public InternalGridViewSDK9(Context context, AttributeSet attrs) {
+		public InternalExpandableListViewSDK9(Context context, AttributeSet attrs) {
 			super(context, attrs);
 		}
 
@@ -94,7 +94,8 @@ public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView
 					scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
 
 			// Does all of the hard work...
-			OverscrollHelper.overScrollBy(PullToRefreshGridView.this, deltaX, scrollX, deltaY, scrollY, isTouchEvent);
+			OverscrollHelper.overScrollBy(PullToRefreshExpandableListView.this, deltaX, scrollX, deltaY, scrollY,
+					isTouchEvent);
 
 			return returnValue;
 		}

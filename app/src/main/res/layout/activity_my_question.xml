@@ -19,7 +19,7 @@
         android:layout_height="1.6dp"
         android:background="@drawable/xml_shape_shadow_black_to_white"/>
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshListView
         android:id="@+id/lv_question"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,5 +34,5 @@
         android:smoothScrollbar="true"
         ptr:ptrHeaderBackground="@color/theme_black"
         ptr:ptrHeaderTextColor="@color/white">
-    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+    </com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshListView>
 </LinearLayout>
