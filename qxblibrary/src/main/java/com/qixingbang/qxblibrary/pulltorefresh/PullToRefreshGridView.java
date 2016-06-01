@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *******************************************************************************/
-package com.handmark.pulltorefresh.library;
+package com.qixingbang.qxblibrary.pulltorefresh;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -23,6 +23,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.GridView;
 
+import com.qixingbang.qxblibrary.R;
 import com.qixingbang.qxblibrary.pulltorefresh.internal.EmptyViewMethodAccessor;
 
 public class PullToRefreshGridView extends PullToRefreshAdapterViewBase<GridView> {

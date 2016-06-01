@@ -164,6 +164,10 @@
     <string name="average_speed">均速</string>
     <string name="mileage">里程</string>
     <string name="leave">离开</string>
+    <string name="gps_hint">提示</string>
+    <string name="gps_hint_content">GPS服务未开启,请保持GPS为开启状态,并处于信号较好的位置</string>
+    <string name="ride_info_format">一共运动了%1$.2fKm,花费了%2$.1f小时。确定要结束本次骑行吗？</string>
+    <string name="stop_ride">结束骑行</string>
     <!-- MapActivity End -->
 
     <!-- MineFragment End -->

@@ -11,12 +11,12 @@
         android:layout_height="0dp"
         android:layout_weight="47"/>
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshListView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="546"
         android:background="@color/gray_dc">
-    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+    </com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshListView>
 
     <RelativeLayout
         android:layout_width="match_parent"

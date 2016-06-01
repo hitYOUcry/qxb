@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshListView
         android:id="@+id/lv_ridecycle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,5 +18,5 @@
         android:smoothScrollbar="true"
         android:scrollbars="none"
         ptr:ptrHeaderBackground="#19000000">
-    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+    </com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshListView>
 </LinearLayout>

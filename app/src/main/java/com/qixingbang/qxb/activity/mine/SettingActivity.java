@@ -65,8 +65,6 @@ public class SettingActivity extends BaseActivity {
     public final static int REQUEST_CAMERA = 200;
     public final static int REQUEST_CLIP = 300;
     public static Bitmap mSelectedBitmap;
-    //public final Typeface YAHEI_FONT = Typeface.createFromAsset(getAssets(), "fonts/yahei.ttf");
-    //public final Typeface SIMHEI_FONT = Typeface.createFromAsset(getAssets(), "fonts/simhei.ttf");
 
     @Bind(R.id.imageView_back)
     ImageView mImageViewBack;

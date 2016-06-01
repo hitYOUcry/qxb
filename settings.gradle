@@ -1,2 +1,1 @@
 include ':app', ':qxblibrary'
-include ':pullToRefresh'

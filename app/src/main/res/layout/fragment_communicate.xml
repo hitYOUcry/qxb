@@ -38,7 +38,7 @@
     </RelativeLayout>
 
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshListView
         android:id="@+id/listView_communicate"
         android:layout_width="match_parent"
         android:layout_height="0dp"

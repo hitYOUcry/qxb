@@ -19,9 +19,9 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.ILoadingLayout;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.qixingbang.qxblibrary.pulltorefresh.ILoadingLayout;
+import com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshBase;
+import com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshListView;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.adapter.equipment.FilterInfoAdapter;
 import com.qixingbang.qxb.beans.equipment.SearchInfo;

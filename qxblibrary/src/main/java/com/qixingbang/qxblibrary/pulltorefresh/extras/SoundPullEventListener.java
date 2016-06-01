@@ -21,9 +21,9 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.View;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.State;
+import com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshBase;
+import com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshBase.Mode;
+import com.qixingbang.qxblibrary.pulltorefresh.PullToRefreshBase.State;
 
 public class SoundPullEventListener<V extends View> implements PullToRefreshBase.OnPullEventListener<V> {
 
