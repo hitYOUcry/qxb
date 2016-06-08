@@ -15,11 +15,11 @@ import android.widget.TextView;
 
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.base.activity.BaseFragment;
+import com.qixingbang.qxb.beans.mine.map.RideInfo;
 import com.qixingbang.qxb.dialog.DialogUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by zqj on 2016/5/30 10:48.
@@ -34,8 +34,8 @@ public class RideInfoFragment extends BaseFragment {
         float getSpeed();
     }
 
-    private SimpleDateFormat dateFormat_ms = new SimpleDateFormat("mm:ss", Locale.ENGLISH);
-    private SimpleDateFormat dateFormat_hms = new SimpleDateFormat("hh:mm:ss", Locale.ENGLISH);
+    private SimpleDateFormat dateFormat_ms = new SimpleDateFormat("mm:ss");
+    private SimpleDateFormat dateFormat_hms = new SimpleDateFormat("HH:mm:ss");
 
     public RideInfoFragment() {
     }
@@ -119,9 +119,39 @@ public class RideInfoFragment extends BaseFragment {
         mHandler.sendEmptyMessage(MSG_MILEAGE_REFRESH);
     }
 
+    public double getMileage() {
+        return mileage;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public int getRideTimeLength() {
+        return rideTimeLength;
+    }
 
     public void setRideInfoListener(RideInfoListener listener) {
         mListener = listener;
+    }
+
+    public void showRideInfo(RideInfo rideInfo){
+        long time = rideInfo.getRideDuration() * 1000;
+        long fixedDateTime = time + 4 * 3600 * 1000;
+        Date date = new Date(fixedDateTime);
+        if (time >= 4 * 3600 * 1000) {
+            timeTxv.setText(dateFormat_hms.format(date));
+            timeTxv.setTextScaleX(getResources().getDimension(R.dimen.text_size_24px));
+        } else {
+            timeTxv.setText(dateFormat_ms.format(date));
+        }
+        mileageTxv.setText(String.format("%.2f", rideInfo.getMileage()));
+        /**
+         * average speed
+         */
+        double timeLength = rideInfo.getRideDuration() / 3600d;//unit in hour
+        double aveSpeed = rideInfo.getMileage() / timeLength;
+        aveSpeedTxv.setText(String.format("%.2f", aveSpeed));
     }
 
     @Override
@@ -177,6 +207,8 @@ public class RideInfoFragment extends BaseFragment {
         startRideBtn.setBackgroundColor(getResources().getColor(R.color.blue));
         startRideBtn.setText(R.string.ride_begin);
         isStarted = false;
+        long time = System.currentTimeMillis() - startTime;
+        rideTimeLength = (int) (time / 1000);
     }
 
     private void handleMsg(Message msg) {
