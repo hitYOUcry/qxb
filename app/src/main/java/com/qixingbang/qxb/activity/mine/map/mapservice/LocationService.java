@@ -77,7 +77,6 @@ public class LocationService {
             mOption.setCoorType("bd09ll");
             mOption.setScanSpan(0);
             mOption.setIsNeedAddress(true);
-            mOption.setIsNeedLocationDescribe(true);
             mOption.setNeedDeviceDirect(false);
             mOption.setLocationNotify(false);
             mOption.setIgnoreKillProcess(true);

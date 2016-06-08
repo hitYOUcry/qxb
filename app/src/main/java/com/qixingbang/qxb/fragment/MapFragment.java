@@ -8,8 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.model.LatLng;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.activity.mine.map.mapservice.MapService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zqj on 2016/5/30 09:45.
@@ -80,5 +84,21 @@ public class MapFragment extends Fragment implements MapService.StateListener {
 
     public float getSpeed() {
         return mMapService.getSpeed();
+    }
+
+    public ArrayList<LatLng> getTracePoints() {
+        return mMapService.getTracePoints();
+    }
+
+    public String getStartLocDescription() {
+        return mMapService.getStartLocDescription();
+    }
+
+    public String getEndLocDescription() {
+        return mMapService.getEndLocDescription();
+    }
+
+    public void showHistoryTrace(List<LatLng> points) {
+        mMapService.showHistoryTrace(points);
     }
 }

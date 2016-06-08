@@ -1,59 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/title_bar"
-        layout="@layout/common_titlebar"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawLayout"
         android:layout_width="match_parent"
-        android:layout_height="47dp"/>
+        android:layout_height="match_parent">
 
+        <include layout="@layout/activity_ride_content"/>
 
-    <LinearLayout
-        android:id="@+id/layout_bottom_control"
-        android:layout_width="match_parent"
-        android:layout_height="58dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
-
-        <Button
-            android:id="@+id/btn_ride_info"
-            android:layout_width="0dp"
+        <com.qixingbang.qxb.common.views.RideHistoryDrawLayout
+            android:id="@+id/ride_history_layout"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/white_fade75"
-            android:text="@string/ride_info"
-            android:textColor="@color/black_242424_fade50"
-            android:textSize="@dimen/text_size_large"/>
+            android:layout_gravity="start"/>
+    </android.support.v4.widget.DrawerLayout>
 
-        <View
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/black_242424_fade50"/>
-
-        <Button
-            android:id="@+id/btn_map"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/white_fade75"
-            android:text="@string/ride_map"
-            android:textColor="@color/black_242424_fade50"
-            android:textSize="@dimen/text_size_large"/>
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/fragment_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/layout_bottom_control"
-        android:layout_below="@id/title_bar"/>
-
-
-</RelativeLayout>
+</LinearLayout>
