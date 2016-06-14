@@ -142,6 +142,8 @@ public class RideActivity extends BaseFragmentActivity implements RideInfoFragme
         int duration = rideInfoFragment.getRideTimeLength();
         double mileage = rideInfoFragment.getMileage();
         isSaved = true;
+        saveTxv.setVisibility(View.INVISIBLE);
+
         if (Math.abs(mileage) < 0.01 || duration < 60) {
             ToastUtil.toast("运动时间或里程太小，不存了~");
             return;
