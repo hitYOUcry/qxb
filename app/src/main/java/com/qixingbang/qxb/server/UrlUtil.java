@@ -258,10 +258,11 @@ public class UrlUtil {
     public static String getUpdateUserInfo() {
         return UPDATE_USER_INFO;
     }
+
     //更新
     private final static String VERSION_INFO = ADDRESS + "/json/version.json";
 
-    public static String getVersionInfo(){
+    public static String getVersionInfo() {
         return VERSION_INFO;
     }
 
@@ -270,17 +271,28 @@ public class UrlUtil {
     public static String getCheckPassword() {
         return CHECK_PASSWORD;
     }
+
     //意见反馈
     private final static String FEEDBACK = ADDRESS + "/user/suggestion";
 
-    public static String getFeedback(){
+    public static String getFeedback() {
         return FEEDBACK;
     }
 
     //服务条款
     private final static String SERVICE_TERMS = "http://www.njhwt.com/upload/service.html";
 
-    public static String getServiceTerms(){
+    public static String getServiceTerms() {
         return SERVICE_TERMS;
     }
+
+    //骑行记录Add
+    private final static String RIDE_INFO_ADD = ADDRESS + "/riding/add";
+
+    public static String getRideInfoAdd() {
+        return RIDE_INFO_ADD;
+    }
+
+    //骑行记录get
+    private final static String RIDE_INFO_GET = ADDRESS + "/riding/get";
 }

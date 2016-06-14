@@ -14,9 +14,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.baidu.mapapi.SDKInitializer;
 import com.qixingbang.qxb.R;
 import com.qixingbang.qxb.base.activity.BaseFragmentActivity;
+import com.qixingbang.qxb.beans.QAccount;
 import com.qixingbang.qxb.beans.mine.map.RideInfo;
 import com.qixingbang.qxb.common.utils.ToastUtil;
 import com.qixingbang.qxb.common.views.RideHistoryDrawLayout;
@@ -24,6 +30,14 @@ import com.qixingbang.qxb.database.ride.RideDao;
 import com.qixingbang.qxb.dialog.DialogUtil;
 import com.qixingbang.qxb.fragment.MapFragment;
 import com.qixingbang.qxb.fragment.RideInfoFragment;
+import com.qixingbang.qxb.server.RequestUtil;
+import com.qixingbang.qxb.server.ResponseUtil;
+import com.qixingbang.qxb.server.UrlUtil;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zqj on 2016/5/30 09:38.
@@ -141,14 +155,12 @@ public class RideActivity extends BaseFragmentActivity implements RideInfoFragme
     private void saveRideInfo() {
         int duration = rideInfoFragment.getRideTimeLength();
         double mileage = rideInfoFragment.getMileage();
-        isSaved = true;
-        saveTxv.setVisibility(View.INVISIBLE);
 
         if (Math.abs(mileage) < 0.01 || duration < 60) {
             ToastUtil.toast("运动时间或里程太小，不存了~");
             return;
         }
-        RideInfo rideInfo = new RideInfo();
+        final RideInfo rideInfo = new RideInfo();
         rideInfo.setMileage(mileage);
         rideInfo.setRideDuration(duration);
         rideInfo.setStartTime(rideInfoFragment.getStartTime());
@@ -156,10 +168,44 @@ public class RideActivity extends BaseFragmentActivity implements RideInfoFragme
         rideInfo.setStartLocDescription(mapFragment.getStartLocDescription());
         rideInfo.setEndLocDescription(mapFragment.getEndLocDescription());
 
-        RideDao rideDao = new RideDao(this);
-        rideDao.add(rideInfo);
-        rideDao.close();
-        ToastUtil.toast("运动信息存好了~");
+        DialogUtil.showWaitingDialog(this, "正在保存...");
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, UrlUtil.getRideInfoAdd(),
+                rideInfo.toJson(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                int responseCode = response.optInt("result");
+                if (responseCode == 200) {
+                    isSaved = true;
+                    saveTxv.setVisibility(View.INVISIBLE);
+
+                    //存入本地数据库
+                    RideDao rideDao = new RideDao(RideActivity.this);
+                    rideDao.add(rideInfo);
+                    rideDao.close();
+
+                    ToastUtil.toast("运动信息存好了~");
+                } else if (responseCode == 250) {
+                    ToastUtil.toast(response.optString("message"));
+                } else {
+                    ToastUtil.toast("服务器出错了，稍后重试吧！");
+                }
+                DialogUtil.dismissWaitingDialog();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                DialogUtil.dismissWaitingDialog();
+                ResponseUtil.toastError(error);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                headers.put("Authorization", QAccount.getToken());
+                return headers;
+            }
+        };
+        RequestUtil.getInstance().addToRequestQueue(request);
     }
 
     private void refreshHint() {

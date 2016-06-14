@@ -1,5 +1,7 @@
 package com.qixingbang.qxb.beans.mine.map;
 
+import android.text.TextUtils;
+
 import com.baidu.mapapi.model.LatLng;
 
 import org.json.JSONArray;
@@ -43,16 +45,17 @@ public class RideInfo implements Comparable {
     private static final String START_LOC_DESCRIPTION = "startLocDescription";
     private static final String END_LOC_DESCRIPTION = "endLocDescription";
 
+    private static final String CONTENT = "content";
     private SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
 
     public JSONObject toJson() {
-        JSONObject result = new JSONObject();
+        JSONObject js = new JSONObject();
         try {
-            result.put(START_TIME, startTime);
-            result.put(MILEAGE, mileage);
-            result.put(RIDE_DURATION, rideDuration);
-            result.put(START_LOC_DESCRIPTION, startLocDescription);
-            result.put(END_LOC_DESCRIPTION, endLocDescription);
+            js.put(START_TIME, startTime);
+            js.put(MILEAGE, mileage);
+            js.put(RIDE_DURATION, rideDuration);
+            js.put(START_LOC_DESCRIPTION, startLocDescription);
+            js.put(END_LOC_DESCRIPTION, endLocDescription);
             JSONArray latJsonArray = new JSONArray();
             JSONArray lngJsonArray = new JSONArray();
             int length = pointsLat.size();
@@ -60,8 +63,15 @@ public class RideInfo implements Comparable {
                 latJsonArray.put(pointsLat.get(i));
                 lngJsonArray.put(pointsLng.get(i));
             }
-            result.put(LATITUDE, latJsonArray);
-            result.put(LONGITUDE, lngJsonArray);
+            js.put(LATITUDE, latJsonArray);
+            js.put(LONGITUDE, lngJsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONObject result = new JSONObject();
+        try {
+            result.put(START_TIME, startTime);
+            result.put(CONTENT, js.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -69,6 +79,14 @@ public class RideInfo implements Comparable {
     }
 
     public static RideInfo fromJson(JSONObject jsonObject) {
+        String content = jsonObject.optString(CONTENT);
+        if (!TextUtils.isEmpty(content)) {
+            try {
+                jsonObject = new JSONObject(content);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         RideInfo result = new RideInfo();
         result.startTime = jsonObject.optLong(START_TIME);
         result.rideDuration = jsonObject.optInt(RIDE_DURATION);
