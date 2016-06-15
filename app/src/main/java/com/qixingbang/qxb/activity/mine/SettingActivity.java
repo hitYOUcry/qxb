@@ -39,6 +39,7 @@ import com.qixingbang.qxb.beans.mine.UserInfoBean;
 import com.qixingbang.qxb.common.application.QApplication;
 import com.qixingbang.qxb.common.utils.FileUtil;
 import com.qixingbang.qxb.common.utils.ToastUtil;
+import com.qixingbang.qxb.database.ride.RideDao;
 import com.qixingbang.qxb.dialog.TextDialog;
 import com.qixingbang.qxb.server.RequestUtil;
 import com.qixingbang.qxb.server.ResponseUtil;
@@ -106,6 +107,7 @@ public class SettingActivity extends BaseActivity {
     private static final int NICKNAME_CODE = 0x01;
 
     private String[] sexArr = new String[]{"男", "女"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,7 +136,7 @@ public class SettingActivity extends BaseActivity {
             sex = userInfoBean.user.sex;
             if (sex) {
                 mTvSex.setText("女");
-            }else {
+            } else {
                 mTvSex.setText("男");
             }
             mTvAge.setText(userInfoBean.user.age + "岁");
@@ -183,7 +185,7 @@ public class SettingActivity extends BaseActivity {
                 int checkItem;
                 if (sex) {
                     checkItem = 1;
-                }else {
+                } else {
                     checkItem = 0;
                 }
                 builder.setSingleChoiceItems(sexArr, checkItem, new DialogInterface.OnClickListener() {
@@ -207,9 +209,9 @@ public class SettingActivity extends BaseActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String age = edt.getText().toString();
-                                if(!TextUtils.isEmpty(age)){
+                                if (!TextUtils.isEmpty(age)) {
                                     changeAgeOnServer(Integer.parseInt(age));
-                                }else {
+                                } else {
                                     ToastUtil.toast("年龄无效");
                                 }
 
@@ -262,7 +264,7 @@ public class SettingActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 ResponseUtil.toastError(error);
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
@@ -297,7 +299,7 @@ public class SettingActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 ResponseUtil.toastError(error);
             }
-        }){
+        }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
@@ -318,6 +320,9 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 QAccount.clear();
+                RideDao rideDao = new RideDao(SettingActivity.this);
+                rideDao.deleteAll();
+                rideDao.close();
                 LoginActivity.start(SettingActivity.this);
                 SettingActivity.this.finish();
             }
@@ -412,7 +417,7 @@ public class SettingActivity extends BaseActivity {
                 //                new File(FileUtil.getTakePhotoPath()).delete();//临时牌照的图片就删了，相册选的则不删
                 ClipHeadPortraitActivity.start(this, FileUtil.getTakePhotoPath(), REQUEST_CLIP);
             }
-        } else if (requestCode == NICKNAME_CODE && resultCode == NICKNAME_CODE){
+        } else if (requestCode == NICKNAME_CODE && resultCode == NICKNAME_CODE) {
             String nickname = data.getExtras().getString("nickname");
             mTvNickname.setText(nickname);
         }

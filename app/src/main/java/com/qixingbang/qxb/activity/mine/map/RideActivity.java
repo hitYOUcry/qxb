@@ -34,6 +34,7 @@ import com.qixingbang.qxb.server.RequestUtil;
 import com.qixingbang.qxb.server.ResponseUtil;
 import com.qixingbang.qxb.server.UrlUtil;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -74,6 +75,12 @@ public class RideActivity extends BaseFragmentActivity implements RideInfoFragme
         setContentView(R.layout.activity_ride);
         initView();
         initData();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getRideInfoRecordsFromServer();
+            }
+        }).start();
     }
 
     @Override
@@ -112,6 +119,7 @@ public class RideActivity extends BaseFragmentActivity implements RideInfoFragme
         });
 
         historyHintTxv = (TextView) findViewById(R.id.textView_timeHint);
+
     }
 
     @Override
@@ -150,6 +158,40 @@ public class RideActivity extends BaseFragmentActivity implements RideInfoFragme
             default:
                 break;
         }
+    }
+
+    private void getRideInfoRecordsFromServer() {
+        JsonObjectRequest request =
+                new JsonObjectRequest(Request.Method.POST, UrlUtil.getRideInfoGet(),
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                if (response.optInt("result") == 200) {
+                                    RideDao rideDao = new RideDao(RideActivity.this);
+                                    JSONArray jsonArray = response.optJSONArray("riding");
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject jsonObject = jsonArray.optJSONObject(i);
+                                        rideDao.add(RideInfo.fromJson(jsonObject));
+                                    }
+                                    rideDao.close();
+
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<>();
+                        headers.put("Authorization", QAccount.getToken());
+                        return headers;
+                    }
+                };
+        RequestUtil.getInstance().addToRequestQueue(request);
     }
 
     private void saveRideInfo() {

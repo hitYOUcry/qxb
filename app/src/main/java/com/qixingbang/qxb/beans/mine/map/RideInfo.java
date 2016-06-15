@@ -16,6 +16,9 @@ import java.util.Date;
  * Created by zqj on 2016/6/7 14:18.
  */
 public class RideInfo implements Comparable {
+
+    private int id;
+
     /**
      * ms
      */
@@ -37,6 +40,7 @@ public class RideInfo implements Comparable {
     private ArrayList<Double> pointsLat = new ArrayList<>();
     private ArrayList<Double> pointsLng = new ArrayList<>();
 
+    private static final String ID = "ridingId";
     private static final String START_TIME = "startTime";
     private static final String MILEAGE = "mileage";
     private static final String RIDE_DURATION = "rideDuration";
@@ -51,6 +55,7 @@ public class RideInfo implements Comparable {
     public JSONObject toJson() {
         JSONObject js = new JSONObject();
         try {
+            js.put(ID, id);
             js.put(START_TIME, startTime);
             js.put(MILEAGE, mileage);
             js.put(RIDE_DURATION, rideDuration);
@@ -88,6 +93,7 @@ public class RideInfo implements Comparable {
             }
         }
         RideInfo result = new RideInfo();
+        result.id = jsonObject.optInt(ID);
         result.startTime = jsonObject.optLong(START_TIME);
         result.rideDuration = jsonObject.optInt(RIDE_DURATION);
         result.mileage = jsonObject.optDouble(MILEAGE);
@@ -135,6 +141,13 @@ public class RideInfo implements Comparable {
         return result;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public double getMileage() {
         return mileage;

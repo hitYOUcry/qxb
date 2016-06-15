@@ -295,4 +295,8 @@ public class UrlUtil {
 
     //骑行记录get
     private final static String RIDE_INFO_GET = ADDRESS + "/riding/get";
+
+    public static String getRideInfoGet() {
+        return RIDE_INFO_GET;
+    }
 }
