@@ -135,6 +135,10 @@ public class AboutQxbActivity extends BaseActivity {
 
     @OnClick(R.id.rl_version_update)
     public void updateVersion() {
+        if (TextUtils.isEmpty(versionName) || TextUtils.isEmpty(newestVersion)) {
+            ToastUtil.toast(R.string.server_error);
+            return;
+        }
         if (SecurityUtil.versionNameCompare(versionName, newestVersion) >= 0) {
             ToastUtil.toast(R.string.already_newest_version);
             return;
